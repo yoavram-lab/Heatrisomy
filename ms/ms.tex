@@ -1,0 +1,172 @@
+\documentclass[12pt]{extarticle}
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+headheight=12pt
+}
+
+%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx} % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{commath}
+\usepackage{longtable}
+\usepackage[hyphens]{url}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[unicode=true,colorlinks=true,urlcolor=CadetBlue,citecolor=black,linkcolor=black]{hyperref}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage{authblk}
+
+%SetFonts
+% newtxtext+newtxmath
+\usepackage{newtxtext} %loads helv for ss, txtt for tt
+\usepackage{amsmath}
+\usepackage[bigdelims]{newtxmath}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+%SetFonts
+
+% less space before sections 
+% \@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE} 
+%            optional * [ALTHEADING]{HEADING} 
+\makeatletter
+ \renewcommand\section{\@startsection {section}{1}{\z@}%
+     {-2.5ex \@plus -1ex \@minus -.2ex}%
+     {1.3ex \@plus.2ex}%
+    {\Large\bfseries}}
+    
+% Species names
+%% Meta-Command for defining new species macros
+\usepackage{xspace}
+
+\newcommand{\species}[3]{%
+  \newcommand{#1}{\gdef#1{\textit{#3}\xspace}\textit{#2}\xspace}}
+  
+\species{\yeast}{Saccharomyces cerevisiae}{S.~cerevisiae}
+\species{\calbicans}{Candida albicans}{C.~albicans}
+\species{\cneoformans}{Cryptococcus neoformans}{C.~neoformans}
+
+% Yoav & Lee commands
+\newcommand*{\tr}{^\intercal}
+\let\vec\mathbf
+\newcommand{\matrx}[1]{{\left[ \stackrel{}{#1}\right]}}
+\newcommand{\diag}[1]{\mbox{diag}\matrx{#1}}
+\newcommand{\goesto}{\rightarrow}
+\newcommand{\dspfrac}[2]{\frac{\displaystyle #1}{\displaystyle #2} }
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{result}{Result}
+\renewcommand\qedsymbol{} % no square at end of proof
+\newcommand{\cl}{\mathbf{L}}
+\newcommand{\cj}{\mathbf{J}}
+\newcommand{\ci}{I}
+
+% NatBib
+\usepackage[round,colon,authoryear]{natbib}
+
+% Title page
+% Chromosomal duplication is a transient evolutionary solution to stress
+\title{Interference between chromosome duplication and mutations: a computational analysis}
+
+\author[a]{Ilia Kohanovski}
+\author[b,c]{Avihu H. Yona}
+\author[d]{Orna Dahan}
+\author[d]{Yitzhak Pilpel}
+\author[a,*]{Yoav Ram}
+
+\affil[a]{School of Computer Sciences, IDC Herzliya, P.O. Box 167, Herzliya, 4610101, Israel}
+\affil[b]{Physics of Living Systems, Department of Physics, Massachusetts Institute of Technology, Cambridge, MA 02139, USA}{
+\affil[b]{Department of Biological Engineering, Massachusetts Institute of Technology, Cambridge, MA 02139, USA}
+\affil[d]{Department of Molecular Genetics, Weizmann Institute of Science, Rehovot 76100 Israel}
+\affil[*]{Corresponding author: yoav@yoavram.com}
+
+% Document
+\begin{document}
+\maketitle
+
+% Abstract
+\begin{abstract}
+Aneuploidy is common in eukaryotes, often leading to decreased cell growth and fitness. However, evidence from yeast and fungi, as well as tumour cells, suggests that aneuploidy can be beneficial under stressful conditions and  lead to elevated growth rates and to adaptation. Thus, it is crucial to develop a quantitative theory for the role of aneuploidy in adaptive evolution. Here, we analyse results from experiments in which \yeast adapted to heat stress. The experimental population first acquired chromosome duplications, only to later revert back to a euploid state. We use several evolutionary models within a approximate Bayesian computation framework to show that clonal interference between chromosome duplications and beneficial mutations explains the experimental results. Our results suggest that aneuploidy can both accelerate and deccelerate adaptation in a non-intuitive manner, creating an evolutionary conflict between the individual and the population and further complicating the process of adaptation in cell populations.
+\end{abstract}
+
+\pagebreak
+% Introduction
+\section*{Introduction}
+
+Aneuploidy is an imbalance in the number of chromosomes in the cell: an incorrect karyotype.
+Recent evidence suggests aneuploidy is very common in eukaryotes, e.g. animals~\citep{Santaguida2015, Naylor2016, Bakhoum2017}, and fungi~\citep{Zhu2016, Pavelka2010, Robbins2017, Todd2017}.
+Aneuploidy has been implicated in cancer formation and progression~\citep{Schvartzman2010, Boveri2008}: 
+90\% of solid tumours and 50\% of blood cancers are aneuploid~\citep{Santaguida2015}.
+It is also linked to the emergence of drug resistance~\citep{Selmecki2009} and virulence~\citep{Moller2018} in fungal pathogens, which are under-studied~\citep{Rodrigues2018} despite infecting close to a billion people per year, causing serious infections and significant morbidity in >150 million people per year and killing >1.5 million people per year~\citep{Selmecki2009, Rodrigues2018}.
+In addition, aneuploidy is common in protozoan pathogens of the Leishmania genus, a major global health concern~\citep{Mannaert2012}.
+
+The molecular and genetic mechanisms involved in aneuploidy have been explored in the past decade~\citep{Chen2012b, Rancati2013, Gerstein2015, Shor2015, Sheltzer2011, Musacchio2007}.
+Experiments with human and mouse embryos found that aneuploidy is usually lethal;
+it is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011} for example, aneuploid mouse embryonic cells grew slower than euploid cells20.
+Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall ~\citep{Sheltzer2011, Pavelka2010, Torres2007, Kasuga2016, Niwa2006}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018}.
+However, aneuploidy can be beneficial under stressful conditions due to the wide range of phenotypes it can generate, some of which are advantageous~\citep{Pavelka2010}.
+Thus, aneuploidy can lead to rapid adaptation in unicellular eukaryotes~\citep{Gerstein2015,Torres2010, Hong2014, Rancati2008}, as well as to rapid growth of somatic tumour cells~\citep{Schvartzman2010, Sheltzer2017}.
+For example, aneuploidy in \yeast facilitates adaptation to a variety of stress conditions like heat~\citep{Yona2012}, pH~\citep{Yona2012}, copper~\citep{Covo2014, Gerstein2015}, salt~\citep{Dhar2011}, and nutrient-limitation~\citep{Dunham2002, Gresham2008}.
+Importantly, aneuploidy also leads to drug resistance in pathogenic fungi such as \calbicans~\citep{Selmecki2010, Selmecki2008, Gerstein2018} and \cneoformans~\citep{Sionov2010}, which cause candidiasis and meningoencephalitis, respectively.
+
+The role of aneuploidy in adaptation has been observed only recently~\citep{Yona2012, Gerstein2015, Sionov2010}, and is largely missing from the literature on evolution and adaptation:
+the introductory textbook Evolution by Bergstrom and Dugatkin~\citet{Bergstrom2012} does not mention the word aneuploidy, and the graduate-level book Mutation-Driven Evolution by Nei~\citet{Nei2013} only briefly mentions aneuploidy in the context of speciation, but not adaptation.
+In recent reviews of the literature, aneuploidy is suggested to play an important role in fungal adaptation6,7 and cancer evolution~\citep{Santaguida2015, Naylor2016, Sansregret2017}, yet these reviews cite no theoretical studies nor quantitative evolutionary models.
+Indeed, evolutionary, ecological, and epidemiological studies mostly assume adaptation occurs via beneficial mutations, recombination, and sex.
+Therefore, there is a critical need to develop an evolutionary theory of aneuploidy, like the evolutionary theories of other mechanisms that generate genetic variation: mutation~\citep{Lynch2010}, recombination~\citep{Hartfield2012}, and sex~\citep{Otto2009}.
+An evolutionary theory of aneuploidy will be central to the interpretation of experimental and clinical observations and design of new hypotheses, experiments, and treatments~\citep{Carja2014}.
+For example, despite the lack of theoretical models, aneuploidy has been invoked in a new strategy to combat pathogens and tumour cells by setting “evolutionary traps”~\citep{Gerstein2015,Chen2015}, in which a condition that predictably leads to emergence of aneuploidy is applied, followed by a condition that specifically selects against aneuploid cells.
+
+The published data indicate that, like mutation, aneuploidy can be both deleterious and beneficial~\citep{Pavelka2010, Sheltzer2011}.
+Nevertheless, there are important and fundamental differences between adaptation by aneuploidy
+and adaptation by beneficial mutations~\citep{Yona2015}, which make aneuploidy a unique mechanism for generating genetic
+variation.
+First, the aneuploidy rate (i.e. the frequency of mis-segregation events) is significantly higher than the
+mutation rate~\citep{Santaguida2015}.
+Thus, everything else being equal, adaptation by aneuploidy will be faster and more frequent.
+Second, fitness effects of aneuploidy are larger than those of the majority of mutations, on average, and are rarely
+neutral~\citep{Pavelka2010, Yona2012, Sunshine2015}, allowing selection to quickly sort deleterious and beneficial genotypes.
+Third, the number of different karyotypes is considerably smaller than the number of different genotypes, and different karyotypes are likely to have different phenotypes~\citep{Pavelka2010}.
+Therefore, exploration of the phenotype space by aneuploidy requires smaller populations and a shorter time span.
+Fourth, aneuploidy is a reversible state, as the rate of chromosome loss is high and the cost of aneuploidy is significant~\citep{Niwa2006}.
+Indeed, aneuploidy often provides a transient solution: under short-term stress conditions, aneuploidy reverts (chromosome number returns to normal) when the stress subsides; under long-term stress conditions, aneuploidy reverts when refined solutions, generated by beneficial mutations, take over~\citep{Yona2012}.
+Finally, aneuploidy results in increased genome instability, potentially increasing genetic variation by a positive feedback loop~\citep{Rancati2013, Bouchonville2009, Zhu2012}, while also increasing its own transience.
+
+Here, we develop a series of evolutionary models that consider both mutation and aneuploidy.
+These models follow a population of cells characterised by both by their ploidy and by their genotype.
+We use these models to examine the role of aneuploidy as a transient adaptive solution~\citep{Yona2015} (\textbf{Fig.~1}) in evolutionary experiments in \yeast adapting to heat and pH stress~\citep{Yona2012}.
+Aneuploidy is transient due to its distinct properties mentioned above: aneuploidy usually occurs before mutation, often produces significant improvements in fitness, and yet, because it affects many genes on a chromosome or chromosome fragment, also has fitness costs.
+Thus, it is rapidly lost when stress is removed or after beneficial mutations finally occur, because the costs then outweigh any incremental advantage over the mutation.
+We use these models to test the hypothesis that aneuploidy accelerates adaptation.
+
+\pagebreak
+% Models and Methods
+\section*{Models and Methods}
+
+\pagebreak
+% Results
+\section*{Results}
+
+\pagebreak
+% Discussion
+\section*{Discussion}
+
+\pagebreak
+% Acknowledgements
+{\small
+\section*{Acknowledgements}
+We thank Lilach Hadany, Judith Berman, David Gresham, and Martin Kupiec for discussions and comments.
+This work was supported in part by 
+the Israel Science Foundation (YR 552/19).
+}
+
+\bibliographystyle{agsm}
+\bibliography{/Users/yoavram/library.bib}
+
+\end{document}  
