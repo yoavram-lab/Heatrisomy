@@ -1,5 +1,5 @@
 name=ms
-bib_library=~/library.bib
+bib_library=~/Documents/library.bib
 
 $(name).bib: $(name).aux
 	python get_citations.py $< citation_keys
