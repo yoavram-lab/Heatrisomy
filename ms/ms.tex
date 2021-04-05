@@ -8,7 +8,7 @@ top=20mm,
 headheight=12pt
 }
 
-%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx} % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 % TeX will automatically convert eps --> pdf in pdflatex		
 
@@ -20,7 +20,10 @@ headheight=12pt
 \usepackage[unicode=true,colorlinks=true,urlcolor=CadetBlue,citecolor=black,linkcolor=black]{hyperref}
 \PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
 \usepackage{authblk}
-      
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=empty}
+\usepackage[font=small,labelfont=bf]{caption}
+
 %SetFonts
 % newtxtext+newtxmath
 \usepackage{newtxtext} %loads helv for ss, txtt for tt
@@ -145,6 +148,57 @@ the aneuploidy rate is several orders of magnitude higher than the mutation rate
 \pagebreak
 % Models and Methods
 \section*{Models and Methods}
+
+\paragraph*{Evolutionary Models.} To examine the role of aneuploidy in adaptation, two models were developed - \emph{single-mutant model} and \emph{multiple-locus model}. 
+Both are based on the Wright-Fisher model~\citep{Tenaillon1999} and include the effects of natural selection, genetic drift, aneuploidy, and mutation. Only beneficial mutations assumed, 
+thus neglecting the effects of deleterious and neutral mutations. The \emph{single-mutant model} allows for a single mutation (on specific locus or target loci), while the 
+\emph{multiple-locus model} allows for multiple mutations. Both models allow for a single aneuploid karyotype (e.g. chromosome III duplication).
+
+\begin{figure}[b!]
+  \centering
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}
+      \caption{
+        \textbf{A. Single-mutant}
+        }
+  \end{subfigure}%
+  ~ 
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=1.8in]{../figures/Fig1-B.pdf}
+      \caption{
+        \textbf{B. Multiple-locus}
+      }
+  \end{subfigure}
+  \caption{
+    \textbf{Model Schemes.} (A) The population with four possible genotypes and four possible transitions from one genotype to another with the transition rates $\mu$, $\alpha$, 
+    $\alpha_l$, $k\mu$. \emph{2n}: euploid wildtype – the initial genotype; \emph{2n*}: euploid mutant, standard karyotype with one specific beneficial mutation; 
+    \emph{2n+1}: aneuploid wildtype, with an extra chromosome, e.g. following chromosome duplication; \emph{2n+1*}: 
+    aneuploid mutant, with both the beneficial mutation and the extra chromosome. Overall there are two possible paths to reach \emph{2n*} from \emph{2n}.
+    (B) Each genotype can have zero or more beneficial mutations and zero or one extra chromosomes. $\mu$, mutation rate; $\alpha$, aneuploidy gain rate; $\alpha_l$, aneuploidy loss rate
+  }
+  \label{fig:models}
+\end{figure}
+
+\paragraph*{Single-mutant model.} It contains four predefined genotypes whose frequencies change during generations. \emph{2n}: euploid wildtype - the initial genotype; 
+\emph{2n*}: euploid mutant, standard karyotype with one specific beneficial mutation; \emph{2n+1}: aneuploid wildtype, with an extra chromosome, e.g. following chromosome duplication; 
+\emph{2n+1*}: aneuploid mutant, with both the beneficial mutation and the extra chromosome. 
+
+The parameters of the model are: 
+$N$, the population size, which is constant in all generations; $\mu$, the mutation rate - the transition rate from \emph{2n} to \emph{2n*}, i.e. the frequency at which cells with genotype \emph{2n*}
+are created from cells with genotype \emph{2n}; $\alpha$, the aneuploidy gain rate - the transition rate from \emph{2n} to \emph{2n+1}; 
+$\alpha_l$, the aneuploidy loss rate - the transition rate from \emph{2n+1*} to \emph{2n*}; $k$, the coefficient, such that $k\cdot\mu$ is the transition rate from \emph{2n+1} to \emph{2n+1*}, 
+where on default $k$ is equals to $33/32$ (euploid \emph{2n} genotyped \emph{S. cerevisiae} contains 32 chromosomes, therefore, assuming each chromosome have equal probability to have the specific 
+beneficial mutation in, aneuploid \emph{2n+1} genotype should have 33/32 times the mutation rate); $s$, the mutation selection coefficient; $s_b$, fitness benefit of aneuploidy; 
+$c$, fitness cost of aneuploidy, where $0<c<1$. The relative finesses of genotypes are:
+\begin{equation} \label{eq:model} \begin{aligned}
+w_{2n} & = 1 \\
+w_{2n+1} & = 1-c+s_b \\
+w_{2n+1*} & = (1+s)(1-c)+s_b \\
+w_{2n*} & = (1+s) \;
+\end{aligned}
+\end{equation}
 
 \pagebreak
 % Results
