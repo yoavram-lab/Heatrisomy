@@ -152,7 +152,7 @@ the aneuploidy rate is several orders of magnitude higher than the mutation rate
 \paragraph*{Evolutionary Models.} To examine the role of aneuploidy in adaptation, two models were developed - \emph{single-mutant model} and \emph{multiple-locus model}. 
 Both are based on the Wright-Fisher model~\citep{Tenaillon1999} and include the effects of natural selection, genetic drift, aneuploidy, and mutation. Only beneficial mutations assumed, 
 thus neglecting the effects of deleterious and neutral mutations. The \emph{single-mutant model} allows for a single mutation (on specific locus or target loci), while the 
-\emph{multiple-locus model} allows for multiple mutations. Both models allow for a single aneuploid karyotype (e.g. chromosome III duplication).
+\emph{multiple-locus model} allows for multiple mutations. Both models allow for a single aneuploid karyotype (e.g. chromosome III duplication). (\autoref{fig:models})
 
 \begin{figure}[b!]
   \centering
@@ -162,6 +162,7 @@ thus neglecting the effects of deleterious and neutral mutations. The \emph{sing
       \caption{
         \textbf{A. Single-mutant}
         }
+      \label{fig:model1}
   \end{subfigure}%
   ~ 
   \begin{subfigure}[t]{0.5\textwidth}
@@ -170,6 +171,7 @@ thus neglecting the effects of deleterious and neutral mutations. The \emph{sing
       \caption{
         \textbf{B. Multiple-locus}
       }
+      \label{fig:model2}
   \end{subfigure}
   \caption{
     \textbf{Model Schemes.} (A) The population with four possible genotypes and four possible transitions from one genotype to another with the transition rates $\mu$, $\alpha$, 
@@ -192,13 +194,42 @@ $\alpha_l$, the aneuploidy loss rate - the transition rate from \emph{2n+1*} to 
 where on default $k$ is equals to $33/32$ (euploid \emph{2n} genotyped \emph{S. cerevisiae} contains 32 chromosomes, therefore, assuming each chromosome have equal probability to have the specific 
 beneficial mutation in, aneuploid \emph{2n+1} genotype should have 33/32 times the mutation rate); $s$, the mutation selection coefficient; $s_b$, fitness benefit of aneuploidy; 
 $c$, fitness cost of aneuploidy, where $0<c<1$. The relative finesses of genotypes are:
-\begin{equation} \label{eq:model} \begin{aligned}
+\begin{equation} \label{eq:single-w} \begin{aligned}
 w_{2n} & = 1 \\
 w_{2n+1} & = 1-c+s_b \\
 w_{2n+1*} & = (1+s)(1-c)+s_b \\
 w_{2n*} & = (1+s) \;
 \end{aligned}
 \end{equation}
+
+\pagebreak
+
+The model follows Wright-Fisher \citep{Tenaillon1999} steps. The first generation is initialized with $N$ cells of the genotype \emph{2n}. At each generation, the frequency $f_g$ of 
+each genotype $g$ is updated:
+\begin{enumerate}
+  \item Selection step: 
+    \begin{equation} \label{eq:single-selection} 
+      f_g\gets{\dfrac{f_g w_g}{\sum_{j}f_j w_j}}
+      %  j\in\{2n, 2n+1, 2n+1*, 2n*\} 
+    \end{equation}
+  \item Mutation gain and aneuploidy gain/loss step:
+    \begin{equation} \label{eq:single-mutation} \begin{aligned}
+      f_{2n} & \gets{f_{2n} - \alpha f_{2n} - \mu f_{2n}}  \\
+      f_{2n+1} & \gets{f_{2n+1} - k\mu f_{2n+1} + \alpha f_{2n}}  \\
+      f_{2n+1*} & \gets{f_{2n+1*} - \alpha_l f_{2n+1*} + k\mu f_{2n+1}}  \\
+      f_{2n*} & \gets{\mu f_{2n} + \alpha_l f_{2n+1}}  \;
+    \end{aligned}
+    \end{equation}
+  \item Random drift step: draw the frequencies of all genotypes from a multinomial distribution
+    \begin{equation} \label{eq:single-mutation} 
+      f \sim Mult(N, (f_{2n},f_{2n+1},f_{2n+1*},f_{2n*}))
+    \end{equation}
+\end{enumerate}
+
+
+
+\paragraph*{Multiple-locus model.} It expands the \emph{single-mutant model} by allowing for any number of beneficial mutations. 
+
 
 \pagebreak
 % Results
