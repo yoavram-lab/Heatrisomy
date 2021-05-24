@@ -228,9 +228,42 @@ each genotype $g$ is updated:
 
 
 
-\paragraph*{Multiple-locus model.} It expands the \emph{single-mutant model} by allowing for any number of beneficial mutations. 
+\paragraph*{Multiple-locus model.} It expands the \emph{single-mutant model} by allowing for any number of beneficial mutations. For each mutation $i$, selection coefficient $s_i$ is independently drawn from an exponential distribution with expected value $s$. The parameters of the model are $\mu$, the mutation rate; $\alpha$, the aneuploidy gain rate; $\alpha_l$, the aneuploidy loss rate; $s$, the parameter of the exponential distribution; $s_b$, fitness benefit of aneuploidy; $c$, fitness cost of aneuploidy, where $0<c<1$. In this model, the population may include any number of genotypes that contain zero or more mutations and zero or one extra chromosomes. The fitness $w_g$ of genotype $g$ is: 
+
+\begin{equation} 
+w_g= 
+\begin{cases}
+   1, & \text{wildtype} \\
+	1-c+s_b, & \text{aneuploid wildtype} \\
+	\prod_{\text{i is mutation in g}}{(1+s_i)}, & \text{euploid mutant} \\ 
+	s_b+(1-c)\prod_{\text{i is mutation in g}}{(1+s_i)}, & \text{aneuploid mutant}
+\end{cases}
+\end{equation}
+
+Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations or/and the mutation selection coefficients $s_i$ are large enough. The intuition is as follows: when the benefit of the accumulated beneficial mutations is small, then the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations benefit is large, then aneuploidy doesn’t add much, and its cost becomes significant.
+
+Unlike the single-locus model, the population size for the multiple-locus model is not constant. Indeed, a serial-transfer protocol~\citep{Barrick2013} is simulated, where the population is repeatedly diluted by transfer to a fresh medium, starting a new growth cycle, similar to the original experiment. In the model the population initial size is $N$, then it is doubled every iteration till reaching $8\cdot{N}$, then it is diluted back to $N$.
+
+Denote by $n_g$ be the number of cells of genotype $g$ in the population. At each generation, genotypes frequencies are changed by the following steps:
+\begin{enumerate}
+	\item Selection step: 
+	\begin{equation} \label{eq:multiple-selection} 
+		n_g\gets{n_g\cdot{w_g}}
+	\end{equation}
+	\item Random drift step:
+	\begin{equation} \label{eq:multiple-rand-drift} \begin{aligned}
+			f \sim Mult(N', (\frac{n_1}{N'},\frac{n_2}{N'},...)) \text{ where } N'=n_1+n_2+... 
+		\end{aligned}
+	\end{equation}
+	\item Normalization after N change (growth or dilution):
+	\begin{equation} \label{eq:multiple-pop-size} 
+		n_g\gets{f_g\cdot{N}}
+	\end{equation}
+\end{enumerate}
 
 
+
+ 
 \pagebreak
 % Results
 \section*{Results}
