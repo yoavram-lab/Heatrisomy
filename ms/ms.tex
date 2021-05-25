@@ -230,7 +230,7 @@ each genotype $g$ is updated:
 
 \paragraph*{Multiple-locus model.} It expands the \emph{single-mutant model} by allowing for any number of beneficial mutations. For each mutation $i$, selection coefficient $s_i$ is independently drawn from an exponential distribution with expected value $s$. The parameters of the model are $\mu$, the mutation rate; $\alpha$, the aneuploidy gain rate; $\alpha_l$, the aneuploidy loss rate; $s$, the parameter of the exponential distribution; $s_b$, fitness benefit of aneuploidy; $c$, fitness cost of aneuploidy, where $0<c<1$. In this model, the population may include any number of genotypes that contain zero or more mutations and zero or one extra chromosomes. The fitness $w_g$ of genotype $g$ is: 
 
-\begin{equation} 
+\begin{equation} \label{eq:multiple-fitness}
 w_g= 
 \begin{cases}
    1, & \text{wildtype} \\
@@ -255,11 +255,19 @@ Denote by $n_g$ be the number of cells of genotype $g$ in the population. At eac
 			f \sim Mult(N', (\frac{n_1}{N'},\frac{n_2}{N'},...)) \text{ where } N'=n_1+n_2+... 
 		\end{aligned}
 	\end{equation}
-	\item Normalization after N change (growth or dilution):
+	\item Normalization after population size N change (growth or dilution):
 	\begin{equation} \label{eq:multiple-pop-size} 
 		n_g\gets{f_g\cdot{N}}
 	\end{equation}
+	\item Mutation step: \\
+	For each genotype $g$, draw the number of mutant cells from a binomial distribution $Bin(n_g, \mu)$, and subtract that number from $n_g$. For each mutant cell, generate a new genotype and add one cell of this genotype to the population. The newly created genotype inherits mutations and ploidy karyotype from the parent genotype $g$, and in addition gains one more mutation, with the selected coefficient drawn from the exponential distribution $Exp(\lambda)$. The fitness of the newly created genotype is assigned according to the Formula \ref{eq:multiple-fitness}.
+	\item Aneuploidy gain step: \\
+	For each genotype $g$ that doesn’t already have an aneuploid chromosome, draw the number of new cells that gain aneuploidy from a binomial distribution $z \sim Bin(n_g, \alpha)$. If $z > 0$, then subtract it from $n_g$ and create a new genotype and add to the population with $z$ cells of this genotype. The genotype inherits all the mutations of genotype $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
+	\item Aneuploidy loss step: \\
+	It is similar to the aneuploidy step. For each genotype $g$ that has aneuploidy, draw the number of new cells that lose aneuploidy from the binomial distribution $z \sim Bin(n_g,\alpha_l)$. If $z>0$, subtract $z$ from $n_g$, then create new genotype, and add to the population $z$ cells of this genotype. The genotype inherits all the mutations of $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
 \end{enumerate}
+
+\paragraph*{Parameters inference.}  
 
 
 
