@@ -230,9 +230,50 @@ each genotype $g$ is updated:
 
 
 
-\paragraph*{Multiple-locus model.} It expands the \emph{single-mutant model} by allowing for any number of beneficial mutations. 
+\paragraph*{Multiple-locus model.} It expands the \emph{single-mutant model} by allowing for any number of beneficial mutations. For each mutation $i$, selection coefficient $s_i$ is independently drawn from an exponential distribution with expected value $s$. The parameters of the model are $\mu$, the mutation rate; $\alpha$, the aneuploidy gain rate; $\alpha_l$, the aneuploidy loss rate; $s$, the parameter of the exponential distribution; $s_b$, fitness benefit of aneuploidy; $c$, fitness cost of aneuploidy, where $0<c<1$. In this model, the population may include any number of genotypes that contain zero or more mutations and zero or one extra chromosomes. The fitness $w_g$ of genotype $g$ is: 
+
+\begin{equation} \label{eq:multiple-fitness}
+w_g= 
+\begin{cases}
+   1, & \text{wildtype} \\
+	1-c+s_b, & \text{aneuploid wildtype} \\
+	\prod_{\text{i is mutation in g}}{(1+s_i)}, & \text{euploid mutant} \\ 
+	s_b+(1-c)\prod_{\text{i is mutation in g}}{(1+s_i)}, & \text{aneuploid mutant}
+\end{cases}
+\end{equation}
+
+Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations or/and the mutation selection coefficients $s_i$ are large enough. The intuition is as follows: when the benefit of the accumulated beneficial mutations is small, then the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations benefit is large, then aneuploidy doesn’t add much, and its cost becomes significant.
+
+Unlike the single-locus model, the population size for the multiple-locus model is not constant. Indeed, a serial-transfer protocol~\citep{Barrick2013} is simulated, where the population is repeatedly diluted by transfer to a fresh medium, starting a new growth cycle, similar to the original experiment. In the model the population initial size is $N$, then it is doubled every iteration till reaching $8\cdot{N}$, then it is diluted back to $N$.
+
+Denote by $n_g$ be the number of cells of genotype $g$ in the population. At each generation, genotypes frequencies are changed by the following steps:
+\begin{enumerate}
+	\item Selection step: 
+	\begin{equation} \label{eq:multiple-selection} 
+		n_g\gets{n_g\cdot{w_g}}
+	\end{equation}
+	\item Random drift step:
+	\begin{equation} \label{eq:multiple-rand-drift} \begin{aligned}
+			f \sim Mult(N', (\frac{n_1}{N'},\frac{n_2}{N'},...)) \text{ where } N'=n_1+n_2+... 
+		\end{aligned}
+	\end{equation}
+	\item Normalization after population size N change (growth or dilution):
+	\begin{equation} \label{eq:multiple-pop-size} 
+		n_g\gets{f_g\cdot{N}}
+	\end{equation}
+	\item Mutation step: \\
+	For each genotype $g$, draw the number of mutant cells from a binomial distribution $Bin(n_g, \mu)$, and subtract that number from $n_g$. For each mutant cell, generate a new genotype and add one cell of this genotype to the population. The newly created genotype inherits mutations and ploidy karyotype from the parent genotype $g$, and in addition gains one more mutation, with the selected coefficient drawn from the exponential distribution $Exp(\lambda)$. The fitness of the newly created genotype is assigned according to the Formula \ref{eq:multiple-fitness}.
+	\item Aneuploidy gain step: \\
+	For each genotype $g$ that doesn’t already have an aneuploid chromosome, draw the number of new cells that gain aneuploidy from a binomial distribution $z \sim Bin(n_g, \alpha)$. If $z > 0$, then subtract it from $n_g$ and create a new genotype and add to the population with $z$ cells of this genotype. The genotype inherits all the mutations of genotype $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
+	\item Aneuploidy loss step: \\
+	It is similar to the aneuploidy step. For each genotype $g$ that has aneuploidy, draw the number of new cells that lose aneuploidy from the binomial distribution $z \sim Bin(n_g,\alpha_l)$. If $z>0$, subtract $z$ from $n_g$, then create new genotype, and add to the population $z$ cells of this genotype. The genotype inherits all the mutations of $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
+\end{enumerate}
+
+\paragraph*{Parameters inference.}  
 
 
+
+ 
 \pagebreak
 % Results
 \section*{Results}
