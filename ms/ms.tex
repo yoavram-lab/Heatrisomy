@@ -267,10 +267,17 @@ Denote by $n_g$ be the number of cells of genotype $g$ in the population. At eac
 	It is similar to the aneuploidy step. For each genotype $g$ that has aneuploidy, draw the number of new cells that lose aneuploidy from the binomial distribution $z \sim Bin(n_g,\alpha_l)$. If $z>0$, subtract $z$ from $n_g$, then create new genotype, and add to the population $z$ cells of this genotype. The genotype inherits all the mutations of $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
 \end{enumerate}
 
-\paragraph*{Parameters inference.}  
+\paragraph{Data.} We inference parameters of the models based on the data of the experiments of Yona at al ~\cite{Yona2012}. In \emph{heat-stress} experiment four populations of \emph{S. cerevisiae} were evolved under $39^{\circ}$ heat-stress and developed aneuploidy till 450 generations (here and further by development/loss of genotype trait we mean that 95\% of the population are the carriers of the genotype). Then, two populations were checked at generations 1700 and 2350, and for one population the aneuploidy were eliminated and has not observed allready at generation 1700 and for the second at generation 2350. \\
+Similarly, in \emph{ph-stress} experiment four populations were evolved unde high-ph stress conditions and developed aneuploidy during 150 generations. At generation 750 no aneuploidy was observed for all four populations. 
 
+\paragraph{Likelihood function.}
+ Denote by $A_{450}$ the event of aneuploidy observation at generation 450; by $L_{1700}$ the event of aneuploidy loss observation at generation 1700; and by $L_{2350^*}$ the event of aneuploidy loss observation at generation 2350 while there's no loss in generation 1700. The likelihood function of the model with parameter set $\phi$ for \emph{heat-stress} experiment is:
+ \begin{multline} \label{eq:heatstress-likelihood}
+L(\phi | A_{450}, L_{1700}, L_{2350^*} ) = \\
+P(L_{450})^4 \cdot (1 - P(\lnot{L_{1700}} | A_{450} )^4 - P(\lnot{L_{2350^*}}| A_{450})^4 + P(\lnot{L_{1700}} \land \lnot{L_{2350^*}}| A_{450})^4 )		
+ \end{multline}
 
-
+ 
  
 \pagebreak
 % Results
