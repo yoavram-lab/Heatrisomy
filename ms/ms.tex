@@ -23,6 +23,8 @@ headheight=12pt
 \usepackage{subcaption}
 \captionsetup[subfigure]{labelformat=empty}
 \usepackage[font=small,labelfont=bf]{caption}
+\usepackage{longtable}
+\usepackage{siunitx}
 
 %SetFonts
 % newtxtext+newtxmath
@@ -69,6 +71,7 @@ headheight=12pt
 \newcommand{\cl}{\mathbf{L}}
 \newcommand{\cj}{\mathbf{J}}
 \newcommand{\ci}{I}
+\newcommand{\likelihood}{\mathcal{L}}
 
 % genotype commands
 \newcommand{\euwt}{\emph{2n}}
@@ -198,104 +201,119 @@ and that aneuploidy is likely to fix in the population and increase its mean fit
 
 \paragraph*{Evolutionary Models.}
 We developed two models: a single-locus model and a multi-locus model. 
-Both models are based on the Wright-Fisher model~\citep{Otto2007}, assuming a constant population size $N$ with non-overlapping generations and including the effects of natural selection, genetic drift, aneuploidy, and mutation.
+Both models are based on the Wright-Fisher model~\citep{Otto2007}, assuming a constant population size $N$ with non-overlapping generations and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial mutations, neglecting the effects of deleterious and neutral mutations. Both models allow for a single aneuploid karyotype (e.g., chromosome III duplication).
 While the single-locus model allows for only a single mutation to occur, the
 multi-locus model allows for multiple mutations to accumulate in the genome~(\autoref{fig:models}).
 
-In the following we describe the 
-
 \paragraph*{Single-locus model.}
-This model follows four genotypes: euploid wild-type, \euwt, the initial genotype; 
+This model follows four genotypes~(\autoref{fig:models}A): euploid wild-type, \euwt, the initial genotype; 
 euploid mutant, \eumt, with the standard karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, with an extra chromosome, e.g. following chromosome duplication; and
 aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation. 
 
-Beneficial mutations from \euwt\; to \eumt\; occur with probability $\mu$, the mutation rate, and from \anwt\; to \anmt\; with probability $\tau \mu$, where $\tau$ is the fold-change in the rate of beneficial mutations in aneuploid cells. By default, we assume $\tau=33/32$, as the wild-type \yeast strains in the experiments by \citep{Yona2012} are diploid, with 32 chromosomes, and the aneuploid strains are trisomic, with 33 chromosomes.
+Transitions between the genotypes occur as follows~(\autoref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; occur with probability $\mu$, the mutation rate, and from \anwt\; to \anmt\; with probability $\tau \mu$, where $\tau$ is the fold-change in the rate of beneficial mutations in aneuploid cells. By default, we assume $\tau=33/32$, as the wild-type \yeast strains in the experiments by \citep{Yona2012} are diploid, with 32 chromosomes, and the aneuploid strains are trisomic, with 33 chromosomes.
 Aneuploidy is formed by chromosome missegregation, so that cells transition from \euwt\; to \anwt\; or from \eumt\; to \anmt\; with probability $\delta$, the aneuploidy gain rate.
 Aneuploidy is lost, transitioning cells from \anwt\; to \euwt\; or from \anmt\; to \eumt\; with probability $\delta_L$, the aneuploidy loss rate.
-The fitness values of the four genotypes are given by
-\begin{equation} \label{eq:fitness-single}
-\begin{aligned}
-&w_{2n}  = 1 \;\;&
-&w_{2n+1}  = 1-c+\sigma \;\;&
-\\
-&w_{2n+1^*}  = (1-c)(1+s)+\sigma \;\;&
-&w_{2n^*}  = 1+s \;,\;&
-\end{aligned}
-\end{equation}
-such that $s \ge 0$ is the selection coefficient of a beneficial mutation;
+The fitness values of the four genotypes are given by \autoref{table:single-locus}.
+
+%%% Table: single-locus model
+\begin{table}[h]
+\centering
+\caption{\textbf{Single-locus model fitness values.}}
+\begin{tabular}{lllll}
+\emph{Genotype} $i$ & $2n$ & $2n+1$ & $2n+1^*$ & $2n^*$ \\
+\hline
+\emph{Fitness} $w_i$ & $1$ & $1-c+\sigma$ & $(1-c)(1+s)+\sigma$ & $1+s$               
+\end{tabular}
+\label{table:single-locus}
+\caption*{
+$s \ge 0$ is the selection coefficient of a beneficial mutation;
 $\sigma \ge 0$ is the selection coefficient of aneuploidy; 
 and $0 \le c \le 1$ is the fitness cost of aneuploidy.
+}
+\end{table}
+%%%
 
 The first generation is initialized with $N$ cells with genotype \euwt.
 The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1, 2n+1^*, \text{or } 2n^*$ is given by
     \begin{equation} \label{eq:selection-single} 
       f^s_i = \frac{f_i w_i}{\bar{w}} \;,
     \end{equation}
-where $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
+where the fitness values $w_i$ are given in \autoref{table:single-locus} and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
 The effect of mutation and aneuploidy on genotype frequencies is given by
     \begin{equation} \label{eq:mutation-aneuploidy-single}
     \begin{aligned}
-      f^m_{2n} & = {f^s_{2n} - \delta f^s_{2n} - \mu f^s_{2n}}  \;,\\
-      f^m_{2n+1} & = {f^s_{2n+1} - \tau \mu f^s_{2n+1} + \delta f^s_{2n}}  \;,\\
-      f^m_{2n+1^*} & = {f^s_{2n+1^*} - \delta_L f^s_{2n+1^*} + \tau \mu f^s_{2n+1}}  \;,\\
-      f^m_{2n^*} & = {\mu f^s_{2n} + \delta_L f^s_{2n+1}}  \;.
+      &f^m_{2n} &=&\; (1 - \delta - \mu) f^s_{2n}  \;,\\
+      &f^m_{2n+1} &=&\; \delta f^s_{2n} + (1 - \tau \mu) f^s_{2n+1}  \;,\\
+      &f^m_{2n+1^*} &=&\; \tau \mu f^s_{2n+1} + (1-\delta_L) f^s_{2n+1^*}  \;,\\
+      &f^m_{2n^*} &=&\; \mu f^s_{2n} + \delta_L f^s_{2n+1} + f^s_{2n^*}  \;.
     \end{aligned}
     \end{equation}
-Finally, the effect of random genetic drift on genotype frequencies is given by
-    \begin{equation} \label{eq:drift-single} 
-      N \cdot (f'_{2n},f'_{2n+1},f'_{2n+1^*},f'_{2n^*}) \sim Mult\Big(N, (f_{2n},f_{2n+1},f_{2n+1^*},f_{2n^*})\Big),
+Finally, random genetic drift is modeled using a multinomial distribution~\citep{Otto2007},
+    \begin{equation} \label{eq:drift-single}
+      \vec{f'} \sim \frac{1}{N} Mult(N, \vec{f}) \;,
     \end{equation}
-where $Mult\Big(N, (f_{2n},f_{2n+1},f_{2n+1^*},f_{2n^*}\Big)$ is a multinomial distribution parameterized by the population size $N$ and the genotype frequencies.
+where $\vec{f}=(f_{2n},f_{2n+1},f_{2n+1^*},f_{2n^*})$ and $\vec{f'}$ are the frequencies of the genotypes in the current and next generation, respectively, and $Mult(N, \vec{f})$ is a multinomial distribution parameterized by the population size $N$ and the genotype frequencies $\vec{f}$.
 Overall, the change in genotype frequencies from one generation to the next is given by the transformation $f_i \to f'_i$.
 
 \paragraph*{Multi-locus model.}
-This model expands the single-locus model by allowing for the accumulation of beneficial mutations in the genome. Thus, a genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
-The selection coefficient of the $i$-th mutation, $s_i$, is drawn from an exponential distribution with expected value $s$, $s_i \sim Exp(s)$.
+This model expands the single-locus model by allowing for the accumulation of beneficial mutations in the genome and a fluctuating population size. 
+
+A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
+The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$, $s_i \sim Exp(s)$.
 The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $\sigma$, $c$) are the same as in the single-locus model.
-The fitness of the different genotypes is the same as in the single-locus model (\autoref{eq:fitness-single}, except that the fitness contribution of beneficial mutations is the product of all accumulated mutations, $\prod_{i \ge 0}(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$.
+The fitness of the different genotypes is the same as in the single-locus model (\autoref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \autoref{table:multi-locus}.
+Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations and/or the selection coefficients $s_i$ are large enough. The intuition is that when the benefit of the accumulated beneficial mutations is small, the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations benefit is large, then aneuploidy is no longer advantageous because of its significant cost.
 
-Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations or/and the mutation selection coefficients $s_i$ are large enough. The intuition is as follows: when the benefit of the accumulated beneficial mutations is small, then the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations benefit is large, then aneuploidy doesn’t add much, and its cost becomes significant.
+In contrast to the single-locus model, in the multi-locus model the population size changes in order to model serial-transfer experiment protocol~\citep{Yona2012}: the population is serially diluted by transferring a fraction of the population (1/120) to a fresh medium, starting a new growth cycle.
+In this model, the population initial size is $N_0 = N$, and the population size is doubled every generation, $N_1=2N, N_2=4N, \ldots$, and diluted back to $N$ at every seven generations, $N_7=N$.
 
-Unlike the single-locus model, the population size for the multiple-locus model is not constant. Indeed, a serial-transfer protocol~\citep{Barrick2013} is simulated, where the population is repeatedly diluted by transfer to a fresh medium, starting a new growth cycle, similar to the original experiment. In the model the population initial size is $N$, then it is doubled every iteration till reaching $8\cdot{N}$, then it is diluted back to $N$.
+The change in frequencies due to selection is exactly the same as in the single-locus model (\autoref{eq:selection-single}), only applied using the fitness values in \autoref{table:multi-locus}. The change due to random genetic drift is also the same as in \autoref{eq:drift-single}, except that the frequencies vector is $\vec{f}=(f_{2n}, f_{2n+1}, f_{2n^*}, f_{2n+1^*}, f_{2n^{**}}, f_{2n+1^{**}}, \ldots)$ and that the population size changes between generations, as described above.
 
-Denote by $n_g$ be the number of cells of genotype $g$ in the population. At each generation, genotypes frequencies are changed by the following steps:
-\begin{enumerate}
-	\item Selection step: 
-	\begin{equation} \label{eq:multiple-selection} 
-		n_g\gets{n_g\cdot{w_g}}
-	\end{equation}
-	\item Random drift step:
-	\begin{equation} \label{eq:multiple-rand-drift} \begin{aligned}
-			f \sim Mult(N', (\frac{n_1}{N'},\frac{n_2}{N'},...)) \text{ where } N'=n_1+n_2+... 
-		\end{aligned}
-	\end{equation}
-	\item Normalization after population size N change (growth or dilution):
-	\begin{equation} \label{eq:multiple-pop-size} 
-		n_g\gets{f_g\cdot{N}}
-	\end{equation}
-	\item Mutation step: \\
-	For each genotype $g$, draw the number of mutant cells from a binomial distribution $Bin(n_g, \mu)$, and subtract that number from $n_g$. For each mutant cell, generate a new genotype and add one cell of this genotype to the population. The newly created genotype inherits mutations and ploidy karyotype from the parent genotype $g$, and in addition gains one more mutation, with the selected coefficient drawn from the exponential distribution $Exp(\lambda)$. The fitness of the newly created genotype is assigned according to the Formula \ref{eq:multiple-fitness}.
-	\item Aneuploidy gain step: \\
-	For each genotype $g$ that doesn’t already have an aneuploid chromosome, draw the number of new cells that gain aneuploidy from a binomial distribution $z \sim Bin(n_g, \alpha)$. If $z > 0$, then subtract it from $n_g$ and create a new genotype and add to the population with $z$ cells of this genotype. The genotype inherits all the mutations of genotype $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
-	\item Aneuploidy loss step: \\
-	It is similar to the aneuploidy step. For each genotype $g$ that has aneuploidy, draw the number of new cells that lose aneuploidy from the binomial distribution $z \sim Bin(n_g,\alpha_l)$. If $z>0$, subtract $z$ from $n_g$, then create new genotype, and add to the population $z$ cells of this genotype. The genotype inherits all the mutations of $g$ and in addition gains aneuploidy. The fitness is calculated appropriately by the Formula \ref{eq:multiple-fitness}.
-\end{enumerate}
+The effects of mutation and aneuploidy on genotype frequencies is more elaborate than in the single-locus model.
+Genotype $i$ is classified according to their karyotype (\emph{2n} or \emph{2n+1}), the number of accumulated beneficial mutations ($k \ge 0$), and their fitness ($w_i$).
+Each offspring cell inherits these properties from its mother cell.
+Then, with probability $\mu$ or $\tau \mu$ for euploid and aneuploid cells, respectively, a new beneficial mutation is accumulated, such that the number of mutations is $k+1$, and its effect $s_{k+1}$ is drawn from an exponential distribution with expected value $s$, such that the contribution of the mutations to the fitness is $\prod_{j=0}^{k+1}{(1+s_j)}$.
+Next, euploid offspring become aneuploid with probability $\delta$, and aneuploid offspring become euploid with probability $\delta_L$.
 
-\paragraph{Data.} We inference parameters of the models based on the data of the experiments of Yona at al ~\cite{Yona2012}. In \emph{heat-stress} experiment four populations of \emph{S. cerevisiae} were evolved under $39^{\circ}$ heat-stress and developed aneuploidy till 450 generations (here and further by development/loss of genotype trait we mean that 95\% of the population are the carriers of the genotype). Then, two populations were checked at generations 1700 and 2350, and for one population the aneuploidy were eliminated and has not observed allready at generation 1700 and for the second at generation 2350. \\
-Similarly, in \emph{ph-stress} experiment four populations were evolved unde high-ph stress conditions and developed aneuploidy during 150 generations. At generation 750 aneuploidy fully eliminated for two populations, and only partly for another two. 
+%%% Table: multi-locus model
+\begin{table}[h]
+\centering
+\caption{\textbf{Multi-locus model fitness values.}}
+\begin{tabular}{lllll}
+\emph{Genotype} $i$ & $2n$ & $2n+1$ & $2n+1^{*k}$ & $2n^{*k}$ \\
+\hline
+\emph{Fitness} $w_i$ & $1$ & $1-c+\sigma$ & $(1-c)\prod_{j=1}^k(1+s_i)+\sigma$ & $\prod_{j=1}^k(1+s_i)$               
+\end{tabular}
+\label{table:multi-locus}
+\caption*{
+$k$ is the number of accumulated beneficial mutations in the genome;
+$s \ge 0$ is the selection coefficient of a beneficial mutation;
+$\sigma \ge 0$ is the selection coefficient of aneuploidy; 
+and $0 \le c \le 1$ is the fitness cost of aneuploidy.
+}
+\end{table}
+%%%
+
+\paragraph{Empirical evidence.}
+Our inference procedure uses empirical data from evolutionary experiments performed by \citet{Yona2012}.
+In the heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype means that 95\% or 5\% of the population carry the genotype).
+The experiment continued with two populations, in which aneuploidy was eliminated by generation 1700 and 2350.
+In the pH-stress experiment, four populations of \yeast evolved under high-ph stress (8.6). Aneuploidy fixed during the first 150 generations. It was fully eliminated in two populations and partly eliminated in two populations by generation 750. 
 
 \paragraph{Likelihood function.}
-Denote by $A_{t}$ the event of aneuploidy observation at generation $t$; by $L_{t}$ the event of aneuploidy loss observation at generation $t$; and by $L_{2350^*}$ the event of aneuploidy loss observation at generation 2350 while there's no loss in generation 1700. The likelihood function of the model with parameter set $\theta$ for \emph{heat-stress} experiment is:
+Denote by $A_{t}$ the fixation of aneuploidy at generation $t$, by $L_{t}$ the loss of aneuploidy at generation $t$, and by $L^*_{t,T}$ the loss of aneuploidy generation $t$ conditioned on no loss by generation $T$.
+The model likelihood function for parameter vector $\theta$ for the heat-stress experiment is
 \begin{multline} \label{eq:heatstress-likelihood}
-L(\theta | A_{450}, L_{1700}, L_{2350^*} ) = \\
-P^4(A_{450}) \cdot (1 - P^4(\lnot{L_{1700}} | A_{450} ) - P^4(\lnot{L_{2350^*}}| A_{450}) + P^4(\lnot{L_{1700}} \land \lnot{L_{2350^*}}| A_{450}) )		
+\likelihood(\theta | A_{450}, L_{1700}, L^*_{2350, 1700} ) = \\
+P^4(A_{450}) \cdot \Big(1 - P^4(\lnot{L_{1700}} | A_{450} ) - P^4(\lnot{L^*_{2350, 1700}}| A_{450}) + P^4(\lnot{L_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450})\Big)	\;,	
 \end{multline}
-The likelihood function of the model with parameter set $\theta$ for \emph{ph-stress} experiment is:
+where $P(X)$ is the probability of even $X$ and $\lnot$ means \emph{not}.
+The likelihood function of the model with parameter set $\theta$ for the pH-stress experiment is
 \begin{equation} \label{eq:phstress-likelihood}
- L(\theta | A_{150}, L_{750} ) = \\
- P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150})
+\likelihood(\theta | A_{150}, L_{750} ) = \\
+ P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.
 \end{equation} 
 
 \paragraph{Parameter inference.} To estimate the parameters of the models we apply approximate Bayesian computation with a sequential Monte-Carlo scheme (ABC-SMC), employing pyabc Python 
