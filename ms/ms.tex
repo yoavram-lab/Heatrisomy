@@ -194,7 +194,7 @@ and that aneuploidy is likely to fix in the population and increase its mean fit
     \textbf{(A)} In the single-locus model, the four genotypes are: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
     Overall there are two possible trajectories from \euwt to \eumt.
     \textbf{(B)} In the multi-locus model, each genotype is characterized by its karyotype, \euwt or \anwt, and the number of accumulated beneficial mutations, denoted by stars. 
-    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$, mutation rate; $\alpha$, aneuploidy gain rate; $\alpha_l$, aneuploidy loss rate.
+    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$, mutation rate; $\delta$, aneuploidy gain rate; $\delta_L$, aneuploidy loss rate.
   }
   \label{fig:models}
 \end{figure}
@@ -224,12 +224,12 @@ The fitness values of the four genotypes are given by \autoref{table:single-locu
 \begin{tabular}{lllll}
 \emph{Genotype} $i$ & $2n$ & $2n+1$ & $2n+1^*$ & $2n^*$ \\
 \hline
-\emph{Fitness} $w_i$ & $1$ & $1-c+\sigma$ & $(1-c)(1+s)+\sigma$ & $1+s$               
+\emph{Fitness} $w_i$ & $1$ & $1-c+b$ & $(1-c)(1+s)+b$ & $1+s$               
 \end{tabular}
 \label{table:single-locus}
 \caption*{
 $s \ge 0$ is the selection coefficient of a beneficial mutation;
-$\sigma \ge 0$ is the selection coefficient of aneuploidy; 
+$b \ge 0$ is the selection coefficient of aneuploidy; 
 and $0 \le c \le 1$ is the fitness cost of aneuploidy.
 }
 \end{table}
@@ -262,7 +262,7 @@ This model expands the single-locus model by allowing for the accumulation of be
 
 A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
 The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$, $s_i \sim Exp(s)$.
-The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $\sigma$, $c$) are the same as in the single-locus model.
+The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $b$, $c$) are the same as in the single-locus model.
 The fitness of the different genotypes is the same as in the single-locus model (\autoref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \autoref{table:multi-locus}.
 Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations and/or the selection coefficients $s_i$ are large enough. The intuition is that when the benefit of the accumulated beneficial mutations is small, the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations benefit is large, then aneuploidy is no longer advantageous because of its significant cost.
 
@@ -284,13 +284,13 @@ Next, euploid offspring become aneuploid with probability $\delta$, and aneuploi
 \begin{tabular}{lllll}
 \emph{Genotype} $i$ & $2n$ & $2n+1$ & $2n+1^{*k}$ & $2n^{*k}$ \\
 \hline
-\emph{Fitness} $w_i$ & $1$ & $1-c+\sigma$ & $(1-c)\prod_{j=1}^k(1+s_i)+\sigma$ & $\prod_{j=1}^k(1+s_i)$               
+\emph{Fitness} $w_i$ & $1$ & $1-c+b$ & $(1-c)\prod_{j=1}^k(1+s_i)+b$ & $\prod_{j=1}^k(1+s_i)$               
 \end{tabular}
 \label{table:multi-locus}
 \caption*{
 $k$ is the number of accumulated beneficial mutations in the genome;
 $s \ge 0$ is the selection coefficient of a beneficial mutation;
-$\sigma \ge 0$ is the selection coefficient of aneuploidy; 
+$b \ge 0$ is the selection coefficient of aneuploidy; 
 and $0 \le c \le 1$ is the fitness cost of aneuploidy.
 }
 \end{table}
@@ -301,9 +301,10 @@ Our inference procedure uses empirical data from evolutionary experiments perfor
 In the heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype means that 95\% or 5\% of the population carry the genotype).
 The experiment continued with two populations, in which aneuploidy was eliminated by generation 1700 and 2350.
 In the pH-stress experiment, four populations of \yeast evolved under high-ph stress (8.6). Aneuploidy fixed during the first 150 generations. It was fully eliminated in two populations and partly eliminated in two populations by generation 750. 
+These empirical results were published by \citet{Yona2012}.
 
 \paragraph{Likelihood function.}
-Denote by $A_{t}$ the fixation of aneuploidy at generation $t$, by $L_{t}$ the loss of aneuploidy at generation $t$, and by $L^*_{t,T}$ the loss of aneuploidy generation $t$ conditioned on no loss by generation $T$.
+Denote by $A_{t}$ the fixation of aneuploidy at generation $t$, by $L_{t}$ the loss of aneuploidy at generation $t$, and by $L^*_{t,T}$ the loss of aneuploidy at generation $t$ conditioned on no loss by generation $T$.
 The model likelihood function for parameter vector $\theta$ for the heat-stress experiment is
 \begin{multline} \label{eq:heatstress-likelihood}
 \likelihood(\theta | A_{450}, L_{1700}, L^*_{2350, 1700} ) = \\
@@ -315,11 +316,23 @@ The likelihood function of the model with parameter set $\theta$ for the pH-stre
 \likelihood(\theta | A_{150}, L_{750} ) = \\
  P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.
 \end{equation} 
+Because of the complexity of the model, this likelihood function is intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicated to approximate the value of the likelihood function $\likelihood(\theta)$.
 
-\paragraph{Parameter inference.} To estimate the parameters of the models we apply approximate Bayesian computation with a sequential Monte-Carlo scheme (ABC-SMC), employing pyabc Python 
-package \citep{Klinger2018}
+\paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyabc} Python 
+package~\citep{Klinger2018}.
+Briefly, this approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. This approach is applicable for likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be computed. It is therefore suitable to our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
+% TODO ILIA please add all configuration details, similar to the relevant section in the NPI paper. Discuss priors, convergence tests, etc.
 
- 
+\paragraph{Prior distributions.} The prior distributions of $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$ were obtained by estimating prior distributions for $1-c$, $1-c+b$ and $1+s$ from growth curves data. These growth curve data were previously obtained by~\citet{Yona2012} using mono-culture growth experiments.
+The raw growth curves data were not published before, but were used to produce figures 3C, 4A, and S2 in \citet{Yona2012}.
+We used \texttt{Curveball}, a dedicated method for predicting results of competition experiments from growth curve data~\citet{Ram2019}. \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed-culture, that is, it predicts the results of a competition assay. From these predictions, relative fitness values can be computed.  
+We used growth curves of $2n+1$ and $2n$ in \SI{39}{\celsius} and in \SI{30}{\celsius} to estimate $1-c+b$ and $1-c$, respectively. The latter assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might not be correct, but we only assume this in order to generate a prior distribution for the fitness values. We also used growth curves of $2n+1$ and $2n^*$ in \SI{39}{\celsius} in \SI{39}{\celsius} to estimate $1+s$. 
+Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. Thus, we sampled 10,000 values for $1-c+b$, $1-c$, and $1+s$, which we used as prior distributions. Note that the first and last values correspond to $w_{2n+1}$ and $w_{2n}$, whereas $w_{2n+1^*}=(1-c)w_{2n^*}+w_{2n+1}-(1-c)$.
+%TODO ILIA please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
+%TODO ILIA describe the priors for the mutation and aneuploidy rate.
+
+\paragraph{Model comparison.}  % TODO ILIA what did you do for model comparison/selection?
+
 \pagebreak
 % Results
 \section*{Results}
