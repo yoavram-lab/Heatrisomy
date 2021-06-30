@@ -160,8 +160,8 @@ Chromosome duplication usually occurs more often than mutation and on average pr
 Yet, because it affects many genes on a whole chromosome or a chromosome fragment, aneuploidy also carries fitness costs.
 Thus, aneuploidy can be a \emph{transient adaptive solution}: it can rapidly occur and fix in the population under stressful conditions, and can be rapidly lost when the cost outweighs the benefit---when stress is removed or after beneficial mutations occur.
 Experimental evidence of such a transient role of aneuploidy was demonstrated by \citet{Yona2012}. They evolved populations of \yeast under strong heat or pH stress.
-In these experiments, the populations adapted to the stress within 450 generations, and this adaptation was determined to be due to chromosome duplications.
-Much later, after more than 1500 generations, the populations reverted back to an euploid state, while remaining adapted to the stress and accumulating multiple mutations.
+The populations adapted to the heat and pH stress within 450 and 150 generations, and this adaptation was determined to be due to chromosome duplications.
+Much later, after more than 1500 and 750 generations, for the heat and pH stress, respectively, the populations reverted back to an euploid state, while remaining adapted to the stress and accumulating multiple mutations.
 However, under gradual heat stress, aneuploidy was not observed.
 \citet{Yona2012} concluded that aneuploidy serves as a transient adaptive solution, or a ``quick fix'', which is expected to facilitate adaptation. 
 
@@ -170,9 +170,7 @@ Here, we develop evolutionary-genetic models that include the effects of natural
 These models follow a population of cells characterised by both their ploidy and their genotype.
 We fit these models to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009, Klinger2018} to infer model parameters, including selection coefficients and rates of aneuploidy and mutation, and to perform model selection between different models, thereby testing different hypotheses about the evolutionary process.
 Furthermore, we analyze these models to estimate the effects of parameters on the adaptation time and the probability for adaptation via aneuploidy.
-We find that % TODO CHECK!
-the aneuploidy rate is several orders of magnitude higher than the mutation rate; that a simple model of clonal interference is not enough to explain the transience of aneuploidy; % what does that mean?
-and that aneuploidy is likely to fix in the population and increase its mean fitness, but at the price of delaying further adaptation.
+We find that % TODO 
 
 \pagebreak
 % Models and Methods
@@ -209,20 +207,20 @@ and that aneuploidy is likely to fix in the population and increase its mean fit
 
 \paragraph*{Evolutionary Models.}
 We developed two models: a single-locus model and a multi-locus model. 
-Both models are based on the Wright-Fisher model~\citep{Otto2007}, assuming a constant population size $N$ with non-overlapping generations and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
+Both models are based on the Wright-Fisher model~\citep{Otto2007}, assuming non-overlapping generations and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial mutations, neglecting the effects of deleterious and neutral mutations. Both models allow for a single aneuploid karyotype (e.g., chromosome III duplication).
 While the single-locus model allows for only a single mutation to occur, the
 multi-locus model allows for multiple mutations to accumulate in the genome~(\autoref{fig:models}).
 
 \paragraph*{Single-locus model.}
-This model follows four genotypes~(\autoref{fig:models}A): euploid wild-type, \euwt, the initial genotype; 
+This model assumes a constant population size $N$ and follows four genotypes~(\autoref{fig:models}A): euploid wild-type, \euwt, the initial genotype; 
 euploid mutant, \eumt, with the standard karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, with an extra chromosome, e.g. following chromosome duplication; and
 aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation. 
 
 Transitions between the genotypes occur as follows~(\autoref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; occur with probability $\mu$, the mutation rate, and from \anwt\; to \anmt\; with probability $\tau \mu$, where $\tau$ is the fold-change in the rate of beneficial mutations in aneuploid cells. By default, we assume $\tau=33/32$, as the wild-type \yeast strains in the experiments by \citep{Yona2012} are diploid, with 32 chromosomes, and the aneuploid strains are trisomic, with 33 chromosomes.
-Aneuploidy is formed by chromosome missegregation, so that cells transition from \euwt\; to \anwt\; or from \eumt\; to \anmt\; with probability $\delta$, the aneuploidy gain rate.
-Aneuploidy is lost, transitioning cells from \anwt\; to \euwt\; or from \anmt\; to \eumt\; with probability $\delta_L$, the aneuploidy loss rate.
+Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\ with probability $\delta$, the aneuploidy gain rate.
+Aneuploidy is lost, transitioning cells from \anmt\; to \eumt\; with probability $\delta_L$, the aneuploidy loss rate.
 The fitness values of the four genotypes are given by \autoref{table:single-locus}.
 
 %%% Table: single-locus model
@@ -260,22 +258,24 @@ The effect of mutation and aneuploidy on genotype frequencies is given by
     \end{equation}
 Finally, random genetic drift is modeled using a multinomial distribution~\citep{Otto2007},
     \begin{equation} \label{eq:drift-single}
-      \vec{f'} \sim \frac{1}{N} Mult(N, \vec{f}) \;,
+      \vec{f'} \sim \frac{1}{N} Mult(N, \vec{f^m}) \;,
     \end{equation}
-where $\vec{f}=(f_{2n},f_{2n+1},f_{2n+1^*},f_{2n^*})$ and $\vec{f'}$ are the frequencies of the genotypes in the current and next generation, respectively, and $Mult(N, \vec{f})$ is a multinomial distribution parameterized by the population size $N$ and the genotype frequencies $\vec{f}$.
+where $\vec{f^m}=(f_{2n},f_{2n+1},f_{2n+1^*},f_{2n^*})$ are the frequencies of the genotypes after mutation and aneuploidy, $\vec{f'}$ are the genotype frequencies in the next generation, and $Mult(N, \vec{f})$ is a multinomial distribution parameterized by the population size $N$ and the genotype frequencies $\vec{f}$.
 Overall, the change in genotype frequencies from one generation to the next is given by the transformation $f_i \to f'_i$.
 
 \paragraph*{Multi-locus model.}
-This model expands the single-locus model by allowing for the accumulation of beneficial mutations in the genome and a fluctuating population size. 
+This model expands the single-locus model by allowing for (i) the accumulation of beneficial mutations in the genome, and (ii) a fluctuating population size. 
 
 A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
 The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$, $s_i \sim Exp(s)$.
 The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $b$, $c$) are the same as in the single-locus model.
+% ILIA: I don’t know if it should be mentioned here, but the meaning of the mutation rate is a bit differ for multi-locus model. For the single-locus mutation rate value is the probability to get specific mutation (maybe one of a few). For the multi-locus it is the probability to get some beneficial mutation (one of a many). So, we don’t expect to receive same values for mutation rate for the models.
+% ILIA: I don’t have in the code 𝜏 parameter for multi-locus model (it’s like 1 there). Do you think it worth adding it for consistency?
 The fitness of the different genotypes is the same as in the single-locus model (\autoref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \autoref{table:multi-locus}.
 Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations and/or the selection coefficients $s_i$ are large enough. The intuition is that when the benefit of the accumulated beneficial mutations is small, the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations benefit is large, then aneuploidy is no longer advantageous because of its significant cost.
 
 In contrast to the single-locus model, in the multi-locus model the population size changes in order to model serial-transfer experiment protocol~\citep{Yona2012}: the population is serially diluted by transferring a fraction of the population (1/120) to a fresh medium, starting a new growth cycle.
-In this model, the population initial size is $N_0 = N$, and the population size is doubled every generation, $N_1=2N, N_2=4N, \ldots$, and diluted back to $N$ at every seven generations, $N_7=N$.
+In this model, the population initial size is $N_0 = N$, and the population size is doubled every generation, $N_1=2N, N_2=4N, \ldots$, and diluted back to $N$ every eight generations, $N_8=N$.
 
 The change in frequencies due to selection is exactly the same as in the single-locus model (\autoref{eq:selection-single}), only applied using the fitness values in \autoref{table:multi-locus}. The change due to random genetic drift is also the same as in \autoref{eq:drift-single}, except that the frequencies vector is $\vec{f}=(f_{2n}, f_{2n+1}, f_{2n^*}, f_{2n+1^*}, f_{2n^{**}}, f_{2n+1^{**}}, \ldots)$ and that the population size changes between generations, as described above.
 
@@ -306,7 +306,7 @@ and $0 \le c \le 1$ is the fitness cost of aneuploidy.
 
 \paragraph{Empirical evidence.}
 Our inference procedure uses empirical data from evolutionary experiments performed by \citet{Yona2012}.
-In the heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype means that 95\% or 5\% of the population carry the genotype).
+In the heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype by generation $t$ means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier).
 The experiment continued with two populations, in which aneuploidy was eliminated by generation 1700 and 2350.
 In the pH-stress experiment, four populations of \yeast evolved under high-ph stress (8.6). Aneuploidy fixed during the first 150 generations. It was fully eliminated in two populations and partly eliminated in two populations by generation 750. 
 These empirical results were published by \citet{Yona2012}.
@@ -324,7 +324,7 @@ The likelihood function of the model with parameter set $\theta$ for the pH-stre
 \likelihood(\theta | A_{150}, L_{750} ) = \\
  P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.
 \end{equation} 
-Because of the complexity of the model, this likelihood function is intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicated to approximate the value of the likelihood function $\likelihood(\theta)$.
+Because of the complexity of the model, this likelihood function is intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicates to approximate the value of the likelihood function $\likelihood(\theta)$.
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC}\footnote{https://pyabc.readthedocs.io} Python 
 package~\citep{Klinger2018}.
