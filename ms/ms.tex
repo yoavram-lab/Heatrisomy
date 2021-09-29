@@ -24,7 +24,7 @@ headheight=12pt
 \captionsetup[subfigure]{labelformat=empty}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{longtable}
-\usepackage{siunitx}
+\usepackage{gensymb,siunitx}
 
 %SetFonts
 % newtxtext+newtxmath
@@ -322,7 +322,7 @@ where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}.
 The likelihood function of the model with parameter set $\theta$ for the pH-stress experiment is
 \begin{equation} \label{eq:phstress-likelihood}
 \likelihood(\theta | A_{150}, L_{750} ) = \\
- P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.
+ P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.  %%TODO i think it is wrong because fig 5C shows that only 2 replicas are fixated after 650 generations (see Supplementary also)
 \end{equation} 
 Because of the complexity of the model, this likelihood function is intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicates to approximate the value of the likelihood function $\likelihood(\theta)$.
 
@@ -346,6 +346,54 @@ See Figures~\ref{fig:growth-curves-30deg} and~\ref{fig:growth-curves-39deg}.
 \pagebreak
 % Results
 \section*{Results}
+
+First we evaluated simulations of single-locus model to inference the model parameters. See \ref{fig:posterior} for the posterior. The mutation rate (mean 1.71e-10 (95 CI..)) and trisomy rate (..) corresponds to the literature
+
+\begin{figure}[h]
+  \centering
+\includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
+  \caption{
+  \textbf{Single-locus model parameters posterior distribution}
+  The mean and the 95\% confindence interval of the parameters: 
+  mutation rate - 1.71e-10 (1.55e-10 - 1.88e-10),
+  trisomy rate - 3.3e-05 (2.94e-05 - 3.66e-05),
+  2n+1 fitness - 1.05 (1.05 - 1.05),
+  2n+1* fitness - 5.24 (4.21 - 6.27),
+  2n* fitness - 5.28 (4.24 - 6.32)
+  } 
+  \label{fig:posterior}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+\includegraphics[width=0.6\textwidth]{../figures/fixation-plot.pdf}
+  \caption{
+  \textbf{Time of 2n* fixation can't be explained without aneuploidy}
+   Distribution of time to fixation of 2n* and elimination of trisomy for $10,000$ simulations with parameters taken from the mean of the posterior. 
+  }
+  \label{fig:2n*-fixation}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+\includegraphics[width=0.6\textwidth]{../figures/ppc-plot.pdf}
+  \caption{
+  \textbf{Evolutionary dynamics with fitted single-locus model} 
+  Frequency of the four genotypes averaged over 10,000 simulations of the model. Each line represent one of the 10 parameter sets drawed from kde of the posterior.
+  }
+  \label{fig:ppc-plot}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+\includegraphics[width=0.6\textwidth]{../figures/likelihood-plot.pdf}
+  \caption{
+  \textbf{Fit illustration for single locus-model} 
+  TODO
+  The best fit occurs when first dot is low, last dot is hight, and the inner rectangulars are queal...
+  }
+  \label{fig:likelihood}
+\end{figure}
 
 \pagebreak
 % Discussion
@@ -413,7 +461,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
 	\includegraphics[width=0.5\textwidth]{../figures/evo39_fitness_39deg.pdf}
     \caption{
     \textbf{Fitness estimation from \SI{39}{\celsius}.}
-    } 
+	}
     \label{fig:growth-curves-39deg}
 \end{figure}
 
