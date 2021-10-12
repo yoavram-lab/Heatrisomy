@@ -24,7 +24,7 @@ headheight=12pt
 \captionsetup[subfigure]{labelformat=empty}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{longtable}
-\usepackage{siunitx}
+\usepackage{gensymb,siunitx}
 
 %SetFonts
 % newtxtext+newtxmath
@@ -34,6 +34,8 @@ headheight=12pt
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 %SetFonts
+
+\renewcommand{\baselinestretch}{1.5}
 
 % less space before sections 
 % \@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE} 
@@ -323,14 +325,16 @@ where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}.
 The likelihood function of the model with parameter set $\theta$ for the pH-stress experiment is
 \begin{equation} \label{eq:phstress-likelihood}
 \likelihood(\theta | A_{150}, L_{750} ) = \\
- P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.
+ P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.  %%TODO i think it is wrong because fig 5C shows that only 2 replicas are fixated after 650 generations (see Supplementary also)
 \end{equation} 
 Because of the complexity of the model, this likelihood function is intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicates to approximate the value of the likelihood function $\likelihood(\theta)$.
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC}\footnote{https://pyabc.readthedocs.io} Python 
 package~\citep{Klinger2018}.
 Briefly, this approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. It is a method of likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be computed. It is therefore suitable to our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
+After getting weighted particles of the posterior distribution using ABC-SMC scheme, we calculate Kernel Density Estimate using Gaussian kernels. $50,000$ sampled points from KDE represent the posterior distribution over the model parameters, and we use it for plots, median calculation, etc.
 % TODO ILIA please add all configuration details, similar to the relevant section in the NPI paper. Discuss priors, convergence tests, etc.
+% And also number of replicates for different models
 
 \paragraph{Prior distributions.} The prior distributions of $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$ were obtained by estimating $1-c$, $1-c+b$ and $1+s$ from growth curves data. These growth curve data were previously obtained by~\citet{Yona2012} using mono-culture growth experiments.
 The raw growth curves data were not published before, but were used to produce figures 3C, 4A, and S2 in \citet{Yona2012}.
@@ -347,6 +351,56 @@ See Figures~\ref{fig:growth-curves-30deg} and~\ref{fig:growth-curves-39deg}.
 \pagebreak
 % Results
 \section*{Results}
+\paragraph{Single-locus model parameters inference.} 
+First we inference the parameters of the single-locus model. The mean and credible interval (2.5th percentile and the 97.5th percentile) of the parameters are:
+mutation rate - $1.02\substack{+2.40 \\ -1.34}\times10^{-6}$,
+trisomy rate - $7.36\substack{+3.55 \\ -4.82}\times10^{-4}$,
+2n+1 fitness - $1.022\substack{+0.004 \\ -0.004}$,
+2n+1* fitness - $1.025\substack{+0.004 \\ -0.004}$,
+2n* fitness - $1.028\substack{+0.004 \\ -0.004}$.
+This trisomy rate appropriates to the previous estimates; The mutation rate corresponds to the mutations target size of $10^{4}$ if we assume the mutation rate of single base to be about $2*10^{-10}$ as in previous estimates ~\citep{Zhu2014}. 
+We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes (\anwt, \anmt, \eumt)..(TODO say/plot something about the correlation, is it interesting?). 
+
+\begin{figure}[h!]
+  \centering
+\includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
+  \caption{
+  \textbf{Single-locus model parameters posterior density.}
+%TODO histogram on diagonal
+The posterior density for each parameter is presented on the diagonal plots. Other plots represent joint posterior density of two parameters where blue color has the lowest density and yellow has the highest density. Red point and the dashed lines represent the median (TODO check that it is median and not mean) values of the densities: 
+mutation rate - $1.02\times10^{-6}$,
+trisomy rate - $7.36\times10^{-4}$,
+\anwt fitness - $1.022$,
+\anmt fitness - $1.025$,
+\eumt fitness - $1.028$.
+  } 
+  \label{fig:posterior}
+\end{figure}
+
+\paragraph{Single-locus model fits the data well, but only if contains aneuploidy.} Single-locus model provide good fit to the data~(\autoref{fig:likelihood}A).
+On \autoref{fig:ppc-plot} the dynamics of frequency change of each genotype in time is shown. We can see that \anmt never reach substantial frequency in the population.  
+Sensitivity analysis~(\autoref{fig:sensitivity}) shows that if we change the parameter values the fit degrades. Furthermore, we measured fixation time of \anwt in population, and found it appropriate to the unpublished data of the experiment ~\citep{Yona2012} - about 300 generations in average.
+On the other hand, if we don't take into consideration aneuploidy in the model, i.e. take aneuploidy rate be equal to zero, then the model can't explain the data: the fit is not so good~(\autoref{fig:likelihood}A). Also we see that adaptation is faster without aneuploidy: for the best fit of the model without aneuploidy, the 2n* fixation occurs on average after 153 generation, while for the best fit of the model with aneuploidy it is 1637 generations. %TODO: put real data here
+
+\begin{figure}[h]
+  \centering
+\includegraphics[width=0.6\textwidth]{../figures/ppc-plot.pdf}
+  \caption{
+  \textbf{Evolutionary dynamics with fitted single-locus mode.l} 
+  Frequency of the four genotypes averaged over 10,000 simulations of the model. Each line represent one of the 10 parameter sets drawed from the inference posterior.
+  }
+  \label{fig:ppc-plot}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+\includegraphics[width=0.6\textwidth]{../figures/fixation-plot.pdf}
+  \caption{
+  \textbf{Time of 2n* fixation cannot be explained without aneuploidy.}
+   TODO: make plot like in poster that compares model with aneuploidy and without
+  }
+  \label{fig:2n*-fixation}
+\end{figure}
 
 \subsection*{Model fitting}
 
@@ -427,17 +481,62 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \label{fig:growth-curves-30deg}
 \end{figure}
 
-
-%%%% Fig - Curveball 39deg %%%
-% generated with growth_curves.ipynb
-\begin{figure}[h]
-    \centering
-	\includegraphics[width=0.5\textwidth]{../figures/evo39_fitness_39deg.pdf}
-    \caption{
-    \textbf{Fitness estimation from \SI{39}{\celsius}.}
-    } 
-    \label{fig:growth-curves-39deg}
+% likelihood plots
+\begin{figure}[b!]
+  \centering
+  \begin{subfigure}[t]{0.5\textwidth}
+      \caption{
+        \textbf{A. With aneuploidy}
+      }
+      \centering
+      \includegraphics[height=1.8in]{../figures/likelihood-plot.pdf}      
+      \label{fig:likelihood-with-aneuploidy}
+  \end{subfigure}%
+  \\
+  \begin{subfigure}[t]{0.5\textwidth}
+  	  \caption{
+        \textbf{B. Without aneuploidy}
+      }
+      \centering
+      \includegraphics[height=1.8in]{../figures/likelihood-plot.pdf}      
+      \label{fig:likelihood-without-aneuploidy}
+  \end{subfigure}
+  \caption{
+    \textbf{Single-locus model fit.} Cumulative distribution of 10000 simulations are shown.
+    \textbf{(A)} Simulations parameters are from the median of the posterior of the single-locus model fit. In close to 50\% of simulations \eumt fixation occurs between 450 and 1700 generations and in about 50\% \eumt fixation occurs between 1700 and 2350 generatyions. This results in high likelihood.
+    \textbf{(B)} Simulations parameters are from the median of the posterior of the single-locus model \emph{without} aneuploidy fit. TODO
+  }
+  \label{fig:likelihood}
 \end{figure}
 
+% sensitivity analysis plots
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-mutation-rate-plot.pdf}      
+      \label{fig:sensitivity-mutation}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-trisomy-rate-plot.pdf}      
+      \label{fig:sensitivity-aneuploidy}
+  \end{subfigure}
+   \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-w(2n+1)-plot.pdf}      
+      \label{fig:sensitivity-anwt}
+  \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-w(2n+1*)-plot.pdf}      
+      \label{fig:sensitivity-anmt}
+  \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-w(2n*)-plot.pdf}      
+      \label{fig:sensitivity-eumt}
+  \end{subfigure}
+  \caption{
+    \textbf{Sensitivity analysis.} We take parameters that are median of the posterior. Then we change only one parameter at time while measuring the model likelihood of the parameters. x-axis label represent the parameter that we change. Yellow point indicates the median value.
+  }
+  \label{fig:sensitivity}
+\end{figure}
 
 \end{document}  
