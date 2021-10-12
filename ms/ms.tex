@@ -351,6 +351,23 @@ See Figures~\ref{fig:growth-curves-30deg} and~\ref{fig:growth-curves-39deg}.
 \pagebreak
 % Results
 \section*{Results}
+
+\subsection*{Model fitting}
+
+%\paragraph{Simple model: Inference.}
+%tell point estimates (+- hdi) (fig 2 from poster, add hdi)
+%posterior predictions, sensitivity analysis
+%time to fixation of aneuploidy 2n+1 - fits unpublished data
+%figures
+%- posterior distributions
+%- expected frequency over time (fig 1 from poster)
+%- % simulations to reach 2n+1, 2n*. (fig 3 from poster)
+%- time to 2n* cannot be explained without aneuploidy (fig 4 from poster)
+%- sensitivity analysis (fig 5 from poster)
+%- convergence/ess of pyabc? 
+%  - plot of posterior in each iteration shows convergence; 
+%  - robustness of posterior to initial conditions - MAP+-HDI for different seeds;
+
 \paragraph{Single-locus model parameters inference.} 
 First we inference the parameters of the single-locus model. The mean and credible interval (2.5th percentile and the 97.5th percentile) of the parameters are:
 mutation rate - $1.02\substack{+2.40 \\ -1.34}\times10^{-6}$,
@@ -401,22 +418,6 @@ On the other hand, if we don't take into consideration aneuploidy in the model, 
   }
   \label{fig:2n*-fixation}
 \end{figure}
-
-\subsection*{Model fitting}
-
-\paragraph{Simple model: Inference.}
-%tell point estimates (+- hdi) (fig 2 from poster, add hdi)
-%posterior predictions, sensitivity analysis
-%time to fixation of aneuploidy 2n+1 - fits unpublished data
-%figures
-%- posterior distributions
-%- expected frequency over time (fig 1 from poster)
-%- % simulations to reach 2n+1, 2n*. (fig 3 from poster)
-%- time to 2n* cannot be explained without aneuploidy (fig 4 from poster)
-%- sensitivity analysis (fig 5 from poster)
-%- convergence/ess of pyabc? 
-%  - plot of posterior in each iteration shows convergence; 
-%  - robustness of posterior to initial conditions - MAP+-HDI for different seeds;
 
 \paragraph{Complex model: Inference and Comparison.}
 
