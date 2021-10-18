@@ -397,24 +397,25 @@ trisomy rate - $7.36\times10^{-4}$,
 \paragraph{Single-locus model fits the data well, but only if contains aneuploidy.} Single-locus model provide good fit to the data~(\autoref{fig:likelihood}A).
 On \autoref{fig:ppc-plot} the dynamics of frequency change of each genotype in time is shown. We can see that \anmt never reach substantial frequency in the population.  
 Sensitivity analysis~(\autoref{fig:sensitivity}) shows that if we change the parameter values the fit degrades. Furthermore, we measured fixation time of \anwt in population, and found it appropriate to the unpublished data of the experiment ~\citep{Yona2012} - about 300 generations in average.
-On the other hand, if we don't take into consideration aneuploidy in the model, i.e. take aneuploidy rate be equal to zero, then the model can't explain the data: the fit is not so good~(\autoref{fig:likelihood}A). Also we see that adaptation is faster without aneuploidy: for the best fit of the model without aneuploidy, the 2n* fixation occurs on average after 153 generation, while for the best fit of the model with aneuploidy it is 1637 generations. %TODO: put real data here
+On the other hand, if we don't take into consideration aneuploidy in the model, i.e. take aneuploidy rate be equal to zero, then the model can't explain the data: the fit is not so good~(\autoref{fig:likelihood}A; \autoref{fig:2n*-fixation}). The good fit of the model without aneuploidy to the data, requires much lower mutation rate (TODO provide numbers for the median fit?). If mutation rate is not low, the fixation of \eumt happens much quicker (see yellow and blue bars at  \autoref{fig:2n*-fixation}).
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
 \includegraphics[width=0.6\textwidth]{../figures/ppc-plot.pdf}
   \caption{
-  \textbf{Evolutionary dynamics with fitted single-locus mode.l} 
+  \textbf{Evolutionary dynamics with fitted single-locus model.} 
   Frequency of the four genotypes averaged over 10,000 simulations of the model. Each line represent one of the 10 parameter sets drawed from the inference posterior.
   }
   \label{fig:ppc-plot}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
 \includegraphics[width=0.6\textwidth]{../figures/fixation-plot.pdf}
   \caption{
-  \textbf{Time of 2n* fixation cannot be explained without aneuploidy.}
-   TODO: make plot like in poster that compares model with aneuploidy and without
+  \textbf{Time of \eumt fixation cannot be explained without aneuploidy.}
+Each color represents distribution to fixation of \eumt of $10,000$ simulations for different modifications of single-locus model. \emph{Blue} represents the model with aneuploidy with parameters that taken from posterior median when we fit the model to the experimental data. \emph{Orange} represents the same model that have no aneuploidy, i.e aneuploidy rate is zero. \emph{Green} represents the model without aneuploidy with parameters that taken from posterior median when we fit the model without aneuploidy to the experimental data. The last bin contains all the simulations with time greater than 3000.
+Dashed lines show experimental data: generations 1700 and 2350. The fit to the data is better when the distribution is such that the difference in number of simulations in ranges 0-1700 and 1700-2350 is small and there's no many simulations after 2350 generations. The fit of \emph{blue} is better than of \emph{green}. And there's no fit of \emph{red} to the data at all.
   }
   \label{fig:2n*-fixation}
 \end{figure}
