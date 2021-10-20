@@ -321,12 +321,22 @@ The model likelihood function for parameter vector $\theta$ for the heat-stress 
 \likelihood(\theta | A_{450}, L_{1700}, L^*_{2350, 1700} ) = \\
 P^4(A_{450}) \cdot \Big(1 - P^4(\lnot{L_{1700}} | A_{450} ) - P^4(\lnot{L^*_{2350, 1700}}| A_{450}) + P^4(\lnot{L_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450})\Big)	\;,	
 \end{multline}
-where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}.
+where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}. 
+
 The likelihood function of the model with parameter set $\theta$ for the pH-stress experiment is
 \begin{equation} \label{eq:phstress-likelihood}
 \likelihood(\theta | A_{150}, L_{750} ) = \\
- P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.  %%TODO i think it is wrong because fig 5C shows that only 2 replicas are fixated after 650 generations (see Supplementary also)
-\end{equation} 
+ P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.  
+ \end{equation} 
+%TODO i think it is wrong because fig 5C shows that only 2 replicas are fixated after 650 generations (see Supplementary also) Anyway, I don't think that we use this likelihood, so probably should be removed at all.
+ 
+For the model without aneuploidy let's denote by $M_{t}$ the fixation of \eumt at generation $t$, and by $M^*_{t,T}$ the fixation of \eumt at generation $t$ conditioned on no fixation at generation $T$.
+The likelihood of the model without aneuploidy with parameter vector $\theta$ for the heat-stress experiment is
+\begin{multline} \label{eq:heatstress-noaneuploidy-likelihood}
+\likelihood(\theta |  M_{1700}, M^*_{2350, 1700} ) = \\
+\Big(1 - P^4(\lnot{M_{1700}}) - P^4(\lnot{M^*_{2350, 1700}}) + P^4(\lnot{M_{1700}} \land \lnot{M^*_{2350, 1700}})\Big)	\;,	
+\end{multline}
+
 Because of the complexity of the model, this likelihood function is intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicates to approximate the value of the likelihood function $\likelihood(\theta)$.
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC}\footnote{https://pyabc.readthedocs.io} Python 
@@ -501,13 +511,13 @@ Minerva Stiftung Center for Lab Evolution (YR).
         \textbf{B. Without aneuploidy}
       }
       \centering
-      \includegraphics[height=1.8in]{../figures/likelihood-plot.pdf}      
+      \includegraphics[height=1.8in]{../figures/likelihood-noaneuploidy-plot.pdf}      
       \label{fig:likelihood-without-aneuploidy}
   \end{subfigure}
   \caption{
     \textbf{Single-locus model fit.} Cumulative distribution of 10000 simulations are shown.
-    \textbf{(A)} Simulations parameters are from the median of the posterior of the single-locus model fit. In close to 50\% of simulations \eumt fixation occurs between 450 and 1700 generations and in about 50\% \eumt fixation occurs between 1700 and 2350 generatyions. This results in high likelihood.
-    \textbf{(B)} Simulations parameters are from the median of the posterior of the single-locus model \emph{without} aneuploidy fit. TODO
+    \textbf{(A)} Simulations parameters are from the median of the posterior of the single-locus model fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-likelihood}) is 0.86.
+    \textbf{(B)} Simulations parameters are from the median of the posterior of the single-locus model \emph{without} aneuploidy fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-noaneuploidy-likelihood}) is 0.75.
   }
   \label{fig:likelihood}
 \end{figure}
