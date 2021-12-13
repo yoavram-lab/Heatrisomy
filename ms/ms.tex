@@ -309,26 +309,25 @@ and $0 \le c \le 1$ is the fitness cost of aneuploidy.
 
 \paragraph{Empirical evidence.}
 Our inference procedure uses empirical data from evolutionary experiments performed by \citet{Yona2012}.
-In the heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype by generation $t$ means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier).
+In the heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype by generation $t$ means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). By unpublished observations the aneuploidy was not fixed before at least 200 generations.
 The experiment continued with two populations, in which aneuploidy was eliminated by generation 1700 and 2350.
 In the pH-stress experiment, four populations of \yeast evolved under high-ph stress (8.6). Aneuploidy fixed during the first 150 generations. It was fully eliminated in two populations and partly eliminated in two populations by generation 750. 
 These empirical results were published by \citet{Yona2012}.
 
 \paragraph{Likelihood function.}
-Denote by $A_{t}$ the fixation of aneuploidy at generation $t$, by $L_{t}$ the loss of aneuploidy at generation $t$, and by $L^*_{t,T}$ the loss of aneuploidy at generation $t$ conditioned on no loss by generation $T$.
+Denote by $A_{t,T}$ the fixation of aneuploidy at generation $t$, conditioned on no fixation at generation $T$; by $L_{t}$ the loss of aneuploidy at generation $t$; and by $L^*_{t,T}$ the loss of aneuploidy at generation $t$ conditioned on no loss by generation $T$.
 The model likelihood function for parameter vector $\theta$ for the heat-stress experiment is
 \begin{multline} \label{eq:heatstress-likelihood}
-\likelihood(\theta | A_{450}, L_{1700}, L^*_{2350, 1700} ) = \\
-P^4(A_{450}) \cdot \Big(1 - P^4(\lnot{L_{1700}} | A_{450} ) - P^4(\lnot{L^*_{2350, 1700}}| A_{450}) + P^4(\lnot{L_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450})\Big)	\;,	
+\likelihood(\theta | A_{450,200}, L_{1700}, L^*_{2350, 1700} ) = \\
+P^4(A_{450,200}) \cdot \Big(1 - P^4(\lnot{L_{1700}} | A_{450,200} ) - P^4(\lnot{L^*_{2350, 1700}}| A_{450,200}) + P^4(\lnot{L_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450,200})\Big)	\;,	
 \end{multline}
 where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}. 
 
 The likelihood function of the model with parameter set $\theta$ for the pH-stress experiment is
-\begin{equation} \label{eq:phstress-likelihood} % TODO: add ph-Stress model to results or remove it from here
+\begin{equation} \label{eq:phstress-likelihood} % TODO: add ph-Stress model to results or remove it from here (if remained add A_t to notations, it is At,T now only)
 \likelihood(\theta | A_{150}, L_{750} ) = \\
- P^4(L_{450}) \cdot 6 \cdot	P^4(L_{750} | A_{150}) \cdot P^4(\lnot{L_{750}} | A_{150}) \;.  
+ P^4(L_{150}) \cdot 6 \cdot	P^2(L_{600} | A_{150}) \cdot P^2(\lnot{L_{600}} | A_{150}) \;.  
  \end{equation} 
-%TODO i think it is wrong because fig 5C shows that only 2 replicas are fixated after 650 generations (see Supplementary also) Anyway, I don't think that we use this likelihood, so probably should be removed at all.
  
 For the model without aneuploidy, let's denote by $M_{t}$, the fixation of \eumt\ at generation $t$, and by $M^*_{t,T}$ the fixation of \eumt\ at generation $t$ conditioned on no fixation at generation $T$.
 The likelihood of the model without aneuploidy with parameter vector $\theta$ for the heat-stress experiment is
@@ -337,7 +336,7 @@ The likelihood of the model without aneuploidy with parameter vector $\theta$ fo
 \Big(1 - P^4(\lnot{M_{1700}}) - P^4(\lnot{M^*_{2350, 1700}}) + P^4(\lnot{M_{1700}} \land \lnot{M^*_{2350, 1700}})\Big)	\;,	
 \end{multline}
 
-Because of the complexity of the model, these likelihood functions are intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicates to approximate the value of the likelihood function $\likelihood(\theta)$.
+Because of the complexity of the model, these likelihood functions are intractable. Therefore, given specific values of the model parameters $\theta$, we simulate the model in many replicates to approximate the value of the likelihood function $\likelihood(\theta)$. For the single locus model 1000 replicates were used. %TODO if we have more models, write how much replicates were used.
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC}\footnote{https://pyabc.readthedocs.io} Python 
 package~\citep{Klinger2018}.
@@ -347,9 +346,9 @@ In short, the algorithm employs sequential importance sampling over generations.
 In generation $t$, the algorithm draws sets of parameters $\theta_i$ from a given proposal distribution and consequently simulates data $C_i$ from the model until $n_t$ instances were accepted based on the comparison to observed data $C_{obs}$ via a distance function $D(C_i, C_{obs})$ and acceptance threshold $\epsilon_t$, such that $D(C_i, C_{obs})\leq{\epsilon_t}$. As the distance function we choose $1-\likelihood$. For the acceptance threshold the median of the distances of the accepted instances of the previous generation are applied (for the first generation we define the acceptance threshold be $0.01$). 
 When $n_t$ instances are accepted new proposal distribution is constructed by multivariate normal kernel with adaptive covariance matrix. In the first generation the prior (see below section) defines the proposal distribution. 
 The size of $n_t$ is determined by adaptive population strategy~\citep{Klinger2017}.
-We stop the iterations, when no more sufficient change in acceptance threshold occur, and no change in posterior.
+We stop the iterations, when no more sufficient change in acceptance threshold occur, and no change in posterior. We stop single-locus model after four iterations with epsilon 0.13, when 1074 accepted instances with effective sample size of 700 (Figure~\ref{fig:ess-single}). We ran the algorithm with different initialization seeds and different number of replicates for simulations and got similar posterior (Figure~\ref{fig:seeds}). %TODO if we have more models, write about them here also.
+
 After receiving weighted particles of the posterior distribution using ABC-SMC scheme, we calculate Kernel Density Estimate using Gaussian kernels. $50,000$ sampled points from KDE represent the posterior distribution over the model parameters, and we use it for plots, median calculation, etc.
-% TODO convergence tests, etc. Number of replicates for different models.
 
 \paragraph{Model comparison.} We perform model selection using WAIC (widely applicable information criterion)~\citep{gelman2013bayesian},
 \begin{equation} \label{eq:WAIC}
@@ -368,7 +367,7 @@ We used \texttt{Curveball}\footnote{https://curveball.yoavram.com}, a dedicated 
 From these predictions, relative fitness values can be computed.  
 
 We used growth curves of $2n+1$ and $2n$ in \SI{39}{\celsius} to estimate  $w_{2n+1}$. We used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$, assuming that fitness values shouldn't differ too much. We also tested different priors, but this one (denote it \emph{main prior}) was better in the sense of WAIC, prediction plots, estimated parameters. %TODO To show ppc plots also? Write paragraph about prediction plots in model comparison section.
-\\We tested uniform prior (denote \emph{uninformative}), $\mathit{Uniform}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, leaving $w_{2n+1}$ prior as in main prior. In both scenarios the fitness estimates by the model looks too high: for the first scenario the median estimates were  $w_{2n+1}=2.767$, $w_{2n+1^*}=5.79$, $w_{2n^*}=5.827$ and for the second $w_{2n+1}=1.046$, $w_{2n+1^*}=4.642$, $w_{2n^*}=4.684$. We don't expect to have such high fitness values. Moreover the WAIC for the models with these priors are 0.57 and 1.9 respectively, while WAIC for the main prior model is 0.27. Also for the model with uninformative prior for all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ the fixation time of 2n+1 is about 16 in average, which contradicts unpublished observations that were about 250-300.
+\\We tested uniform prior (denote \emph{uninformative}), $\mathit{Uniform}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, leaving $w_{2n+1}$ prior as in main prior. In both scenarios the fitness estimates by the model looks too high: for the first scenario the median estimates were  $w_{2n+1}=2.767$, $w_{2n+1^*}=5.79$, $w_{2n^*}=5.827$ and for the second $w_{2n+1}=1.046$, $w_{2n+1^*}=4.642$, $w_{2n^*}=4.684$. We don't expect to have such high fitness values. Moreover the WAIC for the models with these priors are 0.57 and 1.9 respectively, while WAIC for the main prior model is 0.27. Also for the model with uninformative prior for all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ the fixation time of 2n+1 is about 16 in average, which contradicts unpublished observations that were at least 250-300. %TODO remove about unpublished observations...we already added it into likelihood function of the model.
 \\Also we tried to use additional growth curves. We used growth curves of 2n* (\emph{refined} from \citet{Yona2012}) and 2n+1 in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This model didn't perform well, it resulted in WAIC 2.8.
 \\Another try was to use growth curves of $2n+1$ and $2n$ in \SI{30}{\celsius} to estimate $1-c$. This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This model didn't work at all: no parameter sets were found with the likelihood greater than zero.
 %TODO it make sense because bla bla (to explain)?
@@ -408,6 +407,14 @@ trisomy rate - $7.36\substack{+3.55 \\ -4.82}\times10^{-4}$,
 \anwt\ fitness - $1.022\substack{+0.004 \\ -0.004}$,
 \anmt\ fitness - $1.025\substack{+0.004 \\ -0.004}$,
 \eumt\ fitness - $1.028\substack{+0.004 \\ -0.004}$.
+
+and new:
+mutation rate - $3.606\substack{+6.842 \\ -5.258}\times10^{-6}$,
+trisomy rate - $5.586\substack{+5.513 \\ -6.112}\times10^{-3}$,
+2n+1 fitness - $1.022\substack{+0.004 \\ -0.004}$,
+2n+1* fitness - $1.025\substack{+0.004 \\ -0.004}$,
+2n* fitness - $1.028\substack{+0.005 \\ -0.004}$,
+
 This trisomy rate appropriates to the previous estimates; the mutation rate corresponds to the mutations target size of $10^{4}$ if we assume the mutation rate of single base to be about $2*10^{-10}$ as in previous estimates ~\citep{Zhu2014}. 
 We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes.. (TODO say/plot something about the correlation, is it interesting?). 
 
@@ -588,6 +595,25 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \textbf{Sensitivity analysis.} We take parameters that are median of the posterior. Then we change only one parameter at time while measuring the model likelihood of the parameters. x-axis label represent the parameter that we change. Yellow point indicates the median value.
   }
   \label{fig:sensitivity}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+	\includegraphics[width=1\textwidth]{../figures/ess.pdf}
+    \caption{
+    \textbf{Single-locus model convergence.} Pyabc run over four iterations. The model is converged when acceptance threshold (epsilon) is 0.13, the number of particles (accepted instances) is 1074 giving the effective sample size (ESS) 700.
+    } 
+    \label{fig:ess-single}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+	\includegraphics[width=0.6\textwidth]{../figures/seeds.pdf}
+    \caption{
+    \textbf{Posterior for different runs} %TODO make more compact; one legend is enough.
+    For each parameter of the single-locus model, the posterior is represented for runs with different initialization seeds and different number of replicas in simulations run. 
+    } 
+    \label{fig:seeds}
 \end{figure}
 
 \end{document}  
