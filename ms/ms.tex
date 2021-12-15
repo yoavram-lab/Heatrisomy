@@ -348,7 +348,7 @@ When $n_t$ instances are accepted new proposal distribution is constructed by mu
 The size of $n_t$ is determined by adaptive population strategy~\citep{Klinger2017}.
 We stop the iterations, when no more sufficient change in acceptance threshold occur, and no change in posterior. We stop single-locus model after four iterations with epsilon 0.13, when 1074 accepted instances with effective sample size of 700 (Figure~\ref{fig:ess-single}). We ran the algorithm with different initialization seeds and different number of replicates for simulations and got similar posterior (Figure~\ref{fig:seeds}). %TODO if we have more models, write about them here also.
 
-After receiving weighted particles of the posterior distribution using ABC-SMC scheme, we calculate Kernel Density Estimate using Gaussian kernels. $50,000$ sampled points from KDE represent the posterior distribution over the model parameters, and we use it for plots, median calculation, etc.
+After getting weighted particles of the posterior distribution by ABC-SMC scheme, we calculate Kernel Density Estimate using Gaussian kernels and $50,000$ points are sampled from KDE. We use the KDE and the points to calculate mode, highest density interval (HDI), for drawing distribution plots, etc.
 
 \paragraph{Model comparison.} We perform model selection using WAIC (widely applicable information criterion)~\citep{gelman2013bayesian},
 \begin{equation} \label{eq:WAIC}
@@ -375,7 +375,7 @@ We used growth curves of $2n+1$ and $2n$ in \SI{39}{\celsius} to estimate  $w_{2
 Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution, defined by the maximum-likelihood covariance matrix. Thus, we sampled 10,000 values for appropriate fitness, which we used as prior distributions. 
 See Figures~\ref{fig:growth-curves-30deg} and~\ref{fig:growth-curves-39deg}.
 
-For the mutation rate $\mu$ and aneuploidy rate $\delta$ we used uniform priors, $\mathit{Uniform}(1e-8,1e-5)$ and $\mathit{Uniform}(1e-6,1e-3)$ respectively. We tried also uniform priors with lower than the $1e-8$ bound for $\mu$, but anyway the posterior ended with higher values. 
+For the mutation rate $\mu$ and aneuploidy rate $\delta$ we used uniform priors, $\mathit{Uniform}(1e-9,1e-5)$ and $\mathit{Uniform}(1e-6,1e-2)$ respectively.
 For the single locus model without aneuploidy, wider uniform prior for the mutation rate was used - $\mathit{Uniform}(1e-10,1e-5)$. 
 
 %TODO ILIA please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
@@ -401,21 +401,14 @@ For the single locus model without aneuploidy, wider uniform prior for the mutat
 %  - robustness of posterior to initial conditions - MAP+-HDI for different seeds;
 
 \paragraph{Single-locus model parameters inference.} 
-First we inference the parameters of the single-locus model. The mean and credible interval (2.5th percentile and the 97.5th percentile) of the parameters are:
-mutation rate - $1.02\substack{+2.40 \\ -1.34}\times10^{-6}$,
-trisomy rate - $7.36\substack{+3.55 \\ -4.82}\times10^{-4}$,
-\anwt\ fitness - $1.022\substack{+0.004 \\ -0.004}$,
-\anmt\ fitness - $1.025\substack{+0.004 \\ -0.004}$,
-\eumt\ fitness - $1.028\substack{+0.004 \\ -0.004}$.
+First we inference the parameters of the single-locus model. The mode and 50\% hdi of the parameters posterior are:
+mutation rate - $3.06\substack{+1.229 \\ -2.84}\times10^{-6}$,
+trisomy rate - $1.61\substack{+1.122 \\ -0.197}\times10^{-3}$,
+2n+1 fitness - $1.022\substack{+0.001 \\ -0.002}$,
+2n+1* fitness - $1.025\substack{+0.001 \\ -0.001}$,
+2n* fitness - $1.028\substack{+0.001 \\ -0.002}$,
 
-and new:
-mutation rate - $3.606\substack{+6.842 \\ -5.258}\times10^{-6}$,
-trisomy rate - $5.586\substack{+5.513 \\ -6.112}\times10^{-3}$,
-2n+1 fitness - $1.022\substack{+0.004 \\ -0.004}$,
-2n+1* fitness - $1.025\substack{+0.004 \\ -0.004}$,
-2n* fitness - $1.028\substack{+0.005 \\ -0.004}$,
-
-This trisomy rate appropriates to the previous estimates; the mutation rate corresponds to the mutations target size of $10^{4}$ if we assume the mutation rate of single base to be about $2*10^{-10}$ as in previous estimates ~\citep{Zhu2014}. 
+This trisomy rate appropriates to the previous estimates; the mutation rate corresponds to the mutations target size of $10^{4}$ if we assume the mutation rate of single base to be about $2*10^{-10}$ as estimated by ~\cite{Zhu2014}. 
 We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes.. (TODO say/plot something about the correlation, is it interesting?). 
 
 \begin{figure}[h!]
@@ -424,9 +417,9 @@ We can see from the posterior distribution~(\autoref{fig:posterior}) the correla
   \caption{
   \textbf{Single-locus model parameters posterior density.}
 %TODO histogram on diagonal
-On the diagonal plots, the posterior density for each parameter is presented . Other plots represent joint posterior density of two parameters where blue color has the lowest density and yellow has the highest density. Red point and the dashed lines represent the median (TODO check that it is median and not mean) values of the densities: 
-mutation rate - $1.02\times10^{-6}$,
-trisomy rate - $7.36\times10^{-4}$,
+On the diagonal plots, the posterior density for each parameter is presented . Other plots represent joint posterior density of two parameters where blue color has the lowest density and yellow has the highest density. Red point and the dashed lines represent the maximum a posteriori probability estimate: 
+mutation rate - $3.06\times10^{-6}$,
+trisomy rate - $1.61\times10^{-4}$,
 \anwt\ fitness - $1.022$,
 \anmt\ fitness - $1.025$,
 \eumt\ fitness - $1.028$.
@@ -449,7 +442,7 @@ We can see that mutation rate for this model is much lower than for the model wi
 \includegraphics[width=0.6\textwidth]{../figures/ppc-plot.pdf}
   \caption{
   \textbf{Evolutionary dynamics with fitted single-locus model.} 
-  Frequency of the four genotypes averaged over 10,000 simulations of the model. Each line represent one of the 10 parameter sets drawed from the inference posterior.
+  Frequency of the four genotypes averaged over 10,000 simulations of the model. Each line represent one of the 10 parameter sets drawed randomly from the inference posterior.
   }
   \label{fig:ppc-plot}
 \end{figure}
@@ -561,8 +554,10 @@ Minerva Stiftung Center for Lab Evolution (YR).
   \end{subfigure}
   \caption{
     \textbf{Single-locus model fit.} Cumulative distribution of 10000 simulations are shown.
-    \textbf{(A)} Simulations parameters are from the median of the posterior of the single-locus model fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-likelihood}) is 0.86.
-    \textbf{(B)} Simulations parameters are from the median of the posterior of the single-locus model \emph{without} aneuploidy fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-noaneuploidy-likelihood}) is 0.75.
+    \textbf{(A)} Simulations parameters are from the maximum a posterior estimation of the single-locus model fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-likelihood}) is 0.86.
+    \textbf{(B)} Simulations parameters are from the maximum a posterior estimation of the single-locus model \emph{without} aneuploidy fit. 
+    %TODO get it from MAP and not mean
+    The likelihood for the heat-stress experiment (\autoref{eq:heatstress-noaneuploidy-likelihood}) is 0.75.
   }
   \label{fig:likelihood}
 \end{figure}
@@ -592,7 +587,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \label{fig:sensitivity-eumt}
   \end{subfigure}
   \caption{
-    \textbf{Sensitivity analysis.} We take parameters that are median of the posterior. Then we change only one parameter at time while measuring the model likelihood of the parameters. x-axis label represent the parameter that we change. Yellow point indicates the median value.
+    \textbf{Sensitivity analysis.} We take parameters that are maximum a posterior (MAP) for single locus model. Then we change only one parameter at time while measuring the model likelihood of the parameters. x-axis label represent the parameter that we change. Yellow point indicates the MAP value.
   }
   \label{fig:sensitivity}
 \end{figure}
