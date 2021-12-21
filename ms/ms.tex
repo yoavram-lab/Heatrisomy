@@ -171,7 +171,7 @@ However, under gradual heat stress, aneuploidy was not observed.
 \paragraph*{The present study.}
 Here, we develop evolutionary-genetic models that include the effects of natural selection, genetic drift, aneuploidy, and mutation to examine the role of aneuploidy in adaptive evolution.
 These models follow a population of cells characterised by both their ploidy and their genotype.
-We fit these models to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including selection coefficients and rates of aneuploidy and mutation, and to perform model selection between different models, thereby testing hypotheses about the evolutionary process. %TODO do model selection by comparing Bayes factor or ignore this part.
+We fit these models to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including selection coefficients and rates of aneuploidy and mutation, and to perform model selection between different models, thereby testing hypotheses about the evolutionary process. 
 We analyze these evolutionary-genetic models to estimate the effects of parameters on the adaptation time and the probability for adaptation via aneuploidy.
 We find that \textbf{TODO} % TODO 
 
@@ -242,6 +242,7 @@ $s \ge 0$ is the selection coefficient of a beneficial mutation;
 $b \ge 0$ is the selection coefficient of aneuploidy; 
 and $0 \le c \le 1$ is the fitness cost of aneuploidy.
 % TODO IK do we assume b>c?
+% IK ANS we assume that 2n+1>2n, see below, so yes.
 }
 \end{table}
 %%%
@@ -254,6 +255,8 @@ The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1
 where the fitness values $w_i$ are given in \autoref{table:single-locus} and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
 The effect of mutation and aneuploidy on genotype frequencies is given by
 % TODO IK we are missing 2n+1->2n, 2n*->2n+1*, why? to neglect them we need to assume w(2n+1)>w(2n) and w(2n*)>w(2n+1*), but I thought we don't assume that but rather we infer that. 
+% IK ANS We know that w(2n+1)>w(2n) because trisomy is fixated in the experiment. We can also assume that w(2n*)>w(2n+1) by Fig4A of Yona paper (refined vs trisomic growth) and because it is fixated. 
+% Actually I assume in code that  w(2n*)>w(2n+1*)>w(2n+1)>w(2n) just for speeding up the simulations (I don't check some parameters combinations in this way). But I checked also that when I don't adding this constrain the result was the same. However I dind't add reverse direction in this case.
     \begin{equation} \label{eq:mutation-aneuploidy-single}
     \begin{aligned}
       &f^m_{2n} &=&\; (1 - \delta - \mu) f^s_{2n}  \;,\\
@@ -343,7 +346,8 @@ The likelihood of a model without aneuploidy with parameter vector $\theta$ for 
 \Big(1 - P^4(\lnot{M_{1700}}) - P^4(\lnot{Q_{2350, 1700}}) + P^4(\lnot{M_{1700}} \land \lnot{Q_{2350, 1700}})\Big)	\;,	
 \end{multline}
 
-Because our model, just like the Wright-Fisher model, is non-linear and stochastic, these likelihood functions are intractable. We overcome this problem by approximating the likelihood using multiple simulations (1,000 simulations per parameter vector for the single-locus model). %TODO if we have more models, write how much replicates were used.
+Because our model, just like the Wright-Fisher model, is non-linear and stochastic, these likelihood functions are intractable. We overcome this problem by approximating the likelihood using multiple simulations (1,000 simulations per parameter vector for the single-locus model). Denote by $\hat{\likelihood}(X | C)$ the approximate likelihood based on data of simulations $X$ and the expected conditions $C$.
+%TODO if we have more models, write how much replicates were used.
 % TODO ref to place where we show 1,000 is enough
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC} Python 
@@ -351,8 +355,9 @@ package~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinge
 %a bit adapted/expanded description from Syga et al. 2021: % TODO if you adapt from it, then we should cite it.
 
 Briefly, the ABS-SMC algorithm employs sequential importance sampling over multiple iterations. 
-In iteration $t$, the algorithm draws parameter vectors $\theta_i$, also called \emph{particles}, from a given proposal distribution and simulates data $X_i$ from the model until $n_t$ particles are accepted. Acceptance is based on a comparison to observed data $X_{obs}$ using a distance function $\Delta(X_i, X_{obs})$ and acceptance threshold $\epsilon_t$, such that $\Delta(X_i, X_{obs}) \leq \epsilon_t$. 
-For a distance function, we use $1-\likelihood$. % TODO this is unclear because \likelihood is defined above for X_{obs} so how do you apply it for X_i and X_{obs} together?
+In iteration $t$, the algorithm draws parameter vectors $\theta_i$, also called \emph{particles}, from a given proposal distribution and simulates data $X_i$ from the model until $n_t$ particles are accepted. Acceptance is based on a comparison to observed data $X_{obs}$ using a distance function $\Delta(X_i, X_{obs})$ and acceptance threshold $\epsilon_t$, such that $\Delta(X_i, X_{obs}) \leq \epsilon_t$. %TODO cite Syga here? 
+In our case $X_i$ is 1000 %TODO check if this is the number for all models
+simulations of the model, and the distance function is $1-\hat{\likelihood}(X_i | X_{obs})$
 % TODO something about how the weight is computed and used?
 The acceptance threshold $\epsilon_t$ is chosen as the median of the distances of the accepted particles in the previous iteration and $\epsilon_0=0.01$. 
 When $n_t$ particles are accepted, a new proposal distribution is constructed using a multivariate normal kernel with adaptive covariance matrix. % TODO ref
@@ -570,7 +575,6 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \textbf{Single-locus model fit.} Cumulative distribution of 10000 simulations are shown.
     \textbf{(A)} Simulations parameters are from the maximum a posterior estimation of the single-locus model fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-likelihood}) is 0.86.
     \textbf{(B)} Simulations parameters are from the maximum a posterior estimation of the single-locus model \emph{without} aneuploidy fit. 
-    %TODO get it from MAP and not mean
     The likelihood for the heat-stress experiment (\autoref{eq:heatstress-noaneuploidy-likelihood}) is 0.75.
   }
   \label{fig:likelihood}
@@ -619,8 +623,8 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \centering
 	\includegraphics[width=0.6\textwidth]{../figures/seeds.pdf}
     \caption{
-    \textbf{Posterior for different runs} %TODO make more compact; one legend is enough.
-    For each parameter of the single-locus model, the posterior is represented for runs with different initialization seeds and different number of replicas in simulations run. 
+    \textbf{Posterior for different runs}
+    For each parameter of the single-locus model, the posterior is represented for different runs with different number of simulations.
     } 
     \label{fig:seeds}
 \end{figure}
