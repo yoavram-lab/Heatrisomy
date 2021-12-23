@@ -395,6 +395,7 @@ We also tried to use growth curves of \anwt\ and \euwt\ in \SI{30}{\celsius} to 
 %YOAV: if you have an explanation, you can add it
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative, uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$.
+% TODO what about aneuploidy loss?
 For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for the mutation rate, $\mu \sim \mathit{U}(10^{-10},10^{-5})$. 
 
 %TODO ILIA please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
@@ -402,7 +403,7 @@ For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for t
 % Results
 \section*{Results}
 
-\subsection*{Model fitting}
+\subsection*{Inference: single-locus model}
 
 % Almost all done from here already
 %\paragraph{Simple model: Inference.}
@@ -419,65 +420,92 @@ For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for t
 %  - plot of posterior in each iteration shows convergence; 
 %  - robustness of posterior to initial conditions - MAP+-HDI for different seeds;
 
-\paragraph{Single-locus model parameters inference.} 
-First we inference the parameters of the single-locus model. The mode and 50\% hdi of the parameters posterior are:
-mutation rate - $3.06\substack{+1.229 \\ -2.84}\times10^{-6}$,
-trisomy rate - $1.61\substack{+1.122 \\ -0.197}\times10^{-3}$,
-2n+1 fitness - $1.022\substack{+0.001 \\ -0.002}$,
-2n+1* fitness - $1.025\substack{+0.001 \\ -0.001}$,
-2n* fitness - $1.028\substack{+0.001 \\ -0.002}$,
+\paragraph{Parameter estimation.} 
+We used ABC-SMC to infer the posterior distribution of the parameters of the single-locus model.
+The MAP (maximum a posteriori) and 50\% HDI (highest density interval) of the parameters posterior are~(\autoref{fig:posterior}): % TODO I changed "mode" to "MAP", ok?
+mutation rate, $\mu=3.06\substack{+1.229 \\ -2.84}\times10^{-6}$,
+aneuploidy gain rate, $\delta=1.61\substack{+1.122 \\ -0.197}\times10^{-3}$,
+% TODO what about aneuploidy loss?
+fitness of \anwt, $w_{2n+1}=1.022\substack{+0.001 \\ -0.002}$,
+fitness of \anmt, $w_{2n+1*}=1.025\substack{+0.001 \\ -0.001}$,
+and fitness of \eumt, $w_{2n*}=1.028\substack{+0.001 \\ -0.002}$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
+This estimated aneuploidy gain rate agrees with previous estimates. % TODO refs
+The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014}. 
+%We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
+% TODO say/plot something about the correlation, is it interesting?). 
+% YES but the sentence above is not enough.
 
-This trisomy rate appropriates to the previous estimates; the mutation rate corresponds to the mutations target size of $10^{4}$ if we assume the mutation rate of single base to be about $2*10^{-10}$ as estimated by ~\cite{Zhu2014}. 
-We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes.. (TODO say/plot something about the correlation, is it interesting?). 
-
+% FIG posterior
 \begin{figure}[h!]
   \centering
 \includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
   \caption{
-  \textbf{Single-locus model parameters posterior density.}
+  \textbf{Posterior distribution of single-locus model.}
 %TODO histogram on diagonal
-On the diagonal plots, the posterior density for each parameter is presented . Other plots represent joint posterior density of two parameters where blue color has the lowest density and yellow has the highest density. Red point and the dashed lines represent the maximum a posteriori probability estimate: 
-mutation rate - $3.06\times10^{-6}$,
-trisomy rate - $1.61\times10^{-4}$,
-\anwt\ fitness - $1.022$,
-\anmt\ fitness - $1.025$,
-\eumt\ fitness - $1.028$.
-  } 
+%TODO mutation rate tick labels should be in 10^-6, not 10^-5, and write 10^-6 not 1e-5; also it looks like you get positive density for mutation rate = 0 which doesnt make sense
+% change trisomy rate to aneuploidy gain rate; what about loss rate?
+% remove the y-ticks from the diagonal, they are meaningless, right?
+% fitness 2n+1 (not 2n+1 fitness)
+% in some cases the MAP doesn't look correct on the plot - did you compute the MAP on the joint for all 5 parameters or on the marginal of each parameter? something is weird here.
+On the diagonal, the posterior kernel density estimate for each parameter. 
+Below the diagonal, joint posterior density of two parameters (dark purple and bright yellow for low and high density, respectively. Red markers and orange lines for the MAP estimates. % TODO change dashed orange to red and make it a bit bolder.
+} 
   \label{fig:posterior}
 \end{figure}
 
-\paragraph{Single-locus model fits the data well, but only if contains aneuploidy.} Single-locus model fits well to the data~(\autoref{fig:likelihood}A).
-On \autoref{fig:ppc-plot} the dynamics of frequency change of each genotype in time is shown. We can see that \anmt\ never reach substantial frequency in the population.  
-Sensitivity analysis~(\autoref{fig:sensitivity}) shows that changing the parameter values cause the model to fit less. Furthermore, we measured fixation time of \anwt\ in population, and found it appropriate to the unpublished data of the experiment ~\citep{Yona2012} - about 300 generations in average, that supports the correctness of the inference.
-On the other hand, if we don't take into consideration aneuploidy in the model, i.e. take aneuploidy rate be equal to zero, then the model can't explain the data: the fit is not so good~(\autoref{fig:likelihood}A; \autoref{fig:2n*-fixation}). The inference parameter values of the model without aneuploidy are: 
-mutation rate - $1.251\substack{+0.146 \\ -0.177}\times10^{-8}$,
+
+
+\paragraph{Model checking and comparison.}
+The single-locus model fits the data well: in simulations using the MAP estimate parameters \euwt\ fixed in 59\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\autoref{fig:2n*-fixation}) and \anwt\ fixed in roughly 300 generations, which agrees with experimental results.
+% TODO this fig shows fixation of 2n*, what about fixation of 2n+1?
+% TODO merge fig 3 and fig:likelihood (both panels of fig:likelihood) 
+Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\autoref{fig:ppc-plot}). % TODO move somewhere else?
+Furthermore, sensitivity analysis shows that changing the parameter values from the MAP estimate reduces the model fit to the experimental results~(\autoref{fig:sensitivity}).
+
+However, a model without aneuploidy, i.e. where the aneuploidy gain rate is fixed at zero $\delta=0$, cannot explain the data~(\autoref{fig:2n*-fixation} and \autoref{fig:likelihood}). The estimated parameter values without aneuploidy are:
+mutation rate, $\mu=1.251\substack{+0.146 \\ -0.177}\times10^{-8}$,
 2n+1 fitness - $1.01\substack{+0.001 \\ -0.002}$,
 2n+1* fitness - $1.011\substack{+0.001 \\ -0.001}$,
+%TODO why do you have fitness of aneuploidy when there is no aneuploidy?
 2n* fitness - $1.011\substack{+0.001 \\ -0.001}$. 
 We can see that mutation rate for this model is much lower than for the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than expected by the experiment ( \autoref{fig:2n*-fixation} blue bar). Thereby, adding aneuploidy to the model, helps to attain good fit with higher mutation rate.
 
+
+
 \begin{figure}[h!]
   \centering
+  % TODO add legend
 \includegraphics[width=0.6\textwidth]{../figures/ppc-plot.pdf}
   \caption{
-  \textbf{Evolutionary dynamics with fitted single-locus model.} 
-  Frequency of the four genotypes averaged over 10,000 simulations of the model. Each line represent one of the 10 parameter sets drawed randomly from the inference posterior.
+  \textbf{Single-locus model posterior genotype frequency dynamics.} 
+  The posterior predicted frequency of the four genotypes. Each line is the average of 10,000 simulations using parameters drawn from the posterior distribution (\autoref{fig:posterior}).
   }
   \label{fig:ppc-plot}
 \end{figure}
+
+
 
 \begin{figure}[h!]
   \centering
 \includegraphics[width=0.6\textwidth]{../figures/fixation-plot.pdf}
   \caption{
-  \textbf{Time of \eumt\ fixation cannot be explained without aneuploidy.}
-Each color represents distribution to fixation of \eumt\ of $10,000$ simulations for different modifications of single-locus model. \emph{Blue} bars correspond to the model with aneuploidy, where parameters are taken from the median of the posterior of the inference. \emph{Orange} bars correspond to the same model with same parameters, except aneuploidy that is zero. \emph{Green} bars correspond to the model without aneuploidy, i.e. with aneuploidy rate zero, where parameters are taken from the median of the posterior of the inference for this model. The last bin contains all the simulations with time equal or greater than 3000.
-Dashed lines represent experimental data: generations 1700 and 2350. When the difference in number of simulations between ranges 0-1700 and 1700-2350 is small, and there are no much simulations after generation 2350 - the fit is good. We can see that the fit of the model with aneuploidy (\emph{blue}) is the best. There's no fit at all for the model that is represented by \emph{yellow} bars.
-  }
+  \textbf{Adaptation time cannot be explained without aneuploidy.}
+In blue, the distribution of adaptation time (fixation of \eumt) in $10,000$ simulations of the single-locus model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: in orange, a model with the same parameter values except $\delta=0$; in green, a model fitted to the data assuming $\delta=0$.
+%, where parameters are taken from the median of the posterior of the inference. % why madian and not MAP?
+In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and the other by generation 2,350 (dashed lines) but not before generation 200. Thus, the blue distribution demonstrates a better fit compared to the green, and the yellow demonstrates a very poor fit.
+The last bin contains all the simulations with time equal or greater than 3000.
+}
+% TODO add legend
+% TODO change y label to % simulations
+% change x label to Time to fixation of 2n*
+% makes vertical line black
+% add line for t=200?
+% does x axis start at zero? can you add 0 to x ticks?
   \label{fig:2n*-fixation}
 \end{figure}
 
-\paragraph{Complex model: Inference and Comparison.}
+
+\paragraph{Inference: multi-locus model.}
 
 %TODO same for complex model
 %model comparison between models - model probabilities
@@ -529,7 +557,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
 
 
 
-%%%% Fig - Curveball 30deg %%%
+% Fig Curveball 30deg
 % generated with growth_curves.ipynb
 \begin{figure}[h]
     \centering
@@ -539,8 +567,9 @@ Minerva Stiftung Center for Lab Evolution (YR).
     } 
     \label{fig:growth-curves-30deg}
 \end{figure}
+% TODO add caption
 
-%%%% Fig - Curveball 39deg %%%
+% Fig Curveball 39deg
 % generated with growth_curves.ipynb
 \begin{figure}[h]
     \centering
@@ -550,8 +579,9 @@ Minerva Stiftung Center for Lab Evolution (YR).
     } 
     \label{fig:growth-curves-39deg}
 \end{figure}
+% TODO add caption, combine to one figure with the previous one
 
-% likelihood plots
+% Fig single-locus model with and without aneuploidy
 \begin{figure}[b!]
   \centering
   \begin{subfigure}[t]{0.5\textwidth}
@@ -572,16 +602,17 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \label{fig:likelihood-without-aneuploidy}
   \end{subfigure}
   \caption{
-    \textbf{Single-locus model fit.} Cumulative distribution of 10000 simulations are shown.
-    \textbf{(A)} Simulations parameters are from the maximum a posterior estimation of the single-locus model fit. The likelihood for the heat-stress experiment (\autoref{eq:heatstress-likelihood}) is 0.86.
+  % TODO change x label - "Time to fixation of 2n*"
+  % plot both lines on one panel with two colors (blue and red for with and without? choose nice color, not the default 'r' and 'b'!), make the without in dashed.
+    \textbf{Single-locus model fit with and without aneuploidy.} Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy (i.e., $\delta=0$ is fixed).
     \textbf{(B)} Simulations parameters are from the maximum a posterior estimation of the single-locus model \emph{without} aneuploidy fit. 
-    The likelihood for the heat-stress experiment (\autoref{eq:heatstress-noaneuploidy-likelihood}) is 0.75.
+     The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.86 and 0.75 with and without aneuploidy. % TODO likelihood ratio test? bayes factor? no sense in just giving the likelihoods.
   }
   \label{fig:likelihood}
 \end{figure}
 
-% sensitivity analysis plots
 
+% Fig likelihood profile
 \begin{figure}[p]
   \centering
   \begin{subfigure}{0.3\textwidth}
@@ -605,28 +636,46 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \label{fig:sensitivity-eumt}
   \end{subfigure}
   \caption{
-    \textbf{Sensitivity analysis.} We take parameters that are maximum a posterior (MAP) for single locus model. Then we change only one parameter at time while measuring the model likelihood of the parameters. x-axis label represent the parameter that we change. Yellow point indicates the MAP value.
+    \textbf{Likelihood profiles.} The different curves show how the single-locus model log-likelihood changes when each of the parameter changes while the other parameters remain fixed at their MAP estimates.
   }
+  % TODO mark the MAP parameter on the figure with a vertical line
+  % show the log-likelihood rather than the likelihood
+  % can we add more points? can we do this on joint likelihood of two parameters?
+  % have the fitness parameters on the same row
+  % x labels start with capital letter, should include the parameter (Mutation rate, $\mu$) and the name (Fitness of 2n+1, w_{2n+1}), dont use w(xxx) but rather w_{xxx} as in the main text
+  % y label "Approximate log-likelihood"
+  % trisomy rate -> aneuploidy gain rate
   \label{fig:sensitivity}
 \end{figure}
 
+
+% Fig ABC convergence
 \begin{figure}[h]
     \centering
 	\includegraphics[width=1\textwidth]{../figures/ess.pdf}
     \caption{
-    \textbf{Single-locus model convergence.} Pyabc run over four iterations. The model is converged when acceptance threshold (epsilon) is 0.13, the number of particles (accepted instances) is 1074 giving the effective sample size (ESS) 700.
+    \textbf{Single-locus model inference convergence.} Measures of convergence for the ABC-SMC algorithm with the single-locus model. After iteration number 4, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was XXX, the number of accepted parameter sets ("particles") was 1,074, and the effective sample size (ESS) 700. % TODO add missing acceptance rate 
     } 
     \label{fig:ess-single}
+    % TODO y label in first panel "Acceptance threshold, $\epsilon$"
+    % add panel labels A B C D
+    % x label - just once
+	% should we do 1-3 more iterations? it is not clear that it converged.
 \end{figure}
 
+
+% Fig 
 \begin{figure}[h]
     \centering
 	\includegraphics[width=0.6\textwidth]{../figures/seeds.pdf}
     \caption{
-    \textbf{Posterior for different runs}
-    For each parameter of the single-locus model, the posterior is represented for different runs with different number of simulations.
+    \textbf{Posterior distribution validation.}
+    The posterior distributions of the single-locus model parameters are roughly the same regardless of the number of simulations (10-1,000) used to approximate the likelihood.
     } 
     \label{fig:seeds}
 \end{figure}
+% TODO put legend in panel A top right corner
+% y label "Density"; y ticks are meaningless, right? 
+% x labels - see comments above.
 
 \end{document}  
