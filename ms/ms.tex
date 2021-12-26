@@ -127,7 +127,7 @@ Importantly, aneuploidy differs from point mutations in rate, fitness effect, an
 Here, we develop evolutionary models for adaptive evolution with both mutation and aneuploidy. 
 These models are used within an approximate Bayesian computation framework to estimate the formation rate and fitness effect of aneuploidy and mutation from  results of evolutionary experiments in which \yeast adapted to heat stress: the experimental populations first acquired chromosome duplications, only to later revert back to a euploid state.
 We also analyze our models to estimate the effect of the aneuploidy and mutation rates on the expected adaptation time and the probability for adaptation via aneuploidy.
-Our results suggest that aneuploidy can be a transient adaptive solution, which can decelerate adaptation in a non-intuitive manner. By creating an evolutionary conflict between the individual and the population, aneuploidy further complicates  the process of adaptation in cell populations.
+Our results suggest that aneuploidy can be a transient adaptive solution, which can decelerate adaptation in a non-intuitive manner. By creating an evolutionary conflict between the individual and the population, aneuploidy further complicates the process of adaptation in cell populations.
 \end{abstract}
 
 % TODO cite https://www.biorxiv.org/content/10.1101/2020.10.07.327759v1
@@ -176,6 +176,7 @@ We analyze these evolutionary-genetic models to estimate the effects of paramete
 We find that \textbf{TODO} % TODO 
 
 \pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Models and Methods
 \section*{Models and Methods}
 
@@ -202,29 +203,31 @@ We find that \textbf{TODO} % TODO
   \caption{
     \textbf{Model illustrations.}
     \textbf{(A)} In the single-locus model, the four genotypes are: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
-    Overall there are two possible trajectories from \euwt\ to \eumt.
-    \textbf{(B)} In the multi-locus model, each genotype is characterized by its karyotype, \euwt\ or \anwt, and the number of accumulated beneficial mutations, denoted by stars. 
-    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$ and $\tau \mu$, beneficial mutation rates in euploid and aneuploid cells; $\delta$, aneuploidy gain rate; $\delta_L$, aneuploidy loss rate.
+    Overall there are two possible trajectories from \euwt\; to \eumt.
+    \textbf{(B)} In the multi-locus model, each genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, denoted by stars. 
+    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$ and $\tau \mu$, beneficial mutation rates in euploid and aneuploid cells; $\delta$, aneuploidy rate.
     % TODO IK: change k mu to tau mu in figure; also k mu is too close to the arrow right now; change alpha to delta in the figure 
   }
   \label{fig:models}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph*{Evolutionary Models.}
 We model the evolution of a population of cells using two models: a single-locus model and a multi-locus model.
 Both models are based on the Wright-Fisher model~\citep{Otto2007}, assuming non-overlapping generations and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial mutations, neglecting the effects of deleterious and neutral mutations. Both models allow for a single aneuploid karyotype (e.g., chromosome III duplication).
 While the single-locus model allows for only a single mutation to accumulate in the genotype, the multi-locus model allows for multiple mutations to accumulate~(\autoref{fig:models}), as well as for a fluctuating population size.
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph*{Single-locus model.}
 This model assumes a constant effective population size $N$ and follows four genotypes~(\autoref{fig:models}A): euploid wild-type, \euwt, the initial genotype; 
 euploid mutant, \eumt, with the standard karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, with an extra chromosome, i.e., following chromosome duplication; and
 aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation. 
 
-Transitions between the genotypes occur as follows~(\autoref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; occur with probability $\mu$, the mutation rate, and from \anwt\; to \anmt\; with probability $\tau \mu$, where $\tau$ is the fold-change in the rate of beneficial mutations in aneuploid cells. By default, we assume $\tau=33/32$, as the wild-type \yeast strains in the experiments by \citep{Yona2012} are diploid with 32 chromosomes, and the aneuploid strains are trisomic, with 33 chromosomes.
-Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\ with probability $\delta$, the aneuploidy gain rate.
-Aneuploidy is lost, transitioning cells from \anmt\; to \eumt\; with probability $\delta_L$, the aneuploidy loss rate.
+Transitions between the genotypes occur as follows~(\autoref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; occur with probability $\mu$, the mutation rate, and from \anwt\; to \anmt\; with probability $\tau \mu$, where $\tau$ is the fold-change in the rate of beneficial mutations in aneuploid cells. By default, we assume $\tau=33/32$, as the wild-type \yeast strains in the experiments by \citep{Yona2012} are diploid with 32 chromosomes, and the aneuploid strains are trisomic, with 33 chromosomes. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
+Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\; and from \anmt\ to \eumt\ with probability $\delta$, the aneuploidy rate. That is, we assume chromosomes are gained and lost at the same rate, and we neglect events that form a less-fit genotype (i.e., \anwt\; to \euwt\; and \eumt\; to \anmt).
 The fitness values of the four genotypes are given by \autoref{table:single-locus}.
 
 %%% Table: single-locus model
@@ -239,13 +242,11 @@ The fitness values of the four genotypes are given by \autoref{table:single-locu
 \label{table:single-locus}
 \caption*{
 $s \ge 0$ is the selection coefficient of a beneficial mutation;
-$b \ge 0$ is the selection coefficient of aneuploidy; 
-and $0 \le c \le 1$ is the fitness cost of aneuploidy.
-% TODO IK do we assume b>c?
-% IK ANS we assume that 2n+1>2n, see below, so yes.
+$0 \le c \le 1$ is the fitness cost of aneuploidy;
+and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
 }
 \end{table}
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 The initial population has $N$ cells with genotype \euwt.
 The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1, 2n+1^*, \text{or } 2n^*$ is given by
@@ -254,15 +255,12 @@ The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1
     \end{equation}
 where the fitness values $w_i$ are given in \autoref{table:single-locus} and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
 The effect of mutation and aneuploidy on genotype frequencies is given by
-% TODO IK we are missing 2n+1->2n, 2n*->2n+1*, why? to neglect them we need to assume w(2n+1)>w(2n) and w(2n*)>w(2n+1*), but I thought we don't assume that but rather we infer that. 
-% IK ANS We know that w(2n+1)>w(2n) because trisomy is fixated in the experiment. We can also assume that w(2n*)>w(2n+1) by Fig4A of Yona paper (refined vs trisomic growth) and because it is fixated. 
-% Actually I assume in code that  w(2n*)>w(2n+1*)>w(2n+1)>w(2n) just for speeding up the simulations (I don't check some parameters combinations in this way). But I checked also that when I don't adding this constrain the result was the same. However I dind't add reverse direction in this case.
     \begin{equation} \label{eq:mutation-aneuploidy-single}
     \begin{aligned}
       &f^m_{2n} &=&\; (1 - \delta - \mu) f^s_{2n}  \;,\\
       &f^m_{2n+1} &=&\; \delta f^s_{2n} + (1 - \tau \mu) f^s_{2n+1}  \;,\\
-      &f^m_{2n+1^*} &=&\; \tau \mu f^s_{2n+1} + (1-\delta_L) f^s_{2n+1^*}  \;,\\
-      &f^m_{2n^*} &=&\; \mu f^s_{2n} + \delta_L f^s_{2n+1} + f^s_{2n^*}  \;.
+      &f^m_{2n+1^*} &=&\; \tau \mu f^s_{2n+1} + (1-\delta) f^s_{2n+1^*}  \;,\\
+      &f^m_{2n^*} &=&\; \mu f^s_{2n} + \delta f^s_{2n+1} + f^s_{2n^*}  \;.
     \end{aligned}
     \end{equation}
 Finally, random genetic drift is modeled using a multinomial distribution~\citep{Otto2007},
@@ -272,16 +270,15 @@ Finally, random genetic drift is modeled using a multinomial distribution~\citep
 where $\vec{f^m}=(f^m_{2n}\ ,\ f^m_{2n+1}\ ,\ f^m_{2n+1^*}\ ,\ f^m_{2n^*})$ are the frequencies of the genotypes after mutation and aneuploidy, $\vec{f'}$ are the genotype frequencies in the next generation, and $Mult(N,\ \vec{f})$ is a multinomial distribution parameterized by the population size $N$ and the genotype frequencies $\vec{f}$.
 Overall, the change in genotype frequencies from one generation to the next is given by the transformation $f_i \to f'_i$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph*{Multi-locus model.}
 This model expands the single-locus model by allowing for (i) the accumulation of beneficial mutations, and (ii) a fluctuating population size. 
 
 A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
 The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$: $s_i \sim \mathit{Exp{(s)}}$.
-The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $b$, $c$) are the same as in the single-locus model.
-% ILIA: I don’t know if it should be mentioned here, but the meaning of the mutation rate is a bit differ for multi-locus model. For the single-locus mutation rate value is the probability to get specific mutation (maybe one of a few). For the multi-locus it is the probability to get some beneficial mutation (one of a many). So, we don’t expect to receive same values for mutation rate for the models.
-% YOAV: let's talk about it, I don't necessarily agree
-% ILIA: I don’t have in the code 𝜏 parameter for multi-locus model (it’s like 1 there). Do you think it worth adding it for consistency?
-% YOAV: if our inference tells us that tau=1 is as good as tau>1, then maybe we can remove this parameter from the model presentation altogether, and simply introduce it when we discuss this result as part of the sensitivity analysis section
+The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $b$, $c$) are the same as in the single-locus model. However, since the multi-locus model allows several mutations with smaller fitness effects to accumulate, we expect the mutation rate to be higher compared to the single-locus model, which focuses on a single, large-effect mutation.
+% TODO : add tau to model fixed at 33/32.
+
 The fitness of the different genotypes is the same as in the single-locus model (\autoref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \autoref{table:multi-locus}.
 Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations and/or the selection coefficients $s_i$ are large enough. The intuition is that when the benefit of the accumulated beneficial mutations is small, ten the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations is large, then aneuploidy is no longer beneficial due of its fitness cost.
 
@@ -293,7 +290,7 @@ The change in frequencies due to selection is exactly the same as in the single-
 The effects of mutation and aneuploidy on genotype frequencies is more elaborate than in the single-locus model.
 Genotype $i$ is classified according to its karyotype (\euwt\ or \anwt), the number of accumulated beneficial mutations ($k \ge 0$), and their fitness ($w_i$).
 Each offspring cell inherits these properties from its mother cell.
-Then, with probability $\mu$ or $\tau \mu$ for euploid and aneuploid cells, % TODO no tau in multi-locus model?
+Then, with probability $\mu$ or $\tau \mu$ for euploid and aneuploid cells,
 respectively, a new beneficial mutation is accumulated, such that the number of mutations is $k+1$, and its effect $s_{k+1}$ is drawn from an exponential distribution with expected value $s$, such that the contribution of the mutations to the fitness is $\prod_{j=0}^{k+1}{(1+s_j)}$.
 Next, euploid offspring become aneuploid with probability $\delta$, and aneuploid offspring become euploid with probability $\delta_L$.
 
@@ -310,63 +307,55 @@ Next, euploid offspring become aneuploid with probability $\delta$, and aneuploi
 \caption*{
 $k$ is the number of accumulated beneficial mutations;
 $s \ge 0$ is the selection coefficient of a beneficial mutation;
-$b \ge 0$ is the selection coefficient of aneuploidy; 
-and $0 \le c \le 1$ is the fitness cost of aneuploidy.
-%TODO do we assume b>c ?
+$0 \le c \le 1$ is the fitness cost of aneuploidy;
+and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
+% TODO check if b > c in code
 }
 \end{table}
-%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Empirical evidence.}
 We use empirical results of evolutionary experiments reported by \citet{Yona2012}.
 In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). From unpublished results, aneuploidy did not fix before at least 200 generations elapsed.
-The experiment continued with two populations, in which aneuploidy was eliminated by generation 1700 and 2350.
-%In the pH-stress experiment, four populations of \yeast evolved under high-ph stress (8.6). Aneuploidy fixed during the first 150 generations. It was fully eliminated in two populations and partly eliminated in two populations by generation 750.
-%TODO do we use pH?
+The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350.
 
-\paragraph{Likelihood function.}
+\paragraph{Likelihood function.} % TODO fix this .... (YR)
 Denote by $A_{t,T}$ the fixation of aneuploidy by generation $t$ conditioned on no fixation up to generation $T$; by $B_{t}$ the extinction of aneuploidy by generation $t$; and by $C_{t,T}$ the extinction of aneuploidy by generation $t$ conditioned on no extinction by generation $T$.
 The model likelihood function for parameter vector $\theta$ for the heat-stress experiment is
 \begin{multline} \label{eq:heatstress-likelihood}
-\likelihood(\theta\ |\ A_{450,200}\ ,\ B_{1700}\ ,\ C_{2350, 1700} ) = \\
-P^4(A_{450,200}) \cdot \Big(1 - P^4(\lnot{B_{1700}} | A_{450,200} ) - P^4(\lnot{C_{2350, 1700}}| A_{450,200}) + P^4(\lnot{B_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450,200})\Big)	\;,	
+\likelihood(\theta) = \\
+P^4(A_{450,200}) \cdot \Big(1 - P^4(\lnot{B_{1700}} | A_{450,200} ) - P^4(\lnot{C_{2350, 1700}}| A_{450,200}) + P^4(\lnot{B_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450,200})\Big)	\;,	 % TODO fix L* (YR)
 \end{multline}
 where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}. 
-
-%The likelihood function of the model with parameter set $\theta$ for the pH-stress experiment is
-%\begin{equation} \label{eq:phstress-likelihood} % TODO: add ph-Stress model to results or remove it from here (if remained add A_t to notations, it is At,T now only)
-%\likelihood(\theta | A_{150}, L_{750} ) = \\
-% P^4(B_{150}) \cdot 6 \cdot	P^2(B_{600} | A_{150}) \cdot P^2(\lnot{B_{600}} | A_{150}) \;.  
-% \end{equation} 
  
 For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), denote by $M_{t}$ the fixation of \eumt\ by generation $t$, and by $Q_{t,T}$ the fixation of \eumt\ by generation $t$ conditioned on no fixation at generation $T$.
 The likelihood of a model without aneuploidy with parameter vector $\theta$ for the heat-stress experiment is
 \begin{multline} \label{eq:heatstress-noaneuploidy-likelihood}
-\likelihood(\theta |  M_{1700}, M^*_{2350, 1700} ) = 
+\likelihood_{!}(\theta) = 
 \Big(1 - P^4(\lnot{M_{1700}}) - P^4(\lnot{Q_{2350, 1700}}) + P^4(\lnot{M_{1700}} \land \lnot{Q_{2350, 1700}})\Big)	\;,	
 \end{multline}
 
-Because our model, just like the Wright-Fisher model, is non-linear and stochastic, these likelihood functions are intractable. We overcome this problem by approximating the likelihood using multiple simulations (1,000 simulations per parameter vector for the single-locus model). Denote by $\hat{\likelihood}(X | C)$ the approximate likelihood based on data of simulations $X$ and the expected conditions $C$.
-%TODO if we have more models, write how much replicates were used.
+Because our model, just like the Wright-Fisher model, is non-linear and stochastic, these likelihood functions are intractable. We overcome this problem by approximating the likelihood using simulations: we simulate 1,000 experiments per parameter vector. This approximate likelihood is denoted by $\hat{\likelihood}$.
+% TODO if we show results of multi-locus model, write how much replicates were used.
 % TODO ref to place where we show 1,000 is enough
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC} Python 
 package~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}. This approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. It is a method of likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be directly computed. It is therefore suitable to our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
-%a bit adapted/expanded description from Syga et al. 2021: % TODO if you adapt from it, then we should cite it.
 
-Briefly, the ABS-SMC algorithm employs sequential importance sampling over multiple iterations. 
-In iteration $t$, the algorithm draws parameter vectors $\theta_i$, also called \emph{particles}, from a given proposal distribution and simulates data $X_i$ from the model until $n_t$ particles are accepted. Acceptance is based on a comparison to observed data $X_{obs}$ using a distance function $\Delta(X_i, X_{obs})$ and acceptance threshold $\epsilon_t$, such that $\Delta(X_i, X_{obs}) \leq \epsilon_t$. %TODO cite Syga here? 
-In our case $X_i$ is 1000 %TODO check if this is the number for all models
-simulations of the model, and the distance function is $1-\hat{\likelihood}(X_i | X_{obs})$
+Briefly, the ABS-SMC algorithm employs sequential importance sampling over multiple iterations~\citep{Syga2021}. 
+In iteration $t$, the algorithm draws parameter vectors $\theta_i$, also called \emph{particles}, from a given proposal distribution and simulates data $X_i$ from the model until $n_t$ particles are accepted. 
+We accept a proposal $\theta_i$ if its approximate likelihood $\hat{\likelihood}(\theta_i)$
+Acceptance is based on a comparison to observed data $X_{obs}$ using a distance function $\Delta(X_i, X_{obs})$ and acceptance threshold $\epsilon_t$, such that $\Delta(X_i, X_{obs}) \leq \epsilon_t$.  % TODO replace Delta with approx likelihood (YR)
+In our case $X_i$ is 1,000 simulations of the model, and the distance function is $1-\hat{\likelihood}(X_i | X_{obs})$
 % TODO something about how the weight is computed and used?
 The acceptance threshold $\epsilon_t$ is chosen as the median of the distances of the accepted particles in the previous iteration and $\epsilon_0=0.01$. 
-When $n_t$ particles are accepted, a new proposal distribution is constructed using a multivariate normal kernel with adaptive covariance matrix. % TODO ref
+When $n_t$ particles are accepted, a new proposal distribution is constructed using a multivariate normal kernel with adaptive covariance matrix. % TODO ref - Klinger? Syga? Sisson?
 In the first iteration the prior (see below) is used as a proposal distribution. 
 $n_t$ is adapted at every iteration $t$ using the \emph{adaptive population strategy}~\citep{Klinger2017}.
-The algorithm terminates when no more sufficient change in acceptance threshold occur, and no change in posterior. % TODO unclear
-Inference with the single-locus model terminated after four iterations with $\epsilon=0.13$, 1074 accepted parameter vectors and effective sample size (ESS) 700 (\autoref{fig:ess-single}). Running the inference algorithm with different initialization seeds and different number of simulations with produced similar outcomes (\autoref{fig:seeds}). %TODO if we have more models, write about them here also.
+Acceptance is determined according to the approximate likelihood, which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after four iterations, with 1,074 accepted parameter vectors and effective sample size (ESS) 700 (\autoref{fig:ess-single}). % TODO for multi-locus model we need to say something else
+Running the inference algorithm with different initialization seeds and different number of simulations with produced similar outcomes (\autoref{fig:seeds}). %TODO for multi-locus model, write about them here also.
 
-After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels. We then sample $50,000$ samples from the posterior KDE to compute the posterior mode, highest density interval (HDI), plotting the posterior, etc.
+After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then sample $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
 
 \paragraph{Model comparison.} We perform model selection using WAIC, the widely applicable information criterion ~\citep{gelman2013bayesian},
 \begin{equation} \label{eq:WAIC}
@@ -377,29 +366,29 @@ After producing a set of weighted particles from the the posterior distribution 
 \end{equation}
 where $\theta$ is a parameter vector, $X$ are the model or experiment results (i.e., fixation of aneuploidy by generation $t$ etc.), and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution $P(\theta \mid \vec{X})$.
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy and a difference of 2 is a popular threshold for model comparison~\citep{Kass1995}.
-% TODO do we need to say "and a difference of 2 is a popular threshold for model comparison."? Meanwile WAICs are so small that there's no such difference
-% YOAV: let's discuss
- % TODO do we use more methods? Describe probably posterior plots comparison method, and Bayes factor if it will used.
+% TODO Describe posterior plots comparison method - Fig 4 & S3
  
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
 From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. We sampled 10,000 samples to use as a prior distribution~(Figures~\ref{fig:growth-curves-30deg} and~\ref{fig:growth-curves-39deg}).
 
-We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$. In lieu of a better prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates. %TODO To show ppc plots also? Write paragraph about prediction plots in model comparison section.
+We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$. In lieu of a better prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
+%TODO please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
+Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
 We tested a uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$.
-In both of these uninformative priors, the fitness estimates were much too high: for the first prior the median estimates were  $w_{2n+1}=2.767$, $w_{2n+1^*}=5.79$, $w_{2n^*}=5.827$ and for the second prior the estimates were $w_{2n+1}=1.046$, $w_{2n+1^*}=4.642$, $w_{2n^*}=4.684$. Such high fitness values are unreasonable. Moreover the WAIC for the models with these priors were 0.57 and 1.9, respectively, whereas the WAIC with the informative prior was 0.27. Also, with the uninformative prior for all fitness values, the fixation time of \anwt is about 16 on average. %TODO remove about unpublished observations...we already added it into likelihood function of the model. 
-% YOAV so remove the entire sentence right?
-We tried to use additional growth curves. We used growth curves of \eumt\ (\emph{refined} strain from \citet{Yona2012}) and \anwt\ in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 2.8, compared to 0.27 with the above informative prior.
-We also tried to use growth curves of \anwt\ and \euwt\ in \SI{30}{\celsius} to estimate $1-c$. This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not work at all, as no parameter sets were found with an approximate likelihood greater than zero.
-%TODO it make sense because bla bla (to explain)?
-%YOAV: if you have an explanation, you can add it
+In both of these uninformative priors, the fitness estimates were much too high: for the first prior the median estimates were  $w_{2n+1}=2.767$, $w_{2n+1^*}=5.79$, $w_{2n^*}=5.827$ and for the second prior the estimates were $w_{2n+1}=1.046$, $w_{2n+1^*}=4.642$, $w_{2n^*}=4.684$. Such high fitness values are unreasonable. Moreover the WAIC for the models with these priors were 0.57 and 1.9, respectively, whereas the WAIC with the informative prior was 0.27. 
+% TODO if you need to remove this sentence: Also, with the uninformative prior for all fitness values, the fixation time of \anwt is about 16 on average, much lower than the (unpublished) experimental result, which is 200-300 generations.
+
+We tried to use additional growth curves. We used growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 2.8, compared to 0.27 with the above informative prior.
+We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} to estimate $1-c$. This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not work at all, as no parameter sets were found with an approximate likelihood greater than zero.
+% TODO it make sense because bla bla (to explain)
+
+% TODO : Actually I assume in code that  w(2n*)>w(2n+1*)>w(2n+1)>w(2n) just for speeding up the simulations (I don't check some parameters combinations in this way). But I checked also that when I don't adding this constrain the result was the same. However I dind't add reverse direction in this case.
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative, uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$.
-% TODO what about aneuploidy loss?
 For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for the mutation rate, $\mu \sim \mathit{U}(10^{-10},10^{-5})$. 
 
-%TODO ILIA please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results
 \section*{Results}
 
@@ -422,18 +411,17 @@ For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for t
 
 \paragraph{Parameter estimation.} 
 We used ABC-SMC to infer the posterior distribution of the parameters of the single-locus model.
-The MAP (maximum a posteriori) and 50\% HDI (highest density interval) of the parameters posterior are~(\autoref{fig:posterior}): % TODO I changed "mode" to "MAP", ok?
+The MAP (maximum a posteriori) and 50\% HDI (highest density interval) of the parameters posterior are~(\autoref{fig:posterior}):
 mutation rate, $\mu=3.06\substack{+1.229 \\ -2.84}\times10^{-6}$,
-aneuploidy gain rate, $\delta=1.61\substack{+1.122 \\ -0.197}\times10^{-3}$,
-% TODO what about aneuploidy loss?
+aneuploidy rate, $\delta=1.61\substack{+1.122 \\ -0.197}\times10^{-3}$,
 fitness of \anwt, $w_{2n+1}=1.022\substack{+0.001 \\ -0.002}$,
 fitness of \anmt, $w_{2n+1*}=1.025\substack{+0.001 \\ -0.001}$,
 and fitness of \eumt, $w_{2n*}=1.028\substack{+0.001 \\ -0.002}$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
-This estimated aneuploidy gain rate agrees with previous estimates. % TODO refs
+This estimated aneuploidy rate agrees with previous estimates. % TODO refs
 The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014}. 
 %We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
-% TODO say/plot something about the correlation, is it interesting?). 
-% YES but the sentence above is not enough.
+% TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
+
 
 % FIG posterior
 \begin{figure}[h!]
@@ -441,18 +429,19 @@ The mutation rate corresponds to a mutation target size of $10^{4}$, assuming th
 \includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
   \caption{
   \textbf{Posterior distribution of single-locus model.}
-%TODO histogram on diagonal
-%TODO mutation rate tick labels should be in 10^-6, not 10^-5, and write 10^-6 not 1e-5; also it looks like you get positive density for mutation rate = 0 which doesnt make sense
-% change trisomy rate to aneuploidy gain rate; what about loss rate?
+% TODO histogram on diagonal, 2d histogram without interpolation below diagonal
+% TODO mutation rate tick labels should be in 10^-6, not 10^-5, and write 10^-6 not 1e-5; also it looks like you get positive density for mutation rate = 0 which doesnt make sense - set limit to 0.
+% change trisomy rate to aneuploidy gain rate
+% remove "mutation rate" from y label on top-left
 % remove the y-ticks from the diagonal, they are meaningless, right?
-% fitness 2n+1 (not 2n+1 fitness)
-% in some cases the MAP doesn't look correct on the plot - did you compute the MAP on the joint for all 5 parameters or on the marginal of each parameter? something is weird here.
+% Fitness of 2n+1, w_{2n+1} (not 2n+1 fitness)
+% TODO change dashed orange to red and make it a bit bolder.
 On the diagonal, the posterior kernel density estimate for each parameter. 
-Below the diagonal, joint posterior density of two parameters (dark purple and bright yellow for low and high density, respectively. Red markers and orange lines for the MAP estimates. % TODO change dashed orange to red and make it a bit bolder.
+Below the diagonal, joint posterior density of two parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimates (which may differ from the marginal maximum density, as the marginal distribution integrates over all other parameters).
 } 
   \label{fig:posterior}
 \end{figure}
-
+%%%%%%%%%%%%%%%%%%%%%%
 
 
 \paragraph{Model checking and comparison.}
@@ -469,7 +458,7 @@ mutation rate, $\mu=1.251\substack{+0.146 \\ -0.177}\times10^{-8}$,
 %TODO why do you have fitness of aneuploidy when there is no aneuploidy?
 2n* fitness - $1.011\substack{+0.001 \\ -0.001}$. 
 We can see that mutation rate for this model is much lower than for the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than expected by the experiment ( \autoref{fig:2n*-fixation} blue bar). Thereby, adding aneuploidy to the model, helps to attain good fit with higher mutation rate.
-
+% TODO WAIC?
 
 
 \begin{figure}[h!]
