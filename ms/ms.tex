@@ -477,15 +477,14 @@ The single-locus model fits the data well: in simulations using the best-fit par
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\autoref{fig:ppc-plot}). % TODO move somewhere else?
 Furthermore, sensitivity analysis shows that changing the parameter values from the MAP estimate reduces the model fit to the experimental results~(\autoref{fig:sensitivity}).
 
-However, a model without aneuploidy, i.e. where the aneuploidy gain rate is fixed at zero $\delta=0$, cannot explain the data~(\autoref{fig:2n*-fixation} and \autoref{fig:likelihood}). The estimated parameter values without aneuploidy are:
+However, a model without aneuploidy where the aneuploidy rate is fixed at zero, $\delta=0$, cannot explain the experimental observations~(Figures~\ref{fig:2n*-fixation} and \ref{fig:likelihood}). The estimated parameter values without aneuploidy are:
 mutation rate, $\mu=1.251\substack{+0.146 \\ -0.177}\times10^{-8}$,
-2n+1 fitness - $1.01\substack{+0.001 \\ -0.002}$,
-2n+1* fitness - $1.011\substack{+0.001 \\ -0.001}$,
+%2n+1 fitness - $1.01\substack{+0.001 \\ -0.002}$,
+%2n+1* fitness - $1.011\substack{+0.001 \\ -0.001}$,
 %TODO why do you have fitness of aneuploidy when there is no aneuploidy?
-2n* fitness - $1.011\substack{+0.001 \\ -0.001}$. 
-We can see that mutation rate for this model is much lower than for the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than expected by the experiment ( \autoref{fig:2n*-fixation} blue bar). Thereby, adding aneuploidy to the model, helps to attain good fit with higher mutation rate.
+fitness of mutant, $w_{2n^*}=1.011\substack{+0.001 \\ -0.001}$. 
+We can see that the mutation rate estimate in this model is much lower than in the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than in the experimental obvservations (\autoref{fig:2n*-fixation}). Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model.
 % TODO WAIC?
-
 
 % Fig single-locus model with and without aneuploidy
 \begin{figure}[b!]
