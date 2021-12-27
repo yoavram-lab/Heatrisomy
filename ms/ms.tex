@@ -487,6 +487,35 @@ We can see that mutation rate for this model is much lower than for the model wi
 % TODO WAIC?
 
 
+% Fig single-locus model with and without aneuploidy
+\begin{figure}[b!]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+      \caption{
+        \textbf{A. With aneuploidy}
+      }
+      \centering
+      \includegraphics[height=1.8in]{../figures/likelihood-plot.pdf}      
+      \label{fig:likelihood-with-aneuploidy}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.45\textwidth}
+  	  \caption{
+        \textbf{B. Without aneuploidy}
+      }
+      \centering
+      \includegraphics[height=1.8in]{../figures/likelihood-noaneuploidy-plot.pdf}      
+      \label{fig:likelihood-without-aneuploidy}
+  \end{subfigure}
+  \caption{
+  % TODO change x label - "Time to fixation of 2n*"
+  % plot both lines on one panel with two colors (blue and red for with and without? choose nice color, not the default 'r' and 'b'!), make the without in dashed.
+    \textbf{Single-locus model fit with and without aneuploidy.} Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy (i.e., $\delta=0$ is fixed).
+    \textbf{(B)} Simulations parameters are from the maximum a posterior estimation of the single-locus model \emph{without} aneuploidy fit. 
+     The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.86 and 0.75 with and without aneuploidy. % TODO likelihood ratio test? bayes factor? no sense in just giving the likelihoods.
+  }
+  \label{fig:likelihood}
+\end{figure}
+
 \begin{figure}[h!]
   \centering
   % TODO add legend
@@ -595,36 +624,6 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \label{fig:growth-curves-39deg}
 \end{figure}
 % TODO add caption, combine to one figure with the previous one
-
-% Fig single-locus model with and without aneuploidy
-\begin{figure}[b!]
-  \centering
-  \begin{subfigure}[t]{0.5\textwidth}
-      \caption{
-        \textbf{A. With aneuploidy}
-      }
-      \centering
-      \includegraphics[height=1.8in]{../figures/likelihood-plot.pdf}      
-      \label{fig:likelihood-with-aneuploidy}
-  \end{subfigure}%
-  \\
-  \begin{subfigure}[t]{0.5\textwidth}
-  	  \caption{
-        \textbf{B. Without aneuploidy}
-      }
-      \centering
-      \includegraphics[height=1.8in]{../figures/likelihood-noaneuploidy-plot.pdf}      
-      \label{fig:likelihood-without-aneuploidy}
-  \end{subfigure}
-  \caption{
-  % TODO change x label - "Time to fixation of 2n*"
-  % plot both lines on one panel with two colors (blue and red for with and without? choose nice color, not the default 'r' and 'b'!), make the without in dashed.
-    \textbf{Single-locus model fit with and without aneuploidy.} Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy (i.e., $\delta=0$ is fixed).
-    \textbf{(B)} Simulations parameters are from the maximum a posterior estimation of the single-locus model \emph{without} aneuploidy fit. 
-     The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.86 and 0.75 with and without aneuploidy. % TODO likelihood ratio test? bayes factor? no sense in just giving the likelihoods.
-  }
-  \label{fig:likelihood}
-\end{figure}
 
 
 % Fig likelihood profile
