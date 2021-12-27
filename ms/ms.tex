@@ -276,7 +276,7 @@ This model expands the single-locus model by allowing for (i) the accumulation o
 
 A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
 The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$: $s_i \sim \mathit{Exp{(s)}}$.
-The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $\delta_L$, $b$, $c$) are the same as in the single-locus model. However, since the multi-locus model allows several mutations with smaller fitness effects to accumulate, we expect the mutation rate to be higher compared to the single-locus model, which focuses on a single, large-effect mutation.
+The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $b$, $c$) are the same as in the single-locus model. However, since the multi-locus model allows several mutations with smaller fitness effects to accumulate, we expect the mutation rate to be higher compared to the single-locus model, which focuses on a single, large-effect mutation.
 % TODO : add tau to model fixed at 33/32.
 
 The fitness of the different genotypes is the same as in the single-locus model (\autoref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \autoref{table:multi-locus}.
@@ -315,57 +315,81 @@ and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Empirical evidence.}
-We use empirical results of evolutionary experiments reported by \citet{Yona2012}.
+
+We use the results of evolutionary experiments reported by \citet{Yona2012}.
 In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). From unpublished results, aneuploidy did not fix before at least 200 generations elapsed.
 The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350.
+%Thus, the empirical evidence can be summarized by $\vec{X}=\Big(200 \le T_i(2n+1) \le 450,\, i=1,2,3,4;\ T_1(2n^*)=1700;\ T_2(2n^*)=2350\Big)$ where $T_i(g)$ is the fixation time of genotype $g$ in population $i$.
 
-\paragraph{Likelihood function.} % TODO fix this .... (YR)
-Denote by $A_{t,T}$ the fixation of aneuploidy by generation $t$ conditioned on no fixation up to generation $T$; by $B_{t}$ the extinction of aneuploidy by generation $t$; and by $C_{t,T}$ the extinction of aneuploidy by generation $t$ conditioned on no extinction by generation $T$.
-The model likelihood function for parameter vector $\theta$ for the heat-stress experiment is
-\begin{multline} \label{eq:heatstress-likelihood}
-\likelihood(\theta) = \\
-P^4(A_{450,200}) \cdot \Big(1 - P^4(\lnot{B_{1700}} | A_{450,200} ) - P^4(\lnot{C_{2350, 1700}}| A_{450,200}) + P^4(\lnot{B_{1700}} \land \lnot{L^*_{2350, 1700}}| A_{450,200})\Big)	\;,	 % TODO fix L* (YR)
-\end{multline}
-where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}. 
+\paragraph{Likelihood function.} 
+
+Because our model, just like the Wright-Fisher model, is non-linear and stochastic, computing the distribution of fixation time $T(g)$ of genotype $g$ for use in the likelihood function is intractable (it is even hard to use a diffusion-equation approximation due to the model having multiple genotypes, rather than just two).
+We overcome this problem by approximating the likelihood using simulations. We simulate 1,000 experiments per parameter vector $\theta = (\mu, \tau, \delta, s, b, c)$, resulting in a set of simulated observations $\tilde{\vec X} = \{\tilde{X}_i\}_{i=1}^{1000}$. We then compute the approximate likelihood,
+\begin{equation}\begin{aligned}
+\label{eq:heatstress-likelihood}
+\likelihood(\theta) = &\ P^4(200 \le T(2n+1) \le 450) \cdot 
+	\Big[1 - \\
+	&	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)- \\
+	&	P_{\tilde{\vec X}}^4\big(!\{1700 < T(2n^*) < 2350\} \mid 200 \le T(2n+1) \le 450\big)+ \\
+	&	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \land !\{1700 < T(2n^*) < 2350\} \mid 200 \le T(2n+1) \le 450\big) 
+	\Big]\;,
+\end{aligned}\end{equation}
+where $!\{\ldots\}$ is the "logical not" operator, $P^4(\ldots)$ is the 4th power of $P(\ldots)$, and all probabilities $P_{\tilde{\vec X}}(\ldots)$ are approximated from the results of the simulations $\tilde{\vec X}$. For example, $P_{\tilde{\vec X}}\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)$ is approximated by taking simulations in which \anwt\; fixed before generation 450 but not before generation 200, and computing the fraction of such simulations in which \eumt\; did not fix by generation 1,700, and hence aneuploidy did not extinct before generation 1,700.
+
+
+%Denote by $A_{t,T}$ the fixation of aneuploidy by generation $t$ conditioned on no fixation up to generation $T$; by $B_{t}$ the extinction of aneuploidy by generation $t$; and by $C_{t,T}$ the extinction of aneuploidy by generation $t$ conditioned on no extinction by generation $T$.
+%The likelihood function for parameter vector $\theta$ conditioned on the observed data $\vec{X}$ from the heat-stress experiment is
+%\begin{multline} \label{eq:heatstress-likelihood}
+%P^4(A_{450,200}) \cdot \Big(1 - P^4(\lnot{B_{1700}} | A_{450,200} ) - P^4(\lnot{C_{2350, 1700}}| A_{450,200}) + P^4(\lnot{B_{1700}} \land \lnot{C_{2350, 1700}}| A_{450,200})\Big)	\;,	 % TODO fix L* (YR)
+%\end{multline}
+%where $P(X)$ is the probability of event $X$ and $\lnot$ means \emph{not}. 
  
-For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), denote by $M_{t}$ the fixation of \eumt\ by generation $t$, and by $Q_{t,T}$ the fixation of \eumt\ by generation $t$ conditioned on no fixation at generation $T$.
-The likelihood of a model without aneuploidy with parameter vector $\theta$ for the heat-stress experiment is
-\begin{multline} \label{eq:heatstress-noaneuploidy-likelihood}
-\likelihood_{!}(\theta) = 
-\Big(1 - P^4(\lnot{M_{1700}}) - P^4(\lnot{Q_{2350, 1700}}) + P^4(\lnot{M_{1700}} \land \lnot{Q_{2350, 1700}})\Big)	\;,	
-\end{multline}
+For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), 
+%denote by $M_{t}$ the fixation of \eumt\ by generation $t$, and by $Q_{t,T}$ the fixation of \eumt\ by generation $t$ conditioned on no fixation at generation $T$.
+the likelihood is similarly approximated by
+% of a model without aneuploidy with parameter vector $\theta$ for the heat-stress experiment is
+\begin{equation}\begin{aligned}
+\label{eq:heatstress-noaneuploidy-likelihood}
+\likelihood_{!}(\theta) = &\ 
+	1 - 
+	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\}\big) - \\
+&	P_{\tilde{\vec X}}^4\big(!\{1700 < T(2n^*) < 2350\}\big) + \\
+&	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \land !\{1700 < T(2n^*) < 2350\}\big)
+\;.
+\end{aligned}\end{equation}
 
-Because our model, just like the Wright-Fisher model, is non-linear and stochastic, these likelihood functions are intractable. We overcome this problem by approximating the likelihood using simulations: we simulate 1,000 experiments per parameter vector. This approximate likelihood is denoted by $\hat{\likelihood}$.
+%\begin{multline} \label{eq:heatstress-noaneuploidy-likelihood}
+%\likelihood_{!}(\theta) = 
+%\Big(1 - P^4(\lnot{M_{1700}}) - P^4(\lnot{Q_{2350, 1700}}) + P^4(\lnot{M_{1700}} \land \lnot{Q_{2350, 1700}})\Big)	\;,	
+%\end{multline}
+
 % TODO if we show results of multi-locus model, write how much replicates were used.
 % TODO ref to place where we show 1,000 is enough
 
-\paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation~\citep{Sunnaker2013} with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC} Python 
-package~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}. This approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. It is a method of likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be directly computed. It is therefore suitable to our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
+\paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC} Python package~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}.
+This approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. It is a method of likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be directly computed. It is therefore suitable to our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
 
 Briefly, the ABS-SMC algorithm employs sequential importance sampling over multiple iterations~\citep{Syga2021}. 
-In iteration $t$, the algorithm draws parameter vectors $\theta_i$, also called \emph{particles}, from a given proposal distribution and simulates data $X_i$ from the model until $n_t$ particles are accepted. 
-We accept a proposal $\theta_i$ if its approximate likelihood $\hat{\likelihood}(\theta_i)$
-Acceptance is based on a comparison to observed data $X_{obs}$ using a distance function $\Delta(X_i, X_{obs})$ and acceptance threshold $\epsilon_t$, such that $\Delta(X_i, X_{obs}) \leq \epsilon_t$.  % TODO replace Delta with approx likelihood (YR)
-In our case $X_i$ is 1,000 simulations of the model, and the distance function is $1-\hat{\likelihood}(X_i | X_{obs})$
-% TODO something about how the weight is computed and used?
-The acceptance threshold $\epsilon_t$ is chosen as the median of the distances of the accepted particles in the previous iteration and $\epsilon_0=0.01$. 
-When $n_t$ particles are accepted, a new proposal distribution is constructed using a multivariate normal kernel with adaptive covariance matrix. % TODO ref - Klinger? Syga? Sisson?
-In the first iteration the prior (see below) is used as a proposal distribution. 
-$n_t$ is adapted at every iteration $t$ using the \emph{adaptive population strategy}~\citep{Klinger2017}.
-Acceptance is determined according to the approximate likelihood, which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after four iterations, with 1,074 accepted parameter vectors and effective sample size (ESS) 700 (\autoref{fig:ess-single}). % TODO for multi-locus model we need to say something else
+In iteration $t$ of the algorithm, we continue to sample a parameter vector $\theta$, also called \emph{particle}, and simulate observations $\tilde{\vec X}$, until $n_t$ particles are accepted. 
+A particle $\theta$ is accepted if its approximate likelihood is high enough, $\likelihood(\theta)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. % TODO something about how the weight is computed and used?
+The acceptance threshold $\epsilon_t$ is chosen as the median of the $1-\likelihood(\theta)$ of the particles accepted in the previous iteration, $t-1$, and $\epsilon_0=0.01$. 
+The proposed particles are sampled from a proposal distribution: for $t=0$, this is the prior distribution, and for $t>0$ the proposal distribution is constructed using a multivariate normal kernel with adaptive covariance matrix from the particles accepted in the previous iteration. % TODO ref - Klinger? Syga? Sisson?
+The number of particles, $n_t$, is adapted at every iteration $t$ using the \emph{adaptive population strategy}~\citep{Klinger2017}.
+
+Acceptance is determined according to the approximate likelihood, which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after four iterations, with $n_4=1,074$ accepted parameter vectors and effective sample size (ESS) 700 (\autoref{fig:ess-single}). % TODO for multi-locus model we need to say something else
 Running the inference algorithm with different initialization seeds and different number of simulations with produced similar outcomes (\autoref{fig:seeds}). %TODO for multi-locus model, write about them here also.
 
-After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then sample $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
+After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
 
 \paragraph{Model comparison.} We perform model selection using WAIC, the widely applicable information criterion ~\citep{gelman2013bayesian},
 \begin{equation} \label{eq:WAIC}
 \begin{aligned}
-\mathit{WAIC}(\theta, \vec{X}) &\ =\ 
--2\log\mathbb{E}[\mathcal{L}(\theta \mid \vec{X})]\ +\ 2\mathbb{V}[\log\mathcal{L}(\theta \mid \vec{X})]
+\mathit{WAIC}(\theta) &\ =\ 
+-2\log\mathbb{E}[\likelihood(\theta)]\ +\ 2\mathbb{V}[\log\likelihood(\theta)]
 \end{aligned}
 \end{equation}
-where $\theta$ is a parameter vector, $X$ are the model or experiment results (i.e., fixation of aneuploidy by generation $t$ etc.), and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution $P(\theta \mid \vec{X})$.
-WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy and a difference of 2 is a popular threshold for model comparison~\citep{Kass1995}.
+where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution.
+WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
 % TODO Describe posterior plots comparison method - Fig 4 & S3
  
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
@@ -385,7 +409,7 @@ We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} t
 
 % TODO : Actually I assume in code that  w(2n*)>w(2n+1*)>w(2n+1)>w(2n) just for speeding up the simulations (I don't check some parameters combinations in this way). But I checked also that when I don't adding this constrain the result was the same. However I dind't add reverse direction in this case.
  
-For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative, uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$.
+For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$.
 For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for the mutation rate, $\mu \sim \mathit{U}(10^{-10},10^{-5})$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -414,9 +438,10 @@ We used ABC-SMC to infer the posterior distribution of the parameters of the sin
 The MAP (maximum a posteriori) and 50\% HDI (highest density interval) of the parameters posterior are~(\autoref{fig:posterior}):
 mutation rate, $\mu=3.06\substack{+1.229 \\ -2.84}\times10^{-6}$,
 aneuploidy rate, $\delta=1.61\substack{+1.122 \\ -0.197}\times10^{-3}$,
-fitness of \anwt, $w_{2n+1}=1.022\substack{+0.001 \\ -0.002}$,
-fitness of \anmt, $w_{2n+1*}=1.025\substack{+0.001 \\ -0.001}$,
-and fitness of \eumt, $w_{2n*}=1.028\substack{+0.001 \\ -0.002}$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
+and fitness values, $w_{2n+1}=1.022\substack{+0.001 \\ -0.002}$,
+$w_{2n+1*}=1.025\substack{+0.001 \\ -0.001}$,
+$w_{2n*}=1.028\substack{+0.001 \\ -0.002}$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
+% describe b and c
 This estimated aneuploidy rate agrees with previous estimates. % TODO refs
 The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014}. 
 %We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
@@ -445,7 +470,8 @@ Below the diagonal, joint posterior density of two parameters (dark purple and b
 
 
 \paragraph{Model checking and comparison.}
-The single-locus model fits the data well: in simulations using the MAP estimate parameters \euwt\ fixed in 59\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\autoref{fig:2n*-fixation}) and \anwt\ fixed in roughly 300 generations, which agrees with experimental results.
+The single-locus model fits the data well: in simulations using the best-fit parameters (MAP estimate) \eumt\ fixed in 59\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\autoref{fig:2n*-fixation}) and \anwt\ fixed in roughly 300 generations on average (green lines in \autoref{fig:ppc-plot}), which agrees with experimental results.
+% TODO replace "roughly 300" with the exact number.
 % TODO this fig shows fixation of 2n*, what about fixation of 2n+1?
 % TODO merge fig 3 and fig:likelihood (both panels of fig:likelihood) 
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\autoref{fig:ppc-plot}). % TODO move somewhere else?
