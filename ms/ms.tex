@@ -309,7 +309,7 @@ $k$ is the number of accumulated beneficial mutations;
 $s \ge 0$ is the selection coefficient of a beneficial mutation;
 $0 \le c \le 1$ is the fitness cost of aneuploidy;
 and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
-% TODO check if b > c in code
+% TODO check if b > c in code... ANS: no...but maybe it is good to add, because anyway b<c is not interesting, and it can improve the perfomance.
 }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -371,10 +371,11 @@ This approach uses numerical stochastic simulations of the model to infer a post
 
 Briefly, the ABS-SMC algorithm employs sequential importance sampling over multiple iterations~\citep{Syga2021}. 
 In iteration $t$ of the algorithm, we continue to sample a parameter vector $\theta$, also called \emph{particle}, and simulate observations $\tilde{\vec X}$, until $n_t$ particles are accepted. 
-A particle $\theta$ is accepted if its approximate likelihood is high enough, $\likelihood(\theta)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. % TODO something about how the weight is computed and used?
+A particle $\theta$ is accepted if its approximate likelihood is high enough, $\likelihood(\theta)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. 
 The acceptance threshold $\epsilon_t$ is chosen as the median of the $1-\likelihood(\theta)$ of the particles accepted in the previous iteration, $t-1$, and $\epsilon_0=0.01$. 
-The proposed particles are sampled from a proposal distribution: for $t=0$, this is the prior distribution, and for $t>0$ the proposal distribution is constructed using a multivariate normal kernel with adaptive covariance matrix from the particles accepted in the previous iteration. % TODO ref - Klinger? Syga? Sisson?
+The proposed particles are sampled from a proposal distribution: for $t=0$, this is the prior distribution, and for $t>0$ the proposal distribution is constructed using the pertrubation kernel $K$, that is a multivariate normal kernel with adaptive covariance matrix from the particles accepted in the previous iteration ~\citep{Klinger2017}.
 The number of particles, $n_t$, is adapted at every iteration $t$ using the \emph{adaptive population strategy}~\citep{Klinger2017}.
+For each accepted particle $\theta$ the weight $w_t(\theta)$ is assigned: for $t=0$ it is 1, and for $t>0$ it is equal to the prior of $\theta$ divided by $\sum_{\theta^*}{w_{t-1}(\theta^*) K(\theta,\theta^*)}$, when $\theta^*$ is a particle accepted in the previous iteration.   ~\citep{Toni2009}.
 
 Acceptance is determined according to the approximate likelihood, which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after four iterations, with $n_4=1,074$ accepted parameter vectors and effective sample size (ESS) 700 (\autoref{fig:ess-single}). % TODO for multi-locus model we need to say something else
 Running the inference algorithm with different initialization seeds and different number of simulations with produced similar outcomes (\autoref{fig:seeds}). %TODO for multi-locus model, write about them here also.
@@ -447,6 +448,13 @@ The mutation rate corresponds to a mutation target size of $10^{4}$, assuming th
 %We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
 % TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
 
+We also tried to inference parameters of the single-locus model with different $\tau$: 1, 2, 5, 10 and 100. It was seen that for 1, 2, 5 the posterior was not significantly different from the model with $\tau=33/32$, while for $\tau=10$ the estimated $\mu\ $ was a little lower, $1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated $\mu\ $ was already significantly lower and $\delta\ $ had higher variability. The MAP and 50\% HDI for $\tau=100$:
+$\mu=5.538\substack{+1.611 \\ -5.311}\times10^{-7}$,
+$\delta=8.292\substack{+8.988 \\ -4.96}\times10^{-4}$,
+$w_{2n+1}=1.023\substack{+0.001 \\ -0.002}$,
+$w_{2n+1*}=1.024\substack{+0.001 \\ -0.001}$,
+$w_{2n*}=1.028\substack{+0.001 \\ -0.002}$.
+%TODO: show joint distributions comparison plot (20-diffk.ipynb). WAIC?
 
 % FIG posterior
 \begin{figure}[h!]
