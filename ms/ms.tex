@@ -7,7 +7,6 @@ left=20mm,
 top=20mm,
 headheight=12pt
 }
-
 \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx} % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 % TeX will automatically convert eps --> pdf in pdflatex		
@@ -321,7 +320,6 @@ The experiment continued with two populations, in which aneuploidy was eliminate
 
 
 \paragraph{Likelihood function.} 
-% TODO please read!
 Because our model, just like the Wright-Fisher model, is non-linear and stochastic, computing the distribution of fixation time $T(g)$ of genotype $g$ for use in the likelihood function is intractable (it is even hard to use a diffusion-equation approximation due to the model having multiple genotypes, rather than just two).
 We overcome this problem by approximating the likelihood using simulations. We simulate 1,000 experiments per parameter vector $\theta = (\mu, \tau, \delta, s, b, c)$, resulting in a set of simulated observations $\tilde{\vec X} = \{\tilde{X}_i\}_{i=1}^{1000}$. We then compute the approximate likelihood,
 \begin{equation}\begin{aligned}
@@ -366,7 +364,7 @@ For each accepted particle $\theta_{i,t}$ a weight $w_t(\theta_{i,t})$ is assign
 $w_t(\theta_{i,t}) = p(\theta_{i,t}) / \sum_{i=1}^{n_{t-1}}{w_{t-1}(\theta_{i,t-1}) K_t(\theta_{i,t}, \theta_{i,t-1})}$, where $p(\theta)$ is the prior density of $\theta$ and $K_t(\theta', \theta)$ is the probability of a perturbation from $\theta$ to $\theta'$.
 $K_t(\theta' \mid \theta)$ is a multivariate normal distribution. % TODO construction of K_T from \theta_{i,t-1}
 
-Acceptance is determined according to the approximate likelihood, which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after four iterations, with $n_4=1,074$ accepted parameter vectors and effective sample size (ESS) 700 (\autoref{fig:ess-single}). % TODO for multi-locus model we need to say something else
+Acceptance is determined according to the approximate likelihood, which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size (ESS) 651 (\autoref{fig:convergence}). % TODO for multi-locus model we need to say something else
 Running the inference algorithm with different initialization seeds and different number of simulations with produced similar outcomes (\autoref{fig:seeds}). %TODO for multi-locus model, write about them here also.
 
 After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
@@ -665,20 +663,37 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \end{figure}
 
 
-% Fig ABC convergence
+% Fig ABC iterations
 \begin{figure}[h]
+
+  \begin{subfigure}{1\textwidth}
     \centering
-	\includegraphics[width=1\textwidth]{../figures/ess.pdf}
+      \includegraphics[width=0.45\textwidth]{../figures/convergence-p1_mr.pdf}      
+      \includegraphics[width=0.45\textwidth]{../figures/convergence-p2_tr.pdf}      
+      \includegraphics[width=0.45\textwidth]{../figures/convergence-p3_w1.pdf}      
+      \includegraphics[width=0.45\textwidth]{../figures/convergence-p4_w2.pdf}      
+      \includegraphics[width=0.45\textwidth]{../figures/convergence-p5_w3.pdf}      
+     \label{fig:convergence-A}
+    \caption{\textbf{A. Posterior densities per iteration}}
+    \end{subfigure}
+    \\
+    \vspace*{4mm}
+    
+  \begin{subfigure}{1\textwidth}
+  	\includegraphics[width=1\textwidth]{../figures/ess.pdf}
+     \label{fig:convergence-B}
+     \vspace*{-8mm}
+    \caption{\textbf{B. ABC-SMC population properties per iteration}}
+  \end{subfigure}
+
     \caption{
-    \textbf{Single-locus model inference convergence.} Measures of convergence for the ABC-SMC algorithm with the single-locus model. After iteration number 4, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was XXX, the number of accepted parameter sets ("particles") was 1,074, and the effective sample size (ESS) 700. % TODO add missing acceptance rate 
-    } 
-    \label{fig:ess-single}
-    % TODO y label in first panel "Acceptance threshold, $\epsilon$"
-    % add panel labels A B C D
-    % x label - just once
-	% should we do 1-3 more iterations? it is not clear that it converged.
+    \textbf{Single-locus model inference convergence.} 
+    ABC-SMC algorithm was executed to inference single-locus model parameters. \textbf{(A)} For each parameter of the model, there's shown KDE of the posterior density of the inference per iteration.
+We can see that the posterior didn't change significantly already from the first iteration. \textbf{(B)} Here are shown measures of convergence for the ABC-SMC algorithm. After iteration number 6, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size (ESS) 651.
+}
+    \label{fig:convergence}
 \end{figure}
-% TODO show posteriors of different iterations (with panel labels!!)
+
 
 % Fig Validation of posteriors
 \begin{figure}[h]
