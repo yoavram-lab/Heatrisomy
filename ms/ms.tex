@@ -359,7 +359,7 @@ Then, a set of synthetic observations $\tilde{\vec X}^*$ is simulated, and the p
 The acceptance threshold $\epsilon_t$ is chosen as the median of the $1-\likelihood(\theta)$ of the particles accepted in the previous iteration, $t-1$, and $\epsilon_0=0.01$. 
 For each accepted particle $\theta_{i,t}$ a weight $W_t(\theta_{i,t})$ is assigned: for $t=0$, $W_0(\theta_{i,0})=1$, and for $t>0$, 
 $W_t(\theta_{i,t}) = p(\theta_{i,t}) / \sum_{i=1}^{n_{t-1}}{W_{t-1}(\theta_{i,t-1}) K_t(\theta_{i,t}, \theta_{i,t-1})}$, where $p(\theta)$ is the prior density of $\theta$ and $K_t(\theta', \theta)$ is the probability of a perturbation from $\theta$ to $\theta'$.
-$K_t(\theta' \mid \theta)$ is a multivariate normal distribution. % TODO construction of K_T from \theta_{i,t-1}
+$K_t(\theta' \mid \theta)$ is a multivariate normal distribution, fitted at iteration $t$ to the particles from the previous iteration, \{$\theta_{i,t-1}\}_{i=1}{n_{t-1}}$, and their weights, $\{W(\theta_{i,t-1})\}_{i=1}^{n_{t-1}}$.
 
 Acceptance is determined according to the approximate likelihood~(\autoref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\autoref{fig:convergence}). % TODO for multi-locus model we need to say something else
 Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\autoref{fig:seeds}). %TODO for multi-locus model, write about them here also.
@@ -380,22 +380,18 @@ WAIC values are scaled as a deviance measure: lower values imply higher predicti
  
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
-From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. We sampled 10,000 samples to use as a prior distribution~(Figures~\ref{fig:growth-curves-30deg} and~\ref{fig:growth-curves-39deg}).
-
+From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. We sampled 10,000 samples to use as a prior distribution~(\autoref{fig:growth-curves}).
 We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$. In lieu of a better prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
+To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. % TODO IK is this correct? 
 
 Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
 %In both of these uninformative priors, the fitness estimates were much too high: for the first prior the median estimates were  $w_{2n+1}=2.767$, $w_{2n+1^*}=5.79$, $w_{2n^*}=5.827$ and for the second prior the estimates were $w_{2n+1}=1.046$, $w_{2n+1^*}=4.642$, $w_{2n^*}=4.684$. Such high fitness values are unreasonable. Moreover the WAIC for the models with these priors were 0.57 and 1.9, respectively, whereas the WAIC with the informative prior was 0.27. 
 % TODO if you need to remove this sentence: Also, with the uninformative prior for all fitness values, the fixation time of \anwt is about 16 on average, much lower than the (unpublished) experimental result, which is 200-300 generations.
-
 We tried to use additional growth curves. We used growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 0.32, compared to 0.27 with the above informative prior.
 % TODO what are the results ?
-
 We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} to estimate $1-c$. This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not converge: no parameter sets were found with an approximate likelihood greater than zero.
 % TODO it make sense because bla bla (to explain)
 Finally, we also tested a uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the algorithm failed to converge.
-
-% TODO : Actually I assume in code that  w(2n*)>w(2n+1*)>w(2n+1)>w(2n) just for speeding up the simulations (I don't check some parameters combinations in this way). But I checked also that when I don't adding this constrain the result was the same. However I didn't add reverse direction in this case.
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$.
 For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for the mutation rate, $\mu \sim \mathit{U}(10^{-10},10^{-5})$. 
@@ -429,7 +425,7 @@ aneuploidy rate, $\delta=1.716\substack{+0.974 \\ -0.384}\times10^{-3}$,
 and fitness values, $w_{2n+1}=1.022\substack{+0.001 \\ -0.002}$,
 $w_{2n+1^*}=1.025\substack{+0.001 \\ -0.001}$,
 $w_{2n^*}=1.028\substack{+0.001 \\ -0.001}$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
-% describe b and c TODO? what does it mean?
+% TODO we are jumping between b c s and w2n* w2n+1 w2n+1*. we should report all models and results either with b c s or with w. you can compute b c s from w before computing the HDIs.
 This estimated aneuploidy rate agrees with previous estimates. % TODO refs
 The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014}. 
 %We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
@@ -474,7 +470,8 @@ The single-locus model fits the data well: in simulations using the best-fit par
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\autoref{fig:ppc-plot}). % TODO move somewhere else?
 Furthermore, sensitivity analysis shows that changing the parameter values from the MAP estimate reduces the model fit to the experimental results~(\autoref{fig:sensitivity}).
 
-However, a model without aneuploidy where the aneuploidy rate is fixed at zero, $\delta=0$, cannot explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). The estimated parameter values without aneuploidy are: %% generated by MAP-and-hdi.ipynb
+However, a model without aneuploidy where the aneuploidy rate is fixed at zero, $\delta=0$, cannot explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). The estimated parameter values without aneuploidy are: 
+% generated by MAP-and-hdi.ipynb
 mutation rate, $\mu=7.837\substack{+0.078 \\ -0.123}\times10^{-9}$,
 fitness of mutant, $w_{2n^*}=1.013\substack{+0.000 \\ -0.000}$. 
 We can see that the mutation rate estimate in this model is much lower than in the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than in the experimental observations (\autoref{fig:2n*-fixation}). Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model.
@@ -483,42 +480,38 @@ We can see that the mutation rate estimate in this model is much lower than in t
 % Fig single-locus model with and without aneuploidy
 %%% generated by with-aneuploidy_vs_no_aneuploidy.ipynb
 
-\begin{figure}[b!]
+\begin{figure}[h!]
 
-  \begin{subfigure}[t]{0.9\textwidth}
+  \begin{subfigure}{0.5\textwidth}
       \centering
-      \includegraphics[height=1.8in]{../figures/fixation-plot-a.pdf}      
+      \includegraphics[width=\textwidth]{../figures/fixation-plot-a.pdf}      
       \label{fig:fit}
-    \caption{\textbf{A. Distribution.}}
   \end{subfigure}
-  
-  \vspace*{4mm}
-  
-  \begin{subfigure}[t]{0.9\textwidth}
+  \begin{subfigure}{0.5\textwidth}
       \centering
-      \includegraphics[height=1.8in]{../figures/fixation-plot-b.pdf}      
+      \includegraphics[width=\textwidth]{../figures/fixation-plot-b.pdf}      
       \label{fig:fit-cumulative}
-    \caption{\textbf{B. Cumulative distribution.}}
   \end{subfigure}
-
+  % TODO please add A and B to the figures themselves, not using latex.
+  % remove legends
   \caption{
     \textbf{Single-locus model fit with and without aneuploidy.}
-    \textbf{(A)} The distribution of adaptation time (fixation of \eumt) in $10,000$ simulations of the single-locus model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange); and a model fitted to the data assuming $\delta=0$ (green).
-In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and the other by generation 2,350 (dashed lines) but not before generation 200. Thus, the blue distribution demonstrates a better fit compared to the green, and the yellow demonstrates a very poor fit.
+    \textbf{(A)} The distribution of time to fixation of \eumt (i.e., adaptation time) in $10,000$ simulations of the single-locus model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange); and a model fitted to the data assuming $\delta=0$ (green).
+In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and the other by generation 2,350 (dashed lines) but not before generation 200. Thus, the blue distribution is a better fit compared to the green, and the yellow histogram has a very poor fit.
 The last bin contains all the simulations with time equal or greater than 3,000.
     \textbf{(B)}
-	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy (i.e., $\delta=0$ is fixed).
-     The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy.
-	}
+	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively.
+     The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
+     }
   \label{fig:2n*-fixation}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-\includegraphics[width=0.6\textwidth]{../figures/ppc-plot.pdf}
+\includegraphics[width=0.8\textwidth]{../figures/ppc-plot.pdf}
   \caption{
   \textbf{Single-locus model posterior genotype frequency dynamics.} 
-  The posterior predicted frequency of the four genotypes. Each line is the average of 10,000 simulations using parameters drawn from the posterior distribution (\autoref{fig:posterior}).
+  The posterior predicted frequency of the four genotypes. Each curve is the average of 10,000 simulations using parameters drawn from the posterior distribution (\autoref{fig:posterior}).
   }
   \label{fig:ppc-plot}
   % TODO add legend
@@ -557,7 +550,7 @@ In recent reviews of the literature, aneuploidy is suggested to play an importan
 Indeed, evolutionary, ecological, and epidemiological studies mostly assume adaptation occurs via beneficial mutations, recombination, and sex.
 Therefore, there is a critical need to develop an evolutionary theory of aneuploidy like the evolutionary theories of other mechanisms for generation of genetic variation, e.g. mutation~\citep{Lynch2010}, recombination~\citep{Hartfield2012}, and sex~\citep{Otto2009}.
 An evolutionary theory of aneuploidy will be central to the interpretation of experimental and clinical observations and design of new hypotheses, experiments, and treatments~\citep{Carja2014}.
-For example, despite the lack of theoretical models, aneuploidy has been invoked in a new strategy to combat pathogens and tumour cells by setting “evolutionary traps”~\citep{Gerstein2015,Chen2015}, in which a condition that predictably leads to emergence of aneuploidy is applied, followed by a condition that specifically selects against aneuploid cells.
+For example, despite the lack of theoretical models, aneuploidy has been invoked in a new strategy to combat pathogens and tumour cells by setting ``evolutionary traps''~\citep{Gerstein2015,Chen2015}, in which a condition that predictably leads to emergence of aneuploidy is applied, followed by a condition that specifically selects against aneuploid cells.
 
 \pagebreak
 % Acknowledgements
@@ -577,32 +570,31 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \beginsupplement % https://support.authorea.com/en-us/article/how-to-create-an-appendix-section-or-supplementary-information-1g25i5a/
 
 
-
+\begin{figure}[h]
 % Fig Curveball 30deg
 % generated with growth_curves.ipynb
-\begin{figure}[h]
+\begin{subfigure}{0.5\textwidth}
     \centering
-	\includegraphics[width=0.5\textwidth]{../figures/evo39_fitness_30deg.pdf}
-    \caption{
-    \textbf{Fitness estimation from \SI{30}{\celsius}.}
-    } 
+	\includegraphics[width=\textwidth]{../figures/evo39_fitness_30deg.pdf}
     \label{fig:growth-curves-30deg}
-\end{figure}
-% TODO add caption
-
+\end{subfigure}
 % Fig Curveball 39deg
 % generated with growth_curves.ipynb
-\begin{figure}[h]
+\begin{subfigure}{0.5\textwidth}
     \centering
-	\includegraphics[width=0.5\textwidth]{../figures/evo39_fitness_39deg.pdf}
-    \caption{
-    \textbf{Fitness estimation from \SI{39}{\celsius}.}
-    } 
+	\includegraphics[width=\textwidth]{../figures/evo39_fitness_39deg.pdf}
     \label{fig:growth-curves-39deg}
+\end{subfigure}
+\caption{
+    \textbf{Fitness estimation from growth curves.}
+    \textbf{(A)} Fitness estimation from growth curves collected at \SI{30}.{\celsius}
+    \textbf{(B)} Fitness estimation from growth curves collected at \SI{39}.{\celsius}
+    Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
+	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.
+} 
+\label{fig:growth-curves}
 \end{figure}
 % TODO add caption
-
-%TODO combine to one figure with the previous one and with refined
 %TODO please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
 
 
@@ -650,29 +642,28 @@ Minerva Stiftung Center for Lab Evolution (YR).
   \begin{subfigure}{1\textwidth}
     \centering
       \includegraphics[width=0.45\textwidth]{../figures/convergence-p1_mr.pdf}      
-      \includegraphics[width=0.45\textwidth]{../figures/convergence-p2_tr.pdf}      
-      \includegraphics[width=0.45\textwidth]{../figures/convergence-p3_w1.pdf}      
-      \includegraphics[width=0.45\textwidth]{../figures/convergence-p4_w2.pdf}      
-      \includegraphics[width=0.45\textwidth]{../figures/convergence-p5_w3.pdf}      
+      \includegraphics[width=0.45\textwidth]{../figures/convergence-p2_tr.pdf} \\     
+      \includegraphics[width=0.325\textwidth]{../figures/convergence-p3_w1.pdf}      
+      \includegraphics[width=0.325\textwidth]{../figures/convergence-p4_w2.pdf}      
+      \includegraphics[width=0.325\textwidth]{../figures/convergence-p5_w3.pdf}      
      \label{fig:convergence-A}
-    \caption{\textbf{A. Posterior densities per iteration.}}
     \end{subfigure}
-    \\
-    \vspace*{4mm}
-    
+    \\    
   \begin{subfigure}{1\textwidth}
-  	\includegraphics[width=1\textwidth]{../figures/ess.pdf}
+  	\includegraphics[width=\textwidth]{../figures/ess.pdf}
      \label{fig:convergence-B}
-     \vspace*{-8mm}
-    \caption{\textbf{B. ABC-SMC population properties per iteration.}}
   \end{subfigure}
-
     \caption{
     \textbf{Single-locus model inference convergence.} 
-    ABC-SMC algorithm was executed to inference single-locus model parameters. \textbf{(A)} For each parameter of the model, there's shown KDE of the posterior density of the inference per iteration.
-We can see that the posterior didn't change significantly already from the first iteration. \textbf{(B)} Here are shown measures of convergence for the ABC-SMC algorithm. After iteration number 6, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size (ESS) 651.
+    The ABC-SMC algorithm was used to infer the parameters of the single-locus model. \textbf{(A-E)} The approximate posterior densities of each model parameter at each iteration of the ABC-SMC algorithm demonstrates convergence, as the posterior did not significantly change after iteration, $t=1$.
+    \textbf{(B)} ABC-SMC measures of convergence. After iteration number 6, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size ESS=651.
 }
     \label{fig:convergence}
+    % TODO
+    % legend - t=1, t=2, ... (iter->t)
+    % what is lambda on x axis??
+    % use full name of parameter + its symbol
+    % add panel labels - ABCDEFGHI
 \end{figure}
 
 
@@ -687,9 +678,9 @@ We can see that the posterior didn't change significantly already from the first
     \label{fig:seeds}
 \end{figure}
 % TODO put legend in panel A top right corner
-% panel labels
+% panel labels A->E
 % y label "Density"; y ticks are meaningless, right? 
-% x labels - see comments above.
+% x labels - see comments above. add symbols, fitness of 2n*, etc.
 % color by # of reps; second run with 1000 reps same color as 1st but with dashed line
 
 \end{document}  
