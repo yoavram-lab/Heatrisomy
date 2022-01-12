@@ -204,8 +204,8 @@ We find that \textbf{TODO} % TODO
     \textbf{(A)} In the single-locus model, the four genotypes are: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
     Overall there are two possible trajectories from \euwt\; to \eumt.
     \textbf{(B)} In the multi-locus model, each genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, denoted by stars. 
-    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$ and $\tau \mu$, beneficial mutation rates in euploid and aneuploid cells; $\delta$, aneuploidy rate.
-    % TODO IK: change k mu to tau mu in figure; also k mu is too close to the arrow right now; change alpha to delta in the figure 
+    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$, beneficial mutation rate; $\delta$, aneuploidy rate.
+    % TODO IK: remove k (not tau either!); also k mu is too close to the arrow right now; change alpha to delta in the figure 
   }
   \label{fig:models}
 \end{figure}
@@ -225,7 +225,7 @@ euploid mutant, \eumt, with the standard karyotype and a single beneficial mutat
 aneuploid wild-type, \anwt, with an extra chromosome, i.e., following chromosome duplication; and
 aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation. 
 
-Transitions between the genotypes occur as follows~(\autoref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; occur with probability $\mu$, the mutation rate, and from \anwt\; to \anmt\; with probability $\tau \mu$, where $\tau$ is the fold-change in the rate of beneficial mutations in aneuploid cells. By default, we assume $\tau=33/32$, as the wild-type \yeast strains in the experiments by \citep{Yona2012} are diploid with 32 chromosomes, and the aneuploid strains are trisomic, with 33 chromosomes. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
+Transitions between the genotypes occur as follows~(\autoref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; and from \anwt\; to \anmt\; occur with probability $\mu$, the mutation rate. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
 Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\; and from \anmt\ to \eumt\ with probability $\delta$, the aneuploidy rate. That is, we assume chromosomes are gained and lost at the same rate, and we neglect events that form a less-fit genotype (i.e., \anwt\; to \euwt\; and \eumt\; to \anmt).
 The fitness values of the four genotypes are given by \autoref{table:single-locus}.
 
@@ -257,8 +257,8 @@ The effect of mutation and aneuploidy on genotype frequencies is given by
     \begin{equation} \label{eq:mutation-aneuploidy-single}
     \begin{aligned}
       &f^m_{2n} &=&\; (1 - \delta - \mu) f^s_{2n}  \;,\\
-      &f^m_{2n+1} &=&\; \delta f^s_{2n} + (1 - \tau \mu) f^s_{2n+1}  \;,\\
-      &f^m_{2n+1^*} &=&\; \tau \mu f^s_{2n+1} + (1-\delta) f^s_{2n+1^*}  \;,\\
+      &f^m_{2n+1} &=&\; \delta f^s_{2n} + (1 - \mu) f^s_{2n+1}  \;,\\
+      &f^m_{2n+1^*} &=&\; \mu f^s_{2n+1} + (1-\delta) f^s_{2n+1^*}  \;,\\
       &f^m_{2n^*} &=&\; \mu f^s_{2n} + \delta f^s_{2n+1} + f^s_{2n^*}  \;.
     \end{aligned}
     \end{equation}
@@ -275,8 +275,7 @@ This model expands the single-locus model by allowing for (i) the accumulation o
 
 A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
 The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$: $s_i \sim \mathit{Exp{(s)}}$.
-The rest of the parameters ($N$, $\mu$, $\tau$, $\delta$, $b$, $c$) are the same as in the single-locus model. However, since the multi-locus model allows several mutations with smaller fitness effects to accumulate, we expect the mutation rate to be higher compared to the single-locus model, which focuses on a single, large-effect mutation.
-% TODO : add tau to model fixed at 33/32.
+The rest of the parameters ($N$, $\mu$, $\delta$, $b$, $c$) are the same as in the single-locus model. However, since the multi-locus model allows several mutations with smaller fitness effects to accumulate, we expect the mutation rate to be higher compared to the single-locus model, which focuses on a single, large-effect mutation.
 
 The fitness of the different genotypes is the same as in the single-locus model (\autoref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \autoref{table:multi-locus}.
 Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations and/or the selection coefficients $s_i$ are large enough. The intuition is that when the benefit of the accumulated beneficial mutations is small, ten the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations is large, then aneuploidy is no longer beneficial due of its fitness cost.
@@ -289,8 +288,7 @@ The change in frequencies due to selection is exactly the same as in the single-
 The effects of mutation and aneuploidy on genotype frequencies is more elaborate than in the single-locus model.
 Genotype $i$ is classified according to its karyotype (\euwt\ or \anwt), the number of accumulated beneficial mutations ($k \ge 0$), and their fitness ($w_i$).
 Each offspring cell inherits these properties from its mother cell.
-Then, with probability $\mu$ or $\tau \mu$ for euploid and aneuploid cells,
-respectively, a new beneficial mutation is accumulated, such that the number of mutations is $k+1$, and its effect $s_{k+1}$ is drawn from an exponential distribution with expected value $s$, such that the contribution of the mutations to the fitness is $\prod_{j=0}^{k+1}{(1+s_j)}$.
+Then, a new beneficial mutation is accumulated with probability $\mu$, such that the number of mutations is $k+1$, and its effect $s_{k+1}$ is drawn from an exponential distribution with expected value $s$, such that the contribution of the mutations to the fitness is $\prod_{j=0}^{k+1}{(1+s_j)}$.
 Next, euploid offspring become aneuploid with probability $\delta$, and aneuploid offspring become euploid with probability $\delta_L$.
 
 %%% Table: multi-locus model
@@ -321,7 +319,7 @@ The experiment continued with two populations, in which aneuploidy was eliminate
 
 \paragraph{Likelihood function.} 
 Because our model, just like the Wright-Fisher model, is non-linear and stochastic, computing the distribution of fixation time $T(g)$ of genotype $g$ for use in the likelihood function is intractable (it is even hard to use a diffusion-equation approximation due to the model having multiple genotypes, rather than just two).
-We overcome this problem by approximating the likelihood using simulations. We simulate 1,000 experiments per parameter vector $\theta = (\mu, \tau, \delta, s, b, c)$, resulting in a set of simulated observations $\tilde{\vec X} = \{\tilde{X}_i\}_{i=1}^{1000}$. We then compute the approximate likelihood,
+We overcome this problem by approximating the likelihood using simulations. We simulate 1,000 experiments per parameter vector $\theta = (\mu, \delta, s, b, c)$, resulting in a set of simulated observations $\tilde{\vec X} = \{\tilde{X}_i\}_{i=1}^{1000}$. We then compute the approximate likelihood,
 \begin{equation}\begin{aligned}
 \label{eq:heatstress-likelihood}
 \likelihood(\theta) = &\ P^4(200 \le T(2n+1) \le 450) \cdot 
@@ -438,15 +436,16 @@ The mutation rate corresponds to a mutation target size of $10^{4}$, assuming th
 %We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
 % TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
 
-We also tried to inference parameters of the single-locus model with different $\tau$: 1, 2, 5, 10 and 100. It was seen that for 1, 2, 5 the posterior was not significantly different from the model with $\tau=33/32$, while for $\tau=10$ the estimated $\mu\ $ was a little lower, $1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated $\mu\ $ was already significantly lower and $\delta\ $ had higher variability. The MAP and 50\% HDI for $\tau=100$: %TODO add to MAP-and-hdi.ipynb and check the values here
+We also tried to infer parameters of the single-locus model when the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
+We found that for $\tau=$1, 33/32, 2, and 5 the posterior was not significantly different from the model with $\tau=1$, while for $\tau=10$ the estimated mutation rate was slightly lower, $\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated mutation rate was significantly lower and the aneuploidy rate had higher variability. The MAP and 50\% HDI with $\tau=100$ were: %
+TODO add to MAP-and-hdi.ipynb and check the values here
 $\mu=5.538\substack{+1.611 \\ -5.311}\times10^{-7}$,
 $\delta=8.292\substack{+8.988 \\ -4.96}\times10^{-4}$,
 $w_{2n+1}=1.023\substack{+0.001 \\ -0.002}$,
 $w_{2n+1^*}=1.024\substack{+0.001 \\ -0.001}$,
 $w_{2n^*}=1.028\substack{+0.001 \\ -0.002}$.
+We thus continued our analysis under the assumption that $\tau=1$, that is, that the mutation rate in euploid and aneuploid cells is the same.
 %TODO: show joint distributions comparison plot (20-diffk.ipynb). WAIC?
-
-% TODO use tau=1 as the default; we also check tau>1 - 33/32, 2, 5, 10, 100.
 % TODO support figure of joint posterior delta vs mu per tau=1, 33/32, 2, 5, 10
 
 % FIG posterior
@@ -569,6 +568,7 @@ We thank Yitzhak Pilpel, Orna Dahan, Lilach Hadany, Judith Berman, David Gresham
 This work was supported in part by 
 the Israel Science Foundation (YR 552/19) and
 Minerva Stiftung Center for Lab Evolution (YR).
+% TODO add Minerva for Martin; funding for Avihu?
 }
 
 \bibliographystyle{agsm}
