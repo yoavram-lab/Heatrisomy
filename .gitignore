@@ -1,6 +1,7 @@
 # https://github.com/rubeonline/Latex-gitignore-for-Mac/raw/master/.gitignore
 ./src/notebooks/outputs/with-aneuploidy_vs_no-aneuploidy.npz
 .ipynb_checkpoints
+**/*.ipynb_checkpoints/
 __pycache__
 
 *.synctex.gz
