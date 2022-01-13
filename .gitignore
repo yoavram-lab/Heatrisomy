@@ -2,6 +2,7 @@
 ./src/notebooks/outputs/with-aneuploidy_vs_no-aneuploidy.npz
 .ipynb_checkpoints
 **/*.ipynb_checkpoints/
+src/notebooks/.ipynb_checkpoints/convergence-checkpoint.ipynb
 __pycache__
 
 *.synctex.gz
