@@ -106,7 +106,7 @@ headheight=12pt
 %\author[d]{Yitzhak Pilpel}
 \author[1,2,$\dagger$]{Yoav Ram}
 
-\affil[1]{School of Computer Sciences, IDC Herzliya, Herzliya, Israel}
+\affil[1]{School of Computer Sciences, Reichman University, Herzliya, Israel}
 \affil[2]{School of Zoology, Faculty of Life Sciences, Tel Aviv University, Tel Aviv, Israel}
 \affil[3]{Institute of Biochemistry, Food Science and Nutrition,
 Robert H. Smith Faculty of Agriculture, Food and Environment,
@@ -494,13 +494,11 @@ We can see that the mutation rate estimate in this model is much lower than in t
   \end{subfigure}
   \caption{
     \textbf{Single-locus model fit with and without aneuploidy.}
-    \textbf{(A)} The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations of the single-locus model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange); and a model fitted to the data assuming $\delta=0$ (green).
-%TODO_YR is it ok the paragraph below?  Green bars don't relate to aneuploidy lost, but to 2n* fixation...so it should be "the adaptation time of one generation was 1700.."? Correct? 
-In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and the other by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green, and the yellow histogram has a very poor fit.
+    \textbf{(A)} The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations of the single-locus model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange), and a model fitted to the data assuming $\delta=0$ (green).
+In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green, and the yellow histogram has a very poor fit.
 The last bin contains all the simulations with time equal or greater than 3,000.
     \textbf{(B)}
-	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively. %TODO_YR shouldn't we write here about green that it is like in (A) - same MAP as with aneuploidy but with delta=0
-     The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
+	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\autoref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
      }
   \label{fig:2n*-fixation}
 \end{figure}
@@ -593,9 +591,8 @@ Minerva Stiftung Center for Lab Evolution (YR).
 } 
 \label{fig:growth-curves}
 \end{figure}
-% TODO add caption
 %TODO please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
-
+% TODO add panel labels
 
 % Fig likelihood profile
 \begin{figure}[p]
@@ -622,10 +619,12 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \label{fig:sensitivity-eumt}
   \end{subfigure}
   \caption{
-    \textbf{Likelihood profiles.} The different curves show how the single-locus model approximate likelihood, $\likelihood_{!}(\theta)+10^{-2}$, changes when each of the parameter changes while the other parameters remain fixed at their MAP estimates. We add $10^{-2}$ to the likelihood for proper representation in a log scale. Dashed vertical line represents the MAP value.
+    \textbf{Likelihood profiles.} Sensitivity of the approximate likelihood, $\likelihood(\theta)$, of the single-locus model to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value.
   }
-  % trisomy rate -> aneuploidy gain rate
-  % TODO_YR: To call it aneuploidy gain rate? Because it is loss rate too. I think we called it aneuploidy rate before.
+  % TODO add 10^-10, not 10^-2
+  % TODO ylabel - L shouldn't have a subscript !, this was used only for the model without aneuploidy
+  % TODO add more points in the peaks
+  
   \label{fig:sensitivity}
 \end{figure}
 
@@ -650,10 +649,12 @@ Minerva Stiftung Center for Lab Evolution (YR).
   \end{subfigure}
     \caption{
     \textbf{Single-locus model inference convergence.} 
-    The ABC-SMC algorithm was used to infer the parameters of the single-locus model. \textbf{(A-E)} The approximate posterior densities of each model parameter at each iteration of the ABC-SMC algorithm demonstrates convergence, as the posterior did not significantly change after iteration, $t=1$.
+    The ABC-SMC algorithm was used to infer the parameters of the single-locus model. \textbf{(A-E)} The approximate posterior distributions of model parameters at each iteration of the ABC-SMC algorithm demonstrates convergence, as the posterior did not significantly change after the first iteration, $t=1$.
     \textbf{(F-I)} ABC-SMC measures of convergence. After iteration number 6, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size ESS=651.
 }
     \label{fig:convergence}
+    % TODO legend - t=6, etc (add =)
+	% x labels missing for G H I - either add them or put "Iteration" at the middle of the axes. whatever is easier.
 \end{figure}
 
 
