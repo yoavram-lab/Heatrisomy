@@ -720,20 +720,6 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
                     # kde=kde,
                     xname=names[x.name], yname=names[y.name], bins=20)
 
-        # plot_kde_2d(df, w,
-        #             x.name, y.name,
-        #             xmin=limits.get(x.name, default)[0],
-        #             xmax=limits.get(x.name, default)[1],
-        #             ymin=limits.get(y.name, default)[0],
-        #             ymax=limits.get(y.name, default)[1],
-        #             numx=numx, numy=numy,
-        #             ax=ax, 
-        #             title=None, 
-        #             colorbar=colorbar,
-        #             refval=refval, refval_color=refval_color,
-        #             kde=kde,
-        #             xname=names[x.name], yname=names[y.name])
-
     def scatter(x, y, ax):
         alpha = w / w.max()
         colors = np.zeros((alpha.size, 4))
@@ -753,19 +739,19 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
         ax.set_xlim(min(df[x.name])-1e-8) #1e-8 to print 0
         ax.set_yticks([])
         if i==0:
-            ax.text(0.87, -0.13, '$x10^{-6}$', transform=ax.transAxes)
-            ax.set_xticks([0,5e-6, 10e-6])
+            ax.text(0.88, -0.11, '$x10^{-6}$', transform=ax.transAxes)
+            ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
             ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
         if i==1:
-            ax.set_xticks([0, 0.0025,0.0050])
-            ax.set_xticklabels([0, 0.0025,0.0050])
-            ax.set_xlim(min(df[x.name])-1e-5)
-#         plot_kde_1d(df, w, x.name,
-#                     xmin=limits.get(x.name, default)[0],
-#                     xmax=limits.get(x.name, default)[1],
-#                     numx=numx,
-#                     ax=ax, refval=refval, refval_color=refval_color,
-#                     kde=kde, xname=x.name)
+            ax.text(0.88, -0.11, '$x10^{-3}$', transform=ax.transAxes)
+            ax.set_xticks([1e-3, 2e-3, 3e-3, 4e-3])
+            ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e3]);
+        if i==2:
+            ax.set_xticks([1.015,1.020, 1.025, 1.030])
+            ax.set_xticklabels([1.015,1.020, 1.025, 1.030])
+        if i>3:
+            ax.set_xticks([1.020, 1.025, 1.030, 1.035])
+            ax.set_xticklabels([1.020, 1.025, 1.030, 1.035])
 
     # fill all subplots
     for i in range(0, n_par):
@@ -783,15 +769,44 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
             # lower
             ax = arr_ax[i, j]
             hist_2d(x, y, ax)
-            if j == 0 : #mutation rate
+
+            yticks = ax.get_yticks()
+            minn, maxx = yticks[0], yticks[-1]
+            ax.set_yticks(np.linspace(minn, maxx, 6))
+
+
+            if j>=2 and i!=j:
+                ax.set_xticks([1.015,1.020, 1.025, 1.030])
+                ax.set_xticklabels([1.015,1.020, 1.025, 1.030])
+                ax.set_xlim(min(x)-1e-7)
+
+            if j == 0: #mutation rate
                 ax.ticklabel_format(style='plain')
-                ax.text(0.87, -0.13, '$x10^{-6}$', transform=ax.transAxes)
-                ax.set_xticks([0, 5e-6, 10e-6])
+                ax.text(0.88, -0.11, '$x10^{-6}$', transform=ax.transAxes)
+                ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+                # ax.set_xticks([0,5e-6, 10e-6])
                 ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
-            if j == 1: #aneuploidy rate
-                ax.set_xticks([0, 0.0025,0.0050])
-                ax.set_xticklabels([0, 0.0025,0.0050])
-                
+
+            if j==1: #aneuploidy rate
+                ax.text(0.88, -0.11, '$x10^{-3}$', transform=ax.transAxes)
+                ax.set_xticks([1e-3, 2e-3, 3e-3, 4e-3])
+                ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e3]);
+
+
+            hist_2d(x, y, ax) #running it twice fix the visualization
+
+            if j == 0 and i!=j: #mutation rate again
+                # ax.ticklabel_format(style='plain')
+                # ax.text(0.88, -0.15, '$x10^{-6}$', transform=ax.transAxes)
+                ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+                # ax.set_xticks([0,5e-6, 10e-6])
+                ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
+            
+            if j>=2 and i!=j: #again :)
+                ax.set_xticks([1.015,1.020, 1.025, 1.030])
+                ax.set_xticklabels([1.015,1.020, 1.025, 1.030])
+                ax.set_xlim(min(x)-1e-7)
+
             # upper
             ax = arr_ax[j, i]
             ax.axis('off')
