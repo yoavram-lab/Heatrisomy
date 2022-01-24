@@ -131,6 +131,8 @@ Our results suggest that aneuploidy can be a transient adaptive solution, which 
 
 % TODO cite https://www.biorxiv.org/content/10.1101/2020.10.07.327759v1
 % TODO cite Yang, F. et al. The fitness costs and benefits of trisomy of each Candida albicans chromosome. Genetics 218, 1–7 (2021). https://academic.oup.com/genetics/article/218/2/iyab056/6218773
+% cite: https://www.cell.com/developmental-cell/fulltext/S1534-5807(21)00562-1?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1534580721005621%3Fshowall%3Dtrue
+% cite: https://www.cell.com/developmental-cell/fulltext/S1534-5807(21)00592-X?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS153458072100592X%3Fshowall%3Dtrue
 
 \pagebreak
 % Introduction
@@ -448,8 +450,8 @@ We thus continued our analysis under the assumption that $\tau=1$, that is, that
 \includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
   \caption{
   \textbf{Posterior distribution of single-locus model.}
-On the diagonal, the posterior kernel distribution of each model parameter. 
-Below the diagonal, joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+On the diagonal, the inferred posterior distribution of each model parameter. 
+Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
 } 
   \label{fig:posterior}
 \end{figure}
@@ -499,8 +501,8 @@ The last bin contains all the simulations with time equal or greater than 3,000.
   \centering
 \includegraphics[width=0.8\textwidth]{../figures/dynamics.pdf}
   \caption{
-  \textbf{Single-locus model posterior genotype frequency dynamics.} 
-  The posterior predicted frequency of the four genotypes. Each of 20 curves is the average of 10,000 simulations using parameters drawn from the posterior distribution (\autoref{fig:posterior}).
+  \textbf{Posterior genotype frequency dynamics for the single-locus model.} 
+  The posterior prediction for the frequencies of the four genotypes over time. Each of the 20 curves is the average of 10,000 simulations of the single-locus model using parameters drawn from the posterior distribution.
   }
   \label{fig:ppc-plot}
 \end{figure}
@@ -609,10 +611,11 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \label{fig:sensitivity-eumt}
   \end{subfigure}
   \caption{
-    \textbf{Likelihood profiles.} Sensitivity of the approximate likelihood, $\likelihood(\theta)$, of the single-locus model to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value.
+    \textbf{Likelihood profiles.} Sensitivity of the approximate likelihood of the single-locus model, $\likelihood(\theta)$, to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value.
   }
   
   \label{fig:sensitivity}
+  % TODO what defines the x range? is it the prior distribution range?
 \end{figure}
 
 
