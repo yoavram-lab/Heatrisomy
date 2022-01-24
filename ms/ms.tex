@@ -433,16 +433,15 @@ The mutation rate corresponds to a mutation target size of $10^{4}$, assuming th
 % TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
 
 We also tried to infer parameters of the single-locus model when the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
-We found that for $\tau=$33/32, 2, and 5 the posterior was not significantly different from the model with $\tau=1$, while for $\tau=10$ the estimated mutation rate was slightly lower, $\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated mutation rate was significantly lower and the aneuploidy rate had higher variability. The MAP and 50\% HDI with $\tau=100$ were: 
-%TODO add to MAP-and-hdi.ipynb and check the values here
-$\mu=5.538\substack{+1.611 \\ -5.311}\times10^{-7}$,
-$\delta=8.292\substack{+8.988 \\ -4.96}\times10^{-4}$,
-$w_{2n+1}=1.023\substack{+0.001 \\ -0.002}$,
+We found that for $\tau=$33/32, 2, and 5 the posterior was not significantly different from the model with $\tau=1$, while for $\tau=10$ the estimated mutation rate was slightly lower, $\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated mutation rate was significantly lower and the aneuploidy rate had higher variability (\autoref{fig:tau}). The MAP and 50\% HDI with $\tau=100$ were: 
+%% generated with MAP-and-hdi.ipynb
+$\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$,
+$\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$,
+$w_{2n+1}=1.022\substack{+0.001 \\ -0.001}$,
 $w_{2n+1^*}=1.024\substack{+0.001 \\ -0.001}$,
 $w_{2n^*}=1.028\substack{+0.001 \\ -0.002}$.
-We thus continued our analysis under the assumption that $\tau=1$, that is, that the mutation rate in euploid and aneuploid cells is the same.
-%TODO: show joint distributions comparison plot (20-diffk.ipynb). WAIC?
-% TODO support figure of joint posterior delta vs mu per tau=1, 33/32, 2, 5, 10
+We thus continued our analysis under the assumption that $\tau=1$, that is, that the mutation rate is euploid and aneuploid cells are the same.
+%TODO WAIC for all tau except 100 is about 0.268-0.269 and for tau=100 0.271. I don't think that we should provide it, because the difference is minor.
 
 % FIG posterior
 %% generated with posterior-plot.ipynb
@@ -505,6 +504,52 @@ The last bin contains all the simulations with time equal or greater than 3,000.
   }
   \label{fig:ppc-plot}
 \end{figure}
+
+% Fig tau comparisons
+%% generated with diff-tau.ipynb
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-A.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-B.pdf}      
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-C.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-D.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-E.pdf}      
+  \end{subfigure}
+  \\
+  \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-F.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-G.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-H.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-I.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-J.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-K.pdf}      
+  \end{subfigure}
+  \caption{
+    \textbf{Single-locus model with different $\tau$ comparison.}  \textbf{(A-E)} The inferred posterior distribution of each model paramter for the single-locus model with different $\tau$. For $\tau=10$ and $\tau=100$ the mutation and aneuploidy rates tends to be lower.  \textbf{(F-K)} The inferred joint posterior distribution of mutation rate and aneuploidy rate for the single locus model with different $\tau$ (dark purple and bright yellow for low and high density, respectively).
+  \label{fig:tau}
+  }
+  \end{figure}
+
 
 \paragraph{Inference: multi-locus model.}
 
@@ -616,6 +661,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
   
   \label{fig:sensitivity}
   % TODO what defines the x range? is it the prior distribution range?
+  %ANS: yes for mutation and aneuploidy rates. For fitness just around the MAP in range that looks beautiful.
 \end{figure}
 
 
