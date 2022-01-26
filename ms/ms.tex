@@ -382,7 +382,7 @@ WAIC values are scaled as a deviance measure: lower values imply higher predicti
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
 From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. We sampled 10,000 samples to use as a prior distribution~(\autoref{fig:growth-curves}).
-We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$. In lieu of a better prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
+We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$ ~(\autoref{fig:growth-curves}-A). In lieu of a better prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
 To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. 
 
 Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
@@ -390,7 +390,7 @@ Compared to other priors we tested, this prior produced lower WAIC, better poste
 % TODO if you need to remove this sentence: Also, with the uninformative prior for all fitness values, the fixation time of \anwt is about 16 on average, much lower than the (unpublished) experimental result, which is 200-300 generations.
 We tried to use additional growth curves. We used growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 0.32, compared to 0.27 with the above informative prior.
 % TODO what are the results ?
-We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} to estimate $1-c$. This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not converge: no parameter sets were found with an approximate likelihood greater than zero.
+We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} ~(\autoref{fig:growth-curves}-B) to estimate $1-c$ . This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not converge: no parameter sets were found with an approximate likelihood greater than zero.
 % TODO it make sense because bla bla (to explain)
 Finally, we also tested a uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the algorithm failed to converge.
  
@@ -433,7 +433,7 @@ The mutation rate corresponds to a mutation target size of $10^{4}$, assuming th
 % TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
 
 We also tried to infer parameters of the single-locus model when the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
-We found that for $\tau=$33/32, 2, and 5 the posterior was not significantly different from the model with $\tau=1$, while for $\tau=10$ the estimated mutation rate was slightly lower, $\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated mutation rate was significantly lower and the aneuploidy rate had higher variability (\autoref{fig:tau}). The MAP and 50\% HDI with $\tau=100$ were: 
+We found that for $\tau=$33/32, 2, and 5 the posterior was not significantly different from the model with $\tau=1$, while for $\tau=10$ the estimated mutation rate was slightly lower, $\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated mutation rate was significantly lower and the aneuploidy rate had higher variability ~(\autoref{fig:tau}). The MAP and 50\% HDI with $\tau=100$ were: 
 %% generated with MAP-and-hdi.ipynb
 $\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$,
 $\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$,
@@ -602,33 +602,26 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \section*{Supplementary Material}
 \beginsupplement % https://support.authorea.com/en-us/article/how-to-create-an-appendix-section-or-supplementary-information-1g25i5a/
 
-
+% Fig Curveball 
 \begin{figure}[h]
-% Fig Curveball 30deg
-% generated with growth_curves.ipynb
-\begin{subfigure}{0.5\textwidth}
-    \centering
-	\includegraphics[width=\textwidth]{../figures/evo39_fitness_30deg.pdf}
-    \label{fig:growth-curves-30deg}
-\end{subfigure}
-% Fig Curveball 39deg
-% generated with growth_curves.ipynb
-\begin{subfigure}{0.5\textwidth}
-    \centering
-	\includegraphics[width=\textwidth]{../figures/evo39_fitness_39deg.pdf}
-    \label{fig:growth-curves-39deg}
-\end{subfigure}
+	\centering
+	% generated with growth_curves.ipynb and deg = '39' 
+	\includegraphics[width=0.45\textwidth]{../figures/evo39_fitness_39deg.pdf}
+	% generated with growth_curves.ipynb and deg = '30' 
+	\includegraphics[width=0.45\textwidth]{../figures/evo39_fitness_30deg.pdf}
+	% generated with growth_curves_refined.ipynb and deg = '30' 
+	\includegraphics[width=0.45\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
 \caption{
     \textbf{Fitness estimation from growth curves.}
-    \textbf{(A)} Fitness estimation from growth curves collected at \SI{30}.{\celsius}
-    \textbf{(B)} Fitness estimation from growth curves collected at \SI{39}.{\celsius}
+    \textbf{(A)} Fitness estimation from growth curves collected at \SI{39}{\celsius}. Mean: 1.024; 95\% CI: 0.959 - 1.115.
+    \textbf{(B)} Fitness estimation from growth curves collected at \SI{30}{\celsius}. Mean: 0.986;  95\% CI: 0.979 - 0.994.
+    \textbf{(C)} Fitness estimation from growth curves collected at \SI{39}{\celsius}. Mean: 1.033; 95\% CI: 1.027 - 1.041.
+    \\
     Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.
 } 
 \label{fig:growth-curves}
 \end{figure}
-%TODO please report here the point estimate and 95% CI for the three distributions, I only have for 1-c+b: 0.9863 (95% CI 0.9790 - 0.9939).
-% TODO add panel labels
 
 % Fig likelihood profile
 %% generated by sensitivity-analysis.ipynb
@@ -704,7 +697,6 @@ Minerva Stiftung Center for Lab Evolution (YR).
        \caption{
     \textbf{Posterior distribution validation.}
     The posterior distribution of the single-locus model parameters is roughly the same regardless of the number of simulations (4-10,000 replicates) used to approximate the likelihood (\autoref{eq:heatstress-likelihood}).
-    % TODO add "Density" to y label in C
     } 
      
      \label{fig:seeds}
