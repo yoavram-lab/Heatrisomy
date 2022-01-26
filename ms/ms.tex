@@ -432,17 +432,6 @@ The mutation rate corresponds to a mutation target size of $10^{4}$, assuming th
 %We can see from the posterior distribution~(\autoref{fig:posterior}) the correlation between fitness of different genotypes. 
 % TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
 
-We also tried to infer parameters of the single-locus model when the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
-We found that for $\tau=$33/32, 2, and 5 the posterior was not significantly different from the model with $\tau=1$, while for $\tau=10$ the estimated mutation rate was slightly lower, $\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$, and for $\tau=100$ the estimated mutation rate was significantly lower and the aneuploidy rate had higher variability ~(\autoref{fig:tau}). The MAP and 50\% HDI with $\tau=100$ were: 
-%% generated with MAP-and-hdi.ipynb
-$\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$,
-$\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$,
-$w_{2n+1}=1.022\substack{+0.001 \\ -0.001}$,
-$w_{2n+1^*}=1.024\substack{+0.001 \\ -0.001}$,
-$w_{2n^*}=1.028\substack{+0.001 \\ -0.002}$.
-WAIC for the models with each $\tau$ is similar: about 0.268-0.269, and only for $\tau=100$, 0.271.
-We thus continued our analysis under the assumption that $\tau=1$, that is, that the mutation rate is euploid and aneuploid cells are the same.
-
 % FIG posterior
 %% generated with posterior-plot.ipynb
 \begin{figure}[h!]
@@ -462,7 +451,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 The single-locus model fits the data well: in simulations using the best-fit parameters (MAP estimate) \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\autoref{fig:2n*-fixation}-B) and \anwt\ fixed in roughly 300 generations on average (green lines in \autoref{fig:ppc-plot}), which agrees with experimental results.
 % TODO replace "roughly 300" with the exact number.
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\autoref{fig:ppc-plot}). % TODO move somewhere else?
-Furthermore, sensitivity analysis shows that changing the parameter values from the MAP estimate reduces the model fit to the experimental results~(\autoref{fig:sensitivity}).
+Furthermore, sensitivity analysis shows that changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\autoref{fig:sensitivity}).
 
 However, a model without aneuploidy where the aneuploidy rate is fixed at zero, $\delta=0$, cannot explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). The estimated parameter values without aneuploidy are: 
 %% generated with MAP-and-hdi.ipynb
@@ -470,6 +459,21 @@ mutation rate, $\mu=7.837\substack{+0.078 \\ -0.123}\times10^{-9}$,
 fitness of mutant, $w_{2n^*}=1.013\substack{+0.000 \\ -0.000}$. 
 We can see that the mutation rate estimate in this model is much lower than in the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than in the experimental observations (\autoref{fig:2n*-fixation}). Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model.
 % TODO WAIC?
+
+We also inferred model parameters under the assumptuon that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
+We found that for the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\autoref{fig:tau}; WAIC 0.268-0.269).
+With $\tau=10$, the estimated mutation rate was slightly lower ($\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$). 
+With $\tau=100$, the estimated mutation rate was considerably lower ($\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$) and the aneuploidy rate had higher variance ($\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$). The model fit was worst in this case (WAIC=0.271). 
+%The MAP and 50\% HDI with $\tau=100$ were: 
+%% generated with MAP-and-hdi.ipynb
+%$\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$,
+%$\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$,
+%$w_{2n+1}=1.022\substack{+0.001 \\ -0.001}$,
+%$w_{2n+1^*}=1.024\substack{+0.001 \\ -0.001}$,
+%$w_{2n^*}=1.028\substack{+0.001 \\ -0.002}$.
+%WAIC for the models with each $\tau$ is similar: about 0.268-0.269, and only for $\tau=100$, 0.271.
+Therefore, we cannot rule out an increased mutation rate in aneuploid cells, but we find no evidence that it does, and unless the effect is strong, it does not seem to affect our results.
+
 
 % Fig single-locus model with and without aneuploidy
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
@@ -505,50 +509,6 @@ The last bin contains all the simulations with time equal or greater than 3,000.
   \label{fig:ppc-plot}
 \end{figure}
 
-% Fig tau comparisons
-%% generated with diff-tau.ipynb
-\begin{figure}[h!]
-  \centering
-  \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-A.pdf}      
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-B.pdf}      
-  \end{subfigure}
-  \\
-   \begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-C.pdf}      
-  \end{subfigure}
-    \begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-D.pdf}      
-  \end{subfigure}
-    \begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-E.pdf}      
-  \end{subfigure}
-  \\
-  \begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-joint-F.pdf}      
-  \end{subfigure}
-\begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-joint-G.pdf}      
-  \end{subfigure}
-\begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-joint-H.pdf}      
-  \end{subfigure}
-\begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-joint-I.pdf}      
-  \end{subfigure}
-\begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-joint-J.pdf}      
-  \end{subfigure}
-\begin{subfigure}{0.325\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-joint-K.pdf}      
-  \end{subfigure}
-  \caption{
-    \textbf{Single-locus model with different $\tau$ comparison.}  \textbf{(A-E)} The inferred posterior distribution of each model paramter for the single-locus model with different $\tau$. For $\tau=10$ and $\tau=100$ the mutation and aneuploidy rates tends to be lower.  \textbf{(F-K)} The inferred joint posterior distribution of mutation rate and aneuploidy rate for the single locus model with different $\tau$ (dark purple and bright yellow for low and high density, respectively).
-  \label{fig:tau}
-  }
-  \end{figure}
 
 
 \paragraph{Inference: multi-locus model.}
@@ -702,5 +662,54 @@ Minerva Stiftung Center for Lab Evolution (YR).
      
      \label{fig:seeds}
  \end{figure}
+ 
+ % Fig tau comparisons
+%% generated with diff-tau.ipynb
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-A.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-B.pdf}      
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-C.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-D.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-E.pdf}      
+  \end{subfigure}
+  \\
+  \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-F.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-G.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-H.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-I.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-J.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-joint-K.pdf}      
+  \end{subfigure}
+  \caption{
+    \textbf{Single-locus model inference with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions of model parameters for the single-locus model with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rate tends to be lower. 
+    \textbf{(F-K)} The inferred joint posterior distribution of mutation rate ($\mu$) and aneuploidy rate ($\delta$) with different $\tau$ values (dark purple and bright yellow for low and high density, respectively).
+  \label{fig:tau}
+  }
+  % TODO maybe added dashed vertical lines with the same colors to show where the MAP of each distribution is?
+  
+  \end{figure}
+
 
 \end{document}  
