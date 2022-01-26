@@ -387,8 +387,6 @@ We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a pr
 To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. 
 
 Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
-%In both of these uninformative priors, the fitness estimates were much too high: for the first prior the median estimates were  $w_{2n+1}=2.767$, $w_{2n+1^*}=5.79$, $w_{2n^*}=5.827$ and for the second prior the estimates were $w_{2n+1}=1.046$, $w_{2n+1^*}=4.642$, $w_{2n^*}=4.684$. Such high fitness values are unreasonable. Moreover the WAIC for the models with these priors were 0.57 and 1.9, respectively, whereas the WAIC with the informative prior was 0.27. 
-% TODO if you need to remove this sentence: Also, with the uninformative prior for all fitness values, the fixation time of \anwt is about 16 on average, much lower than the (unpublished) experimental result, which is 200-300 generations.
 We tried to use additional growth curves. We used growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 0.32, compared to 0.27 with the above informative prior.
 % TODO what are the results ?
 We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} ~(\cref{fig:growth-curves}-B) to estimate $1-c$ . This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not converge: no parameter sets were found with an approximate likelihood greater than zero.
@@ -464,15 +462,8 @@ We can see that the mutation rate estimate in this model is much lower than in t
 We also inferred model parameters under the assumptuon that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
 We found that for the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\cref{fig:tau}; WAIC 0.268-0.269).
 With $\tau=10$, the estimated mutation rate was slightly lower ($\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$). 
-With $\tau=100$, the estimated mutation rate was considerably lower ($\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$) and the aneuploidy rate had higher variance ($\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$). The model fit was worst in this case (WAIC=0.271). 
-%The MAP and 50\% HDI with $\tau=100$ were: 
 %% generated with MAP-and-hdi.ipynb
-%$\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$,
-%$\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$,
-%$w_{2n+1}=1.022\substack{+0.001 \\ -0.001}$,
-%$w_{2n+1^*}=1.024\substack{+0.001 \\ -0.001}$,
-%$w_{2n^*}=1.028\substack{+0.001 \\ -0.002}$.
-%WAIC for the models with each $\tau$ is similar: about 0.268-0.269, and only for $\tau=100$, 0.271.
+With $\tau=100$, the estimated mutation rate was considerably lower ($\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$) and the aneuploidy rate had higher variance ($\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$). The model fit was worst in this case (WAIC=0.271). 
 Therefore, we cannot rule out an increased mutation rate in aneuploid cells, but we find no evidence that it does, and unless the effect is strong, it does not seem to affect our results.
 
 
@@ -635,18 +626,17 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \begin{figure}[h]
 	\centering
 	% generated with growth_curves.ipynb and deg = '39' 
-	\includegraphics[width=0.45\textwidth]{../figures/evo39_fitness_39deg.pdf} \\
+	\includegraphics[width=.95\textwidth]{../figures/evo39_fitness_39deg.pdf} 
 	% generated with growth_curves.ipynb and deg = '30' 
-	\includegraphics[width=0.45\textwidth]{../figures/evo39_fitness_30deg.pdf} \\
+	\includegraphics[width=0.95\textwidth]{../figures/evo39_fitness_30deg.pdf} 
 	% generated with growth_curves_refined.ipynb and deg = '30' 
-	\includegraphics[width=0.45\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
+	\includegraphics[width=0.95\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
 \caption{
     \textbf{Fitness estimation from growth curves.}
-    % you need to give each panel a label so that you will have A-L; have A-D on same row, then E-H same row, I-L on same row;
-    % caption should explain what each panel shows.
-    \textbf{(A)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}: $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
-    \textbf{(B)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{30}{\celsius}: $\hat w_{2n+1}/w_{2n}$= 0.986 (95\% CI: 0.979 - 0.994).
-    \textbf{(C)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}: $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).
+    % TODO caption should explain what each panel shows.
+    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}: $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
+    \textbf{(E-H)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{30}{\celsius}: $\hat w_{2n+1}/w_{2n}$= 0.986 (95\% CI: 0.979 - 0.994).
+    \textbf{(I-M)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}: $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).\\
     Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.
 } 
