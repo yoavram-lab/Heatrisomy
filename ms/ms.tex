@@ -378,7 +378,7 @@ After producing a set of weighted particles from the the posterior distribution 
 \end{equation}
 where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution.
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
-% TODO Describe posterior plots comparison method - Fig 4 & S3
+% TODO IK Describe posterior plots comparison method - Fig 4 & S3
  
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
@@ -388,9 +388,8 @@ To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w
 
 Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
 We tried to use additional growth curves. We used growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$. The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 0.32, compared to 0.27 with the above informative prior.
-% TODO what are the results ?
 We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} ~(\cref{fig:growth-curves}-B) to estimate $1-c$ . This estimation assumes that the cost of aneuploidy is the same in \SI{39}{\celsius} and \SI{30}{\celsius}; this might be incorrect, but we only assumed this to generate a prior distribution for the fitness values. The prior for $b$ was taken the same as for $c$. This prior did not converge: no parameter sets were found with an approximate likelihood greater than zero.
-% TODO it make sense because bla bla (to explain)
+% TODO IK it makes sense because bla bla (to explain)
 Finally, we also tested a uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the algorithm failed to converge.
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$.
@@ -425,11 +424,11 @@ aneuploidy rate, $\delta=1.716\substack{+0.974 \\ -0.384}\times10^{-3}$,
 and fitness values, $w_{2n+1}=1.022\substack{+0.001 \\ -0.002}$,
 $w_{2n+1^*}=1.025\substack{+0.001 \\ -0.001}$,
 $w_{2n^*}=1.028\substack{+0.001 \\ -0.001}$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
-% TODO we are jumping between b c s and w2n* w2n+1 w2n+1*. we should report all models and results either with b c s or with w. you can compute b c s from w before computing the HDIs.
+% TODO IK we are jumping between b c s and w2n* w2n+1 w2n+1*. we should report all models and results either with b c s or with w. you can compute b c s from w before computing the HDIs.
 This estimated aneuploidy rate agrees with previous estimates. % TODO refs
 The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014}. 
 %We can see from the posterior distribution~(\cref{fig:posterior}) the correlation between fitness of different genotypes. 
-% TODO say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
+% TODO IK say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
 
 % FIG posterior
 %% generated with posterior-plot.ipynb
@@ -448,7 +447,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 
 \paragraph{Model checking and comparison.}
 The single-locus model fits the data well: in simulations using the best-fit parameters (MAP estimate) \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\cref{fig:2n*-fixation}-B) and \anwt\ fixed in roughly 300 generations on average (green lines in \cref{fig:ppc-plot}), which agrees with experimental results.
-% TODO replace "roughly 300" with the exact number.
+% TODO IK replace "roughly 300" with the exact number.
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\cref{fig:ppc-plot}). % TODO move somewhere else?
 Furthermore, sensitivity analysis shows that changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\cref{fig:sensitivity}).
 
@@ -457,7 +456,7 @@ However, a model without aneuploidy where the aneuploidy rate is fixed at zero, 
 mutation rate, $\mu=7.837\substack{+0.078 \\ -0.123}\times10^{-9}$,
 fitness of mutant, $w_{2n^*}=1.013\substack{+0.000 \\ -0.000}$. 
 We can see that the mutation rate estimate in this model is much lower than in the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than in the experimental observations (\cref{fig:2n*-fixation}). Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model.
-% TODO WAIC?
+% TODO IK WAIC?
 
 We also inferred model parameters under the assumptuon that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
 We found that for the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\cref{fig:tau}; WAIC 0.268-0.269).
@@ -633,7 +632,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
 	\includegraphics[width=0.95\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
 \caption{
     \textbf{Fitness estimation from growth curves.}
-    % TODO caption should explain what each panel shows.
+    % TODO IK caption should explain what each panel shows.
     \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}: $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
     \textbf{(E-H)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{30}{\celsius}: $\hat w_{2n+1}/w_{2n}$= 0.986 (95\% CI: 0.979 - 0.994).
     \textbf{(I-L)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}: $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).\\
@@ -669,12 +668,10 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \label{fig:sensitivity-eumt}
   \end{subfigure}
   \caption{
-    \textbf{Likelihood profiles.} Sensitivity of the approximate likelihood of the single-locus model, $\likelihood(\theta)$, to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value.
+    \textbf{Likelihood profiles.} Sensitivity of the approximate likelihood of the single-locus model, $\likelihood(\theta)$, to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value. The prior distributions for the mutation rate and aneuploidy rate are $\mu \sim U(10^{-9}, 10^{-5})$ and $\delta \sim U(10^{-6}, 10^{-2})$, respectively. 
   }
   
   \label{fig:sensitivity}
-  % TODO what defines the x range? is it the prior distribution range?
-  %ANS: yes for mutation and aneuploidy rates. For fitness just around the MAP in range that looks beautiful.
 \end{figure}
 
 
@@ -766,7 +763,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \textbf{(F-K)} The inferred joint posterior distribution of mutation rate ($\mu$) and aneuploidy rate ($\delta$) with different $\tau$ values (dark purple and bright yellow for low and high density, respectively).
   \label{fig:tau}
   }
-  % TODO maybe added dashed vertical lines with the same colors to show where the MAP of each distribution is?
+  % TODO IK maybe add dashed vertical lines with the same colors to show where the MAP of each distribution is?
   
   \end{figure}
 
