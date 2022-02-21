@@ -1,0 +1,6 @@
+Model;WAIC
+without aneuploidy;0.83
+free mutation rate, $\mu$;67.86
+fixed mutation rate, $\mu=10^{{-{5}}}$;$\textbf{0.6}$
+fixed mutation rate, $\mu=10^{{-{6}}}$;33.89
+fixed mutation rate, $\mu=10^{{-{7}}}$;29.58
