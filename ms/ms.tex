@@ -378,7 +378,7 @@ After producing a set of weighted particles from the the posterior distribution 
 -2\log\mathbb{E}[\likelihood(\theta)]\ +\ 2\mathbb{V}[\log\likelihood(\theta)]
 \end{aligned}
 \end{equation}
-where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution. We base the calculation on 50,000 samples from the posterior KDE.
+where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE.
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
 % TODO IK Describe posterior plots comparison method - Fig 4 & S3
  
@@ -394,7 +394,7 @@ We also tried to use growth curves of \anwt\; and \euwt\; in \SI{30}{\celsius} ~
 % TODO IK it makes sense because bla bla (to explain)
 Finally, we also tested a uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the algorithm failed to converge.
  
-For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$. We also tried wider mutation rate prior $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and got similar inference.
+For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$. A wider mutation rate prior, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$, produced similar results.
 For a model without aneuploidy ($\delta=0$), we used a wider uniform prior for the mutation rate, $\mu \sim \mathit{U}(10^{-10},10^{-5})$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -415,10 +415,9 @@ $w_{2n+1^*}=1.025 (1.024-1.026)$,
 $w_{2n^*}=1.028 (1.026-1.029)$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
 
 % TODO IK we are jumping between b c s and w2n* w2n+1 w2n+1*. we should report all models and results either with b c s or with w. you can compute b c s from w before computing the HDIs.
-This estimated aneuploidy rate agrees with previous estimates. % TODO refs (9.7*10-5 in Zhu 2014, so it's lower).
-The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014}. % 0.33 * 10^(-9) in Lynch 2008 
-%We can see from the posterior distribution~(\cref{fig:posterior}) the correlation between fitness of different genotypes. 
-% TODO IK say/plot something about the correlation: which fitness values are correlated? how strong is it? why does it occur?
+This estimated aneuploidy rate agrees with previous estimates. % TODO refs (9.7*10-5 in Zhu 2014, so it's lower). YR: we need more than one ref; also what is the units of Zho 2014?
+The mutation rate corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014} or $3.3\cdot10^{-10}$~\citep{Lynch2008}. % TODO IK please add lynch2008 to bib file
+
 
 % FIG posterior
 %% generated with posterior-plot.ipynb
@@ -443,16 +442,16 @@ Furthermore, sensitivity analysis shows that changing a single parameter while k
 
 However, a model without aneuploidy where the aneuploidy rate is fixed at zero, $\delta=0$, cannot explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). The estimated parameter values without aneuploidy are: 
 %% generated with MAP-and-hdi.ipynb
-mutation rate, $\mu=7.979\times10^{-9} (7.903\times10^{-9}-8.135\times10^{-9})$,
-fitness of mutaion, $w_{2n^*}=1.013 (1.012-1.013)$,
-We can see that the mutation rate estimate in this model is much lower than in the model with aneuploidy. Higher mutation rate would cause quicker fixation of \eumt\ than in the experimental observations (\cref{fig:2n*-fixation}). Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model.
+mutation rate, $\mu=7.979\substack{+0.156 \\ -0.076}\times10^{-9}$,
+fitness of mutant, $w_{2n^*}=1.013\substack{+0 \\ -0.001}$,
+The estimated mutation rate without aneuploidy is much lower compared to a model with aneuploidy, suggesting a target size of just 40, because a higher mutation rate will lead to faster fixation of \eumt\ than in the experimental observations (\cref{fig:2n*-fixation}).
+Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model. % TODO IK why do you say that? spell it out please - WAIC is lower? likelihood is higher? ppc looks better? what?
 
-Next we tried the model with aneuploidy and fixed mutation rate $\mu$. Hence $\mu$ is not well identifiable by the model (the inferred value has high variance with no strong correlation between it and other parameters), we tried the models where $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We saw that the inference posteriors were similar to the model with free $\mu$ parameter. However WAIC was better for the models with fixed $\mu$ ~(\autoref{table:WAIC}). Model with the $\mu$=$10^{-5}$ has the best WAIC, and better than the model without aneuploidy.
-
-
+% TODO YR Read this
+Next we tried the model with aneuploidy and a fixed mutation rate $\mu$. Hence $\mu$ is not well identifiable by the model (the inferred value has high variance with no strong correlation between it and other parameters), we tried the models where $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We saw that the inference posteriors were similar to the model with free $\mu$ parameter. However WAIC was better for the models with fixed $\mu$ ~(\autoref{table:WAIC}). Model with the $\mu$=$10^{-5}$ has the best WAIC, and better than the model without aneuploidy.
 
 % TODO IK WAIC for different tau
-We also inferred model parameters under the assumptuon that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
+We also inferred model parameters under the assumption that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
 We found that for the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\cref{fig:tau}; WAIC 0.268-0.269).
 With $\tau=10$, the estimated mutation rate was slightly lower ($\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$). 
 %% generated with MAP-and-hdi.ipynb
@@ -756,7 +755,8 @@ Minerva Stiftung Center for Lab Evolution (YR).
   % TODO IK maybe add dashed vertical lines with the same colors to show where the MAP of each distribution is?
   
   \end{figure}
-  
+ 
+%TODO YR read this 
 %% generated with fixed-mutation-rate.ipynb
 \begin{table}[h]
 \centering
@@ -769,7 +769,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
     every last row/.style={after row=\hline},
     ]{../figures/Table_WAIC.csv} 
 \caption*{
-	TODO caption, add diff tau models
+	%TODO IK caption, add diff tau models
 } 
 \label{table:WAIC}
 \end{table}
