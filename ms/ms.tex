@@ -445,14 +445,6 @@ fitness of mutant, $w_{2n^*}=1.013\substack{+0 \\ -0.001}$,
 The estimated mutation rate without aneuploidy is much lower compared to a model with aneuploidy, suggesting a target size of just 40, because a higher mutation rate will lead to faster fixation of \eumt\ than in the experimental observations (\cref{fig:2n*-fixation}).
 Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model. % TODO IK why do you say that? spell it out please - WAIC is lower? likelihood is higher? ppc looks better? what?
 
-% TODO IK WAIC for different tau
-We also inferred model parameters under the assumption that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
-We found that for the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\cref{fig:tau}; WAIC 0.268-0.269).
-With $\tau=10$, the estimated mutation rate was slightly lower ($\mu=1.654\substack{+0.879 \\ -1.775}\times10^{-6}$). 
-%% generated with MAP-and-hdi.ipynb
-With $\tau=100$, the estimated mutation rate was considerably lower ($\mu=3.807\substack{+2.919 \\ -3.311}\times10^{-7}$) and the aneuploidy rate had higher variance ($\delta=7.829\substack{+10.683 \\ -3.555}\times10^{-4}$). The model fit was worst in this case (WAIC=0.271). 
-Therefore, we cannot rule out an increased mutation rate in aneuploid cells, but we find no evidence that it does, and unless the effect is strong, it does not seem to affect our results.
-
 We also inferred model parameters under the assumption that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\cref{fig:tau}).
 %% generated with MAP-and-hdi.ipynb
