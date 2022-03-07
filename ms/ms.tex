@@ -365,8 +365,7 @@ For each accepted particle $\theta_{i,t}$ a weight $W_t(\theta_{i,t})$ is assign
 $W_t(\theta_{i,t}) = p(\theta_{i,t}) / \sum_{i=1}^{n_{t-1}}{W_{t-1}(\theta_{i,t-1}) K_t(\theta_{i,t}, \theta_{i,t-1})}$, where $p(\theta)$ is the prior density of $\theta$ and $K_t(\theta', \theta)$ is the probability of a perturbation from $\theta$ to $\theta'$.
 $K_t(\theta' \mid \theta)$ is a multivariate normal distribution, fitted at iteration $t$ to the particles from the previous iteration, \{$\theta_{i,t-1}\}_{i=1}{n_{t-1}}$, and their weights, $\{W(\theta_{i,t-1})\}_{i=1}^{n_{t-1}}$.
 
-Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\cref{fig:convergence}). % TODO for multi-locus model we need to say something else
-Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\cref{fig:seeds}). %TODO for multi-locus model, write about them here also.
+Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\cref{fig:seeds}).
 
 After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
 
@@ -385,14 +384,14 @@ WAIC values are scaled as a deviance measure: lower values imply higher predicti
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
 From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. We sampled 10,000 samples to use as a prior distribution~(\cref{fig:growth-curves}).
-We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$ ~(\cref{fig:growth-curves}-D). In lieu of a better prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
+We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$ ~(\cref{fig:growth-curves}-D). In lieu of a more suitable prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
 To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. 
 
-Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows. %TODO IK what do you mean by better posterior prediction and is more stable parameter estimates still rellevant?
+Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
 We tried to use additional growth curves. We used growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$ ~(\cref{fig:growth-curves}-L). The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 71.91, compared to 67.87 with the above informative prior. % generated with fixed-mutation-rate-and-WAICs.ipynb TODO IK update the WAIC with 1000 reps run
 We also tested a uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$ and (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the algorithm failed to converge.
  
-For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-5})$ and $\delta \sim \mathit{U}(10^{-6} , 10^{-2})$. A wider mutation rate prior, $\mu \sim \mathit{U}(10^{-9}\ ,\ 10^{-3})$, produced similar results.
+For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9},10^{-5})$ and $\delta \sim \mathit{U}(10^{-6},10^{-2})$. A wider mutation rate prior, $\mu \sim \mathit{U}(10^{-9},10^{-3})$, produced similar results.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results
@@ -403,8 +402,8 @@ For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformati
 \paragraph{Parameter estimation.} 
 We used ABC-SMC to infer the posterior distribution of the parameters of the single-locus model.
 The MAP (maximum a posteriori) and 50\% HDI (highest density interval) of the parameters posterior are~(\cref{fig:posterior}): %% generated by MAP-and-hdi.ipynb
-mutation rate, $\mu=2.942\times10^{-6} (2.017\times10^{-7}-4.15\times10^{-6})$,
-aneuploidy rate, $\delta=1.722\times10^{-3} (1.394\times10^{-3}-2.754\times10^{-3})$,
+mutation rate, $\mu=2.942\cdot10^{-6} (2.017\cdot10^{-7}-4.15\cdot10^{-6})$,
+aneuploidy rate, $\delta=1.722\cdot10^{-3} (1.394\cdot10^{-3}-2.754\cdot10^{-3})$,
 and fitness values, $w_{2n+1}=1.022 (1.021-1.023)$,
 $w_{2n+1^*}=1.025 (1.024-1.026)$,
 $w_{2n^*}=1.028 (1.026-1.029)$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$.
@@ -430,13 +429,13 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 
 
 \paragraph{Model checking and comparison.}
-The single-locus model fits the data well: in simulations using the best-fit parameters (MAP estimate) \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\cref{fig:2n*-fixation}-B),
-Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\cref{fig:ppc-plot}). % TODO move somewhere else?
+The single-locus model fits the data well: in simulations using the best-fit parameters (MAP estimate) \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\cref{fig:2n*-fixation}B). % TODO IK what happened to the sentence about the fixation on anwt? green lines ub fig4?
+Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\cref{fig:ppc-plot}).
 Furthermore, sensitivity analysis shows that changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\cref{fig:sensitivity}).
 
 However, a model without aneuploidy where the aneuploidy rate is fixed at zero, $\delta=0$, cannot explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). The estimated parameter values without aneuploidy are: 
 %% generated with MAP-and-hdi.ipynb
-mutation rate, $\mu=7.979\substack{+0.156 \\ -0.076}\times10^{-9}$,
+mutation rate, $\mu=7.979\substack{+0.156 \\ -0.076}\cdot10^{-9}$,
 fitness of mutant, $w_{2n^*}=1.013\substack{+0 \\ -0.001}$,
 The estimated mutation rate without aneuploidy is much lower compared to a model with aneuploidy, suggesting a target size of just 40, because a higher mutation rate will lead to faster fixation of \eumt\ than in the experimental observations (\cref{fig:2n*-fixation}).
 Thus, even disregarding the appearance of trisomic cells in the experiment, the evidence supports the inclusion of aneuploidy in the model. % TODO IK why do you say that? spell it out please - WAIC is lower? likelihood is higher? ppc looks better? what?
@@ -444,14 +443,14 @@ Thus, even disregarding the appearance of trisomic cells in the experiment, the 
 We also inferred model parameters under the assumption that the mutation rate in aneuploid cells, compared to euploid cells, is increased by a factor $\tau$=1, 33/32 (due to an additional chromosome), 2, 5, 10 or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\cref{fig:tau}).
 %% generated with MAP-and-hdi.ipynb
-With $\tau=10$, the estimated mutation rate was slightly lower ($\mu=1.674\times10^{-6} (2.501\times10^{-7}-1.741\times10^{-6})$). 
-With $\tau=100$, the estimated mutation rate was considerably lower ($\mu=3.81\times10^{-7} (1.508\times10^{-7}-4.995\times10^{-7})$) and the aneuploidy rate had higher variance ($\delta=7.824\times10^{-4} (6.616\times10^{-4}-1.462\times10^{-3})$). 
+With $\tau=10$, the estimated mutation rate was slightly lower ($\mu=1.674\cdot10^{-6}\ [2.501\cdot10^{-7}-1.741\cdot10^{-6}]$). 
+With $\tau=100$, the estimated mutation rate was considerably lower ($\mu=3.81\cdot10^{-7}\ [1.508\cdot10^{-7}-4.995\cdot10^{-7}]$) and the aneuploidy rate had higher variance ($\delta=7.824\cdot10^{-4}\ [6.616\cdot10^{-4}-1.462\cdot10^{-3}]$). 
 %TODO YR to reference to WAIC table also? By this table tau=100 is the best model
 We cannot rule out an increased mutation rate in aneuploid cells, but we find no evidence that it does, and unless the effect is strong, it does not seem to affect our results.
-We also checked the differences in fixation/loss times of  \euwt, \anwt and \eumt\  for the models with different $\tau$. We saw that the models can be distinguished using these parameters, especially $\tau=100$ ~(\cref{fig:tau-plots}).
+We also checked the differences in fixation/loss times of  \euwt, \anwt and \eumt\  for the models with different $\tau$. We saw that the models can be distinguished using these parameters, especially $\tau=100$~(\cref{fig:tau-plots}).
 
 % TODO YR Read this
-Next we tried the model with fixed mutation rate $\mu$. Hence $\mu$ is not well identifiable by the model (the inferred value has high variance with no strong correlation between it and other parameters), we tried the models where mutation rate is fixed: $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We observed similar parameters inference comparing to the model with free $\mu$ parameter. However WAIC was better for the models with fixed $\mu$ ~(\autoref{table:WAIC}). The lowest WAIC got the model with $\mu$=$10^{-5}$ - 0.6, it is lower than \emph{no aneuploidy} model - 0.87, that implies higher predictive accuracy.
+Next we tried the model with fixed mutation rate $\mu$. Hence $\mu$ is not well identifiable by the model (the inferred value has high variance with no strong correlation between it and other parameters), we tried the models where mutation rate is fixed: $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We observed similar parameters inference comparing to the model with free $\mu$ parameter. However WAIC was better for the models with fixed $\mu$~(\autoref{table:WAIC}). The lowest WAIC, 0.6, was for a model with mutation rate fixed at $\mu$=$10^{-5}$. It is lower than \emph{no aneuploidy} model - 0.87, that implies higher predictive accuracy.
 
 % Fig single-locus model with and without aneuploidy
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
@@ -497,14 +496,16 @@ The last bin contains all the simulations with time equal or greater than 3,000.
   \begin{subfigure}{0.75\textwidth}
       \includegraphics[width=\textwidth]{../figures/tau-diff-b.pdf}      
   \end{subfigure}
-  \\
    \begin{subfigure}{0.75\textwidth}
       \includegraphics[width=\textwidth]{../figures/tau-diff-c.pdf}      
   \end{subfigure}
    \caption{
-    \textbf{Genotype fixations for single-locus models with different $\tau$.} For each model, $10,000$ simulations using MAP parameters were evaluated and a percentage of simulations with fixated genotypes  \euwt, \anwt\ and \eumt\ (plots A, B and C respectively) were measured in time. \anmt\ didn't rich fixation, therefore it doesn't appear in figures. We can see that $\tau=100$ can be distinguished using data of loss of \euwt\ (plot A) and fixation/loss of \anwt\ (plot B). It is harder to distinguish $1\leq\tau\leq10$, however the correlation exists.
+    \textbf{Genotype fixations for single-locus models with different $\tau$.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is fixed (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if time to loss of \euwt\ is known (panel~A) or if time to fixation or loss of \anwt\ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
   }
   \label{fig:tau-plots}
+  % TODO IK axis labels like in figure 3, also somehow the graphics looks different from previous figures
+  % fixed means 100% ?
+  
 \end{figure}
 
 \pagebreak
@@ -573,12 +574,7 @@ To validate the approximation in \cref{eq:T_total}, we performed simulations of 
  \label{fig:only mut}
  \end{figure}
 
-%\subsection*{Inference: multi-locus model.}
 
-%TODO same for complex model
-%model comparison between models - model probabilities
-
-\pagebreak
 % Discussion
 \section*{Discussion}
 
@@ -621,6 +617,8 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \bibliographystyle{agsm}
 \bibliography{ms.bib}
 
+\newpage
+
 \section*{Supplementary Material}
 \beginsupplement % https://support.authorea.com/en-us/article/how-to-create-an-appendix-section-or-supplementary-information-1g25i5a/
 
@@ -634,8 +632,8 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \caption{
     \textbf{Fitness estimation from growth curves.}
     % TODO IK caption should explain what each panel shows.
-    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}: $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
-    \textbf{(E-H)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}: $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).\\
+    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}. $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
+    \textbf{(E-H)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}. $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).
     Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.
 } 
@@ -773,7 +771,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \begin{table}[h]
 \centering
 \caption{
-\textbf{WAIC values for the different models.}}
+\textbf{WAIC values for various model specifications.}}
 \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
@@ -782,7 +780,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
     ]{../figures/Table_WAIC.csv} 
 \caption*{
 	TODO caption
-	%TODO IK caption
+	%TODO IK caption; what is tau in models 1-5?
 } 
 \label{table:WAIC}
 \end{table}
