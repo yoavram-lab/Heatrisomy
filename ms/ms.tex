@@ -449,7 +449,8 @@ The last bin contains all the simulations with time equal or greater than 3,000.
 \subsection*{Analysis}
 
 Here, we aim to approximate the adaptation time (i.e., time to fixation of \eumt) and analyse how it is affected by the model parameters.
-As a stochastic model, there are two events that can occur in the \euwt\ population. The first is a mutation that produces a \eumt\ cell. The second is a missegregation event that produces a \anwt\ cell. The probability with which these events occur is significantly different. We are interested in the average waiting time until one of the two events occurs and then lead to adaptation (in the second case, it will be followed by a mutation to \anmt\ and loss of aneuploidy to \eumt).
+As a stochastic model, there are two events that can occur on the \euwt\ genotype background. The first is a mutation that produces a \eumt\ genotype. The second is a missegregation event that produces a \anwt\ genotype. The probabilities with which these events occur is significantly different. We are interested in the average waiting time until one of these two genotype appears and then leads to adaptation, i.e., appearance and fixation of the \eumt; in the second case, appearance of \anwt\ will be followed by a mutation to \anmt\ and loss of aneuploidy to \eumt.
+
 We assume the waiting time for appearance of \eumt\ from \euwt\ and appearance of \anwt\ from \euwt\ are geometrically distributed with rates $p_{2n^*}$ and $p_{2n+1}$, respectively, where
 \begin{subequations}
 \begin{align}
@@ -457,33 +458,42 @@ p_{2n^*} &= 1-(1-2\mu \Delta w_{2n^*})^N \;, \\
 p_{2n+1} &= 1-(1-2\delta\Delta w_{2n+1})^N \;,
 \end{align}
 \end{subequations}
-where $\Delta w_i$ denotes the relative difference between the fitness of genotype $i$ and the population mean fitness.
-However, we have two competing events: if one event occurs (e.g., mutation), then the other (aneuploidy) is unlikely to occur,  we need to find the minimum of these waiting times. The minimum of two geometric random variables with parameters $p_{2n^*}$ and $p_{2n+1}$ is also a geometric random variable with parameter $1-(1-p_{2n^*})(1-p_{2n+1})$, which is the inverse of the expected waiting time until the first event occurs.
-The probability that aneuploidy will be the first event to occur is
+where $\Delta w_i$ denotes the relative difference between the fitness $w_i$ of genotype $i$ and the population mean fitness, $\bar{w}$.
+
+However, we have two competing events: if one event occurs (e.g., mutation), then the other event (e.g., aneuploidy) is unlikely to occur. Thus, we need to find the minimum of these waiting times. The minimum of two geometric random variables with rates $p_{2n^*}$ and $p_{2n+1}$ is also a geometric random variable with rate $1-(1-p_{2n^*})(1-p_{2n+1})$, which is the inverse of the expected waiting time until the first event occurs.
+
+% TODO MP: this seems like repetition of things written above, right? should we remove this? or if there is something important here, merge it to previous paragraphs?
+%We are interested in the expected time to fixation of \eumt, and the trajectory leading to this fixation depends on the event that occurs first. If \eumt\ appears first and avoids extinction by drift, then it will fix. If \anwt\ appears first and avoids extinction, then several other events must occur for fixation of \eumt. Thus, in this aneuploid trajectory, we need to approximate the expected waiting time to reach \anmt\ and finally \eumt.
+
+Given a mutation occurs first, % TODO MP: I added this sentence, is that right?
+the expected adaptation time via the mutation trajectory is 
+\begin{equation}\label{eq:T_mut}
+T_{M}=\frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + T_{2n \to 2n^*} \;,
+\end{equation}
+where $T_{i \to j}$ is the waiting time for fixation of genotype $i$ in a population of genotype $j$, given it starts with a single copy and does not go to extinction by drift.
+Given that aneuploidy occurs first, % TODO MP: I added this sentence, is that right?
+the expected adaptation time via the aneuploidy trajectory is approximated by
+\begin{equation}\label{eq:T_aneu} 
+% TODO MP: p_{2n+1^*} is not defined, and why is there 1/p_{2n^*} here? shouldn't it have the waiting time for 2n+1* to appear on 2n+1 and then waiting time for 2n* to appear on 2n+1*? something is wrong here.
+ T_A = \frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + \frac{1}{p_{2n+1^*}} + \frac{1}{p_{2n^*}} + T_{2n \to 2n+1} + T_{2n+1 \to 2n+1^*} + T_{2n+1^* \to 2n^*} \;.
+ \end{equation} % TODO MP do we need the tilde ?
+Finally, the expected adaptation time is 
+ \begin{equation}\label{eq:T_total}
+ T = p_A T_{A}+(1-p_A) T_{M} \;,
+ \end{equation}
+ where $p_A$ is he probability that aneuploidy will be the first event to occur,
 \begin{equation}
 p_A = \frac{p_{2n+1}}{p_{2n^*}+p_{2n+1}} \;.
 \end{equation}
-We are interested in the expected time to fixation of \eumt, and the trajectory leading to this fixation depend on the event that occurs first. If \eumt\ appears first and avoids extinction by drift, then it will fix. If \anwt\ appears first and avoids extinction, then several other events must occur for fixation of \eumt. Thus, in this aneuploid trajectory, we need to approximate the expected waiting time to reach \anmt\ and finally \eumt.
-In general, we assume that the waiting time until a new genotype occurs is much longer than the time to its fixation. Nonetheless, these fixation times must be included in a rigorous analysis. There are two ways to compute the fixation times and they differ in the assumption of the underlying process.
 
-A deterministic-process approach is given by the classical bi-allelic single-locus equation, which provides an approximation for the expected time for genotype $i$ to reach frequency $x$ when starting from frequency $1-x$ in a population of genotype $j$ is % TODO MP is this correct?
- % TODO MP ref for equation? Crow and Kimura?
+We assume that the waiting time until a new genotype occurs is much longer than the waiting time for its fixation in the population. Nevertheless, these fixation times must be included in a rigorous analysis. There are two ways to compute the fixation times and they differ in the assumption of the underlying process.
+A deterministic-process approach is given by the classical bi-allelic single-locus equation.
+It approximates the expected time for genotype $i$ to reach frequency $x$ when starting from frequency $1-x$ in a population of genotype $j$,
+ % TODO MP ref for equation? Crow and Kimura? YR: yes
 \begin{equation} \label{eq:T_fix_x}
-\tilde T_{i \to j} = 2\frac{\log{\big(\frac{x}{1-x}N\big)}}{\log(w_i/w_j)} \;,
-\end{equation}
-A stochastic-process approach for approximating $\tilde T_i$ is given by the diffusion-equation approximation \citep[eq.~17]{Kimura1969a}. 
-Thus, the expected adaptation time via the aneuploidy trajectory is given by
-\begin{equation}\label{eq:T_aneu}
- T_A = \frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + \frac{1}{p_{2n+1^*}} + \frac{1}{p_{2n^*}} + \tilde T_{2n \to 2n+1} + \tilde T_{2n+1 \to 2n+1^*} + \tilde T_{2n+1^* \to 2n^*} \;,
- \end{equation}
-the expected adaptation time via the mutation trajectory is given by 
-\begin{equation}\label{eq:T_mut}
-T_{M}=\frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + \tilde T_{2n \to 2n^*} \;,
-\end{equation}
-and the expected adaptation time is given by
- \begin{equation}\label{eq:T_total}
- T = p_A T_{A}+(1-p_A) T_{M}.
- \end{equation}
+ T_{i \to j} \approx 2\frac{\log{\big(\frac{x}{1-x}N\big)}}{\log(w_i/w_j)} \;,
+\end{equation} 
+A stochastic-process approach for approximating $T_{i \to j}$ is given by the diffusion-equation approximation \citep[eq.~17]{Kimura1969a}.
 
 % TODO MP - the following remark should be removed. Instead, wherever you use one of these assumptions in the above text, you should explicitly say so (rather then say the assumptions are implicit). Then you can discuss here how these assumptions may not be met when the parameters are so and so, and that you will point it out in the results or something like that.
  %\begin{remark} There are several implicit assumptions that the equations hold like this.
@@ -492,26 +502,22 @@ and the expected adaptation time is given by
  %\item There is no clonal interference.
  %\item The fixation process starts from exactly one individual. 
  %\end{enumerate}
- %There are certainly combinations of the mutation rate, the aneuploidy rate, the selection strength and the population size for which at least one of these assumptions is violated. Thus, \cref{eq:T_total} may not yield a good approximation to the actual time to the adapted state.
+ %There are certainly combinations of the mutation rate, the aneuploidy rate, the selection strength and the population size for which at least one of these assumptions is violated. Thus, \Cref{eq:T_total} may not yield a good approximation to the actual time to the adapted state.
  %\end{remark}
 
-As a first step, to validate the approximation in \cref{eq:T_total}, we performed simulations of the full model (\cref{eq:mutation-aneuploidy-single,eq:drift-single,eq:selection-single})  without aneuploidy, $\delta=0$ (\cref{fig:only mut}), and with the other parameters as inferred above. The approximation provides a good fit to simulation results except when the effective population size is larger than $5\cdot 10^6$ cells. In that case, the expected number of new mutants is ~0.5, and therefore we can expect that in many generations the fixation event will start with more than a single \eumt\ cell appearing in the same generation, which is in contrast to our assumption that an adaptation event starts from a single mutant cell.
+First, to validate the approximation in \Cref{eq:T_total}, we performed simulations of the full model (\Cref{eq:mutation-aneuploidy-single,eq:drift-single,eq:selection-single}) without aneuploidy, i.e., $\delta=0$ (\Cref{fig:only mut}), and with the other parameters as inferred above. The approximation provides a good fit to simulation results except when the effective population size is larger than $5\cdot 10^6$ cells. In that case, the expected number of new mutants per generation is roughly 0.5, and  we can expect that in many generations the fixation event will start with more than a single \eumt\ cell appearing in the same generation, which violates our assumption that an adaptation event starts from a single mutant cell.
 
 
  \begin{figure}[h!]
  \centering
  \includegraphics[width=\textwidth]{../figures/figgrid_noaneu.pdf}
  \caption{\textbf{Expected adaptation time without aneuploidy.}
-  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (panel A) and as a function of the mutation rate, $\mu$ (panel B). Mean and 95\% CI from simulations in blue. Analytic approximation (\cref{eq:T_total}) in orange. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. In panel A, $\mu=9.6\cdot 10^{-8}$ and in panel B, $N=6\cdot 10^6$.
+  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) or as a function of the mutation rate, $\mu$ (\textbf{B}). Mean and 95\% CI from simulations in blue. Analytic approximation (\Cref{eq:T_total}) in orange. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. In panel A, $\mu=9.6\cdot 10^{-8}$. In panel B, $N=6\cdot 10^6$.
   }
-  %TODO MP add panel labels A and B
-  %replace XXXX with parameter values and remove them from the figure titles.
-  %y label "Expected adaptation time"
-  % remove legend
-  % make it a single figure with two panels, then there is no need for y label on panel B
+  %TODO MP 
+  % which approximation do you use here for T_i->j ?
   % The error bars a quite large, can you make them smaller by running more simulations?
-  % Add more x ticks for panel A (10^6, 5 10 ^6 ...)
-  % maybe start x axis in panel A with lower population size? 10^4 or 10^5 ? does the approximation work well there?
+  % --> or by making the y axis in log scale!!
  \label{fig:only mut}
  \end{figure}
  
@@ -520,13 +526,21 @@ As a first step, to validate the approximation in \cref{eq:T_total}, we performe
  %\centering
  \includegraphics[width=1\textwidth]{../figures/figgrid_nodirectmut_ylog_uncorr0.jpg}
  \caption{\textbf{Expected adaptation time without mutations from $\euwt$ to $\eumt$.}
-  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (panel A) and as a function of the mutation rate, $\mu$ (panel B) and as a function of the aneuploidy rate, $\delta$ (panel C). Mean and 95\% CI from simulations in blue. Analytic approximation (\cref{eq:T_total}) in green. The red curve is achieved by setting $\tilde{T}_{\euwt \rightarrow \anwt}=\tilde{T}_{\anwt \rightarrow \anmt}=0$. The orange line is achieved by setting $x=0.017$ in \cref{eq:T_fix_x} for the fixation time of $\eumt$, such that it is well fitting in panel B. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. Parameter values in panels where it is not varied, $N=6\cdot 10^6$,\, $\mu=9.6\cdot 10^{-8}$ and $\delta=5.4\cdot 10^{-4}$.  }
+  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) and as a function of the mutation rate, $\mu$ (\textbf{B}) and as a function of the aneuploidy rate, $\delta$ ({C}). Blue error bars for mean and 95\% CI from simulations. Green line for the analytic approximation (\Cref{eq:T_total}). % TODO why green? in previous figure it was orange.
+  Red curve for the approximation with $T_{\euwt \to \anwt}=T_{\anwt \to \anmt}=0$. 
+  Orange curve for the approximation with $x=0.017$ in \Cref{eq:T_fix_x} for the fixation time of $\eumt$; we found this gives a good fit in panel B.
+  Here, $w_\anwt=1.021,\, w_\anmt=1.025$ and $w_\eumt=1.028$, $N=6\cdot 10^6$,\, $\mu=9.6\cdot 10^{-8}$ and $\delta=5.4\cdot 10^{-4}$ unless parameter is varied on the x-axis.
+  }
  \label{fig:no direct mut}
  \end{figure}
  
- Second, we ran simulations without state changes from $\euwt$ to $\eumt$. Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. Here, the aneuploid states are transient and fixation could be outpaced by the arrival of the next type. This would explain the discrepancy between the green curves in \cref{fig:no direct mut}. To asses this further, \cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time until a succesful new type appears is far smaller than that to fixation of the old type. Taking this into account, it seems reasonable to ignore the fixation time of $\anwt$ and $\anmt$, which results in the better fitting red curves in \cref{fig:no direct mut}. Inferring $x=0.017$ for $\tilde{T}_{\anmt \rightarrow \eumt}$ to get the best fit in panel B, does not imply that it is also a best fit for panels A and C. However, we stop simulations in state $\eumt$ if they have frequency $0.95$. 
+Second, we performed simulations without mutations from $\euwt$ to $\eumt$ (\Cref{fig:no direct mut}). 
+% TODO MP: I comment this out - not clear what "Before" refers to, and not sure we need this sentence. what do you think?
+%Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. 
+Here, aneuploidy is transient and fixation of \anwt\ or \anmt\ could be outpaced by the arrival of the next genotype. This would explain the discrepancy between the green curves in \Cref{fig:no direct mut}.
+To asses this further, \Cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time until a succesful new type appears is far smaller than that to fixation of the old type. Taking this into account, it seems reasonable to ignore the fixation time of $\anwt$ and $\anmt$, which results in the better fitting red curves in \Cref{fig:no direct mut}. Inferring $x=0.017$ for $\tilde{T}_{\anmt \rightarrow \eumt}$ to get the best fit in panel B, does not imply that it is also a best fit for panels A and C. However, we stop simulations in state $\eumt$ if they have frequency $0.95$. 
  
-  The discrepancies in \cref{fig:no direct mut}C seem to be particularly odd as the approximations are nearly constant and the simulations decreas log-linearly with increasing $\delta$. 
+  The discrepancies in \Cref{fig:no direct mut}C seem to be particularly odd as the approximations are nearly constant and the simulations decreas log-linearly with increasing $\delta$. 
   
   
  \begin{figure}[h!]
@@ -537,7 +551,7 @@ As a first step, to validate the approximation in \cref{eq:T_total}, we performe
  \label{fig:fixT vs waitT}
  \end{figure}
 
-In summary, whereas the two possible trajectories to $\eumt$ do not compete against each other in both \cref{fig:only mut} and \cref{fig:no direct mut}, the approximations are doing well only in restricted parameter ranges. These tend to be, where the respective parameters are rather small. If they grow bigger, they are violating some assumptions of our approximations.
+In summary, whereas the two possible trajectories to $\eumt$ do not compete against each other in both \Cref{fig:only mut} and \Cref{fig:no direct mut}, the approximations are doing well only in restricted parameter ranges. These tend to be, where the respective parameters are rather small. If they grow bigger, they are violating some assumptions of our approximations.
 
 
 %%%%%%%%%%
