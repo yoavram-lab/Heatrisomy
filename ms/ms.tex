@@ -186,30 +186,14 @@ We find that \textbf{} % TODO
 
 %%%%%%%% Fig illustation
 \begin{figure}[b!]
-  %\centering
-  \begin{subfigure}[t]{0.4\textwidth}
-      \caption{
-        \textbf{A. Single-locus model}
-      }
-      \centering
-      \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
-      \label{fig:model1}
-  \end{subfigure}
-  %\\
-  \begin{subfigure}[t]{0.4\textwidth}
-  	  \caption{
-        \textbf{B. Multi-locus model}
-      }
-      \centering
-      \includegraphics[height=1.8in]{../figures/Fig1-B.pdf}      
-      \label{fig:model2}
-  \end{subfigure}
+  \centering
+  \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
+  \label{fig:model1}
   \caption{
-    \textbf{Model illustrations.}
-    \textbf{(A)} In the single-locus model, the four genotypes are: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
+    \textbf{Model illustration.}
+    There are four genotypes in our model: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
     Overall there are two possible trajectories from \euwt\; to \eumt.
-    \textbf{(B)} In the multi-locus model, each genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, denoted by stars. 
-    In both panels arrows denote transitions between genotypes, with transitions rates: $\mu$, beneficial mutation rate; $\delta$, aneuploidy rate.
+    Arrows denote transitions between genotypes, with transitions rates: $\mu$, beneficial mutation rate; $\delta$, aneuploidy rate.
   }
   \label{fig:models}
 \end{figure}
@@ -217,14 +201,10 @@ We find that \textbf{} % TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph*{Evolutionary Models.}
-We model the evolution of a population of cells using two models: a single-locus model and a multi-locus model.
-Both models are based on the Wright-Fisher model~\citep{Otto2007}, assuming non-overlapping generations and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
-We focus on beneficial mutations, neglecting the effects of deleterious and neutral mutations. Both models allow for a single aneuploid karyotype (e.g., chromosome III duplication).
-While the single-locus model allows for only a single mutation to accumulate in the genotype, the multi-locus model allows for multiple mutations to accumulate~(\cref{fig:models}), as well as for a fluctuating population size.
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph*{Single-locus model.}
-This model assumes a constant effective population size $N$ and follows four genotypes~(\cref{fig:models}A): euploid wild-type, \euwt, the initial genotype; 
+We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
+We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
+The model allows for a single aneuploid karyotype (e.g., chromosome III duplication) and a single mutation to accumulate in the genotype.
+Thus, the model follows four genotypes~(\cref{fig:models}): euploid wild-type, \euwt, the initial genotype; 
 euploid mutant, \eumt, with the standard karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, with an extra chromosome, i.e., following chromosome duplication; and
 aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation. 
@@ -273,46 +253,6 @@ Finally, random genetic drift is modeled using a multinomial distribution~\citep
 where $\vec{f^m}=(f^m_{2n}\ ,\ f^m_{2n+1}\ ,\ f^m_{2n+1^*}\ ,\ f^m_{2n^*})$ are the frequencies of the genotypes after mutation and aneuploidy, $\vec{f'}$ are the genotype frequencies in the next generation, and $Mult(N,\ \vec{f})$ is a multinomial distribution parameterized by the population size $N$ and the genotype frequencies $\vec{f}$.
 Overall, the change in genotype frequencies from one generation to the next is given by the transformation $f_i \to f'_i$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph*{Multi-locus model.}
-This model expands the single-locus model by allowing for (i) the accumulation of beneficial mutations, and (ii) a fluctuating population size. 
-
-A genotype is characterized by its karyotype, \euwt\; or \anwt, and the number of accumulated beneficial mutations, which can be zero or more.
-The selection coefficient of the $i$-th accumulated mutation in each individual, $s_i$, is drawn from an exponential distribution with expected value $s$: $s_i \sim \mathit{Exp{(s)}}$.
-The rest of the parameters ($N$, $\mu$, $\delta$, $b$, $c$) are the same as in the single-locus model. However, since the multi-locus model allows several mutations with smaller fitness effects to accumulate, we expect the mutation rate to be higher compared to the single-locus model, which focuses on a single, large-effect mutation.
-
-The fitness of the different genotypes is the same as in the single-locus model (\cref{table:single-locus}), except that the fitness contribution of $k$ beneficial mutations is the product of their independent effects, $\prod_{i=1}^k(1+s_i)$, instead of the contribution of the single mutation allowed in the single-locus model, $(1+s)$, see \cref{table:multi-locus}.
-Therefore, aneuploidy loss would be favored by selection only if there are enough beneficial mutations and/or the selection coefficients $s_i$ are large enough. The intuition is that when the benefit of the accumulated beneficial mutations is small, ten the benefit of aneuploidy has a large effect; when the benefit of the accumulated beneficial mutations is large, then aneuploidy is no longer beneficial due of its fitness cost.
-
-In contrast to the single-locus model, in the multi-locus model the population size fluctuates to model serial-transfer experimental protocol~\citep{Yona2012}: the population is serially diluted by transferring a fraction of the population (1/120) to a fresh medium approximately every seven generations. 
-Thus, the population initial size is $N_0 = N$, and the population size is doubled every generation, $N_1=2N, N_2=4N, \ldots$, and diluted back to $N$ after seven generations such that $N_8=N$.
-
-The change in frequencies due to selection is exactly the same as in the single-locus model (\cref{eq:selection-single}), only applied using the fitness values in \cref{table:multi-locus}. The change due to random genetic drift is also the same as in \cref{eq:drift-single}, except that the frequencies vector is $\vec{f}=(f_{2n}\ ,\ f_{2n+1}\ ,\ f_{2n^*}\ ,\ f_{2n+1^*}\ ,\ f_{2n^{**}}\ ,\ f_{2n+1^{**}}\ ,\ \ldots)$ and that the population size changes between generations, as described above.
-
-The effects of mutation and aneuploidy on genotype frequencies is more elaborate than in the single-locus model.
-Genotype $i$ is classified according to its karyotype (\euwt\ or \anwt), the number of accumulated beneficial mutations ($k \ge 0$), and their fitness ($w_i$).
-Each offspring cell inherits these properties from its mother cell.
-Then, a new beneficial mutation is accumulated with probability $\mu$, such that the number of mutations is $k+1$, and its effect $s_{k+1}$ is drawn from an exponential distribution with expected value $s$, such that the contribution of the mutations to the fitness is $\prod_{j=0}^{k+1}{(1+s_j)}$.
-Next, euploid offspring become aneuploid with probability $\delta$, and aneuploid offspring become euploid with probability $\delta_L$.
-
-%%% Table: multi-locus model
-\begin{table}[h]
-\centering
-\caption{\textbf{Multi-locus model fitness values.}}
-\begin{tabular}{lllll}
-\emph{Genotype}, $g$ & $2n$ & $2n+1$ & $2n+1^{*k}$ & $2n^{*k}$ \\
-\hline
-\emph{Fitness}, $w_g$ & $1$ & $1-c+b$ & $(1-c)\prod_{j=1}^k(1+s_i)+b$ & $\prod_{j=1}^k(1+s_i)$               
-\end{tabular}
-\label{table:multi-locus}
-\caption*{
-$k$ is the number of accumulated beneficial mutations;
-$s \ge 0$ is the selection coefficient of a beneficial mutation;
-$0 \le c \le 1$ is the fitness cost of aneuploidy;
-and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
-}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Empirical evidence.}
 
@@ -347,8 +287,6 @@ the likelihood is similarly approximated by
 &	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \land !\{1700 < T(2n^*) < 2350\}\big)
 \;.
 \end{aligned}\end{equation}
-
-% TODO if we show results of multi-locus model, write how much replicates were used.
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC} Python package~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}.
 This approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. It is a method of likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be directly computed. It is therefore suitable in our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
