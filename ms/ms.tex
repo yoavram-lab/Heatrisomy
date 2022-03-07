@@ -534,24 +534,24 @@ First, to validate the approximation in \Cref{eq:T_total}, we performed simulati
  \label{fig:no direct mut}
  \end{figure}
  
-Second, we performed simulations without mutations from $\euwt$ to $\eumt$ (\Cref{fig:no direct mut}). 
-% TODO MP: I comment this out - not clear what "Before" refers to, and not sure we need this sentence. what do you think?
-%Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. 
-Here, aneuploidy is transient and fixation of \anwt\ or \anmt\ could be outpaced by the arrival of the next genotype. This would explain the discrepancy between the green curves in \Cref{fig:no direct mut}.
-To asses this further, \Cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time until a succesful new type appears is far smaller than that to fixation of the old type. Taking this into account, it seems reasonable to ignore the fixation time of $\anwt$ and $\anmt$, which results in the better fitting red curves in \Cref{fig:no direct mut}. Inferring $x=0.017$ for $\tilde{T}_{\anmt \rightarrow \eumt}$ to get the best fit in panel B, does not imply that it is also a best fit for panels A and C. However, we stop simulations in state $\eumt$ if they have frequency $0.95$. 
- 
-  The discrepancies in \Cref{fig:no direct mut}C seem to be particularly odd as the approximations are nearly constant and the simulations decreas log-linearly with increasing $\delta$. 
-  
-  
- \begin{figure}[h!]
+  \begin{figure}[h!]
  %\centering
  \includegraphics[width=1\textwidth]{../figures/figgrid_fixT_vs_waitT.jpg}
  \caption{\textbf{Expected time of fixation and waiting time events on the aneuploid trajectory.}
   The expected time to appearance and fixation of each step seperately in the aneuploid trajectory as a function of the population size, $N$ (panel A) and as a function of the mutation rate, $\mu$ (panel B) and as a function of the aneuploidy rate, $\delta$ (panel C). Solid curves give the fixation time and dashed curves the waiting time. Curves of the same color indicate the same base population state;  e.g. the blue dashed curve is the waiting time in state $\anwt$ until a succesful individual of type $\anmt$ appears. The corresponding solid curve indicates the time to fixation of the population in state $\anwt$. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. Parameter values in panels where it is not varied, $N=6\cdot 10^6$,\, $\mu=9.6\cdot 10^{-8}$ and $\delta=5.4\cdot 10^{-4}$.  }
  \label{fig:fixT vs waitT}
  \end{figure}
+ 
+Second, we performed simulations without mutations from $\euwt$ to $\eumt$ (\Cref{fig:no direct mut}). 
+% TODO MP: I comment this out - not clear what "Before" refers to, and not sure we need this sentence. what do you think?
+%Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. 
+Here, aneuploidy is transient and fixation of \anwt\ or \anmt\ could be outpaced by the arrival of the next genotype. This would explain the discrepancy between the green curves in \Cref{fig:no direct mut}.
+To asses this further, \Cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time until a new genotype appears and does not go to extinction is far shorter compared  to waiting time for fixation of the previous genotype. Taking this into account, it seems reasonable to ignore the fixation time of $\anwt$ and $\anmt$, which results in a better fit between our approximation and simulation results (red curves in \Cref{fig:no direct mut}, although still an overestimation.
+% TODO MP : not sure we should say this without explaining why x=0.017. did we use 0.95 in the approximation or not?
+% Inferring $x=0.017$ for $\tilde{T}_{\anmt \rightarrow \eumt}$ to get the best fit in panel B, does not imply that it is also a best fit for panels A and C. However, we stop simulations in state $\eumt$ if they have frequency $0.95$. 
+The discrepancies in \Cref{fig:no direct mut}C seem to be particularly odd as the approximations are nearly constant whereas the average time from simulations decreases log-linearly with the aneuploidy rate, $\delta$. 
 
-In summary, whereas the two possible trajectories to $\eumt$ do not compete against each other in both \Cref{fig:only mut} and \Cref{fig:no direct mut}, the approximations are doing well only in restricted parameter ranges. These tend to be, where the respective parameters are rather small. If they grow bigger, they are violating some assumptions of our approximations.
+In summary, our approximation fit simulation results with only mutation and without aneuploidy (\Cref{fig:only mut}). With aneuploidy and without a direct mutation from \euwt\ to \eumt\, our approximation agrees with simulations only in a restricted parameter range (\Cref{fig:no direct mut}), but otherwise it seems that some of our assumptions are violated.
 
 
 %%%%%%%%%%
