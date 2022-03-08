@@ -308,16 +308,19 @@ Acceptance is determined according to the approximate likelihood~(\Cref{eq:heats
 After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
 
 
-\paragraph{Model comparison.} We perform model selection using WAIC, the widely applicable information criterion ~\citep{gelman2013bayesian},
+\paragraph{Model comparison.} The main criterion that we use for model selection is WAIC, the widely applicable information criterion ~\citep{gelman2013bayesian},
 \begin{equation} \label{eq:WAIC}
 \begin{aligned}
 \mathit{WAIC}(\theta) &\ =\ 
 -2\log\mathbb{E}[\likelihood(\theta)]\ +\ 2\mathbb{V}[\log\likelihood(\theta)]
 \end{aligned}
 \end{equation}
-where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE.
+where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE. %TODO IK WAIC calculation is still under consideration, update it here after
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
-% TODO IK Describe posterior plots comparison method - Fig 4 & S3
+
+We also plot posterior prediction: we get maximum a posteriori (MAP) estimate of the models, and for each model we execute $10,000$ simulations and plot distribution of time to fixation of \eumt, one of key properties that define the likelihood of the model to fit the data. This visualization helps to see what model fits data better, at least for it MAP parameter vector.
+
+Also, for similar models we plot the posterior distribution of parameters, and joint distributions of parameters and if they are similar we say that the models are interchangeable. We validate it by comparing HDI (highest density interval) of posterior parameters of the models.
  
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
@@ -365,7 +368,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 
 
 \paragraph{Model checking and comparison.}
-The model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B). % TODO IK what happened to the sentence about the fixation on anwt? green lines ub fig4?
+The model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B). 
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\Cref{fig:ppc-plot}).
 
 % commented out, see remark above when describing likelihood of delta=0.
@@ -384,7 +387,7 @@ Therefore, we cannot rule out an increased mutation rate in aneuploid cells, but
 We also checked the differences in fixation/loss times of  \euwt, \anwt and \eumt\  for the models with different $\tau$. We saw that the models can be distinguished using these parameters, especially $\tau=100$~(\Cref{fig:tau-plots}).
 
 Sensitivity analysis shows that changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
-Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We inferred similar parameters estimates compared to the model with a free $\mu$ parameter. % TODO IK where is this shown? how do you quantify it?
+Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We inferred similar parameters estimates compared to the model with a free $\mu$ parameter. % TODO IK where is this shown? how do you quantify it? TODO add like S5 plot and mean+hdi after simulations with 1000 reps will finish to run.
 WAIC was lower when $\mu$ is fixed~(\Cref{table:WAIC}), but this is not surprising, as WAIC attempt to balance between model fit and model complexity, where the latter takes into account the number of model parameters. 
 
 
@@ -439,8 +442,6 @@ The last bin contains all the simulations with time equal or greater than 3,000.
     \textbf{Genotype fixations for single-locus models with different $\tau$.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is fixed (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if time to loss of \euwt\ is known (panel~A) or if time to fixation or loss of \anwt\ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
   }
   \label{fig:tau-plots}
-  % TODO IK axis labels like in figure 3, also somehow the graphics looks different from previous figures
-  % fixed means 100% ?
 \end{figure}
 
 
@@ -738,7 +739,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \includegraphics[width=\textwidth]{../figures/tau-joint-K.pdf}      
   \end{subfigure}
   \caption{
-    \textbf{Single-locus model inference with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions of model parameters for the single-locus model with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rate tends to be lower. 
+    \textbf{Single-locus model inference with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions of model parameters for the model with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rate tends to be lower. 
     \textbf{(F-K)} The inferred joint posterior distribution of mutation rate ($\mu$) and aneuploidy rate ($\delta$) with different $\tau$ values (dark purple and bright yellow for low and high density, respectively).
   \label{fig:tau}
   }
