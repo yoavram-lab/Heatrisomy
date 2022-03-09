@@ -451,21 +451,20 @@ The last bin contains all the simulations with time equal or greater than 3,000.
 Here, we aim to approximate the adaptation time (i.e., time to fixation of \eumt) and analyse how it is affected by the model parameters.
 As a stochastic model, there are two events that can occur on the \euwt\ genotype background. The first is a mutation that produces a \eumt\ genotype. The second is a missegregation event that produces a \anwt\ genotype. The probabilities with which these events occur is significantly different. We are interested in the average waiting time until one of these two genotype appears and then leads to adaptation, i.e., appearance and fixation of the \eumt; in the second case, appearance of \anwt\ will be followed by a mutation to \anmt\ and loss of aneuploidy to \eumt.
 
-We assume the waiting time for appearance of \eumt\ from \euwt\ and appearance of \anwt\ from \euwt\ are geometrically distributed with rates $p_{2n^*}$ and $p_{2n+1}$, respectively, where
+We assume the waiting time for appearance of \eumt\ from \euwt\, of \anwt\ from \euwt\, of \anmt from \anwt and of \eumt from \anmt are geometrically distributed with rates $p_{2n^*}$, $p_{2n+1}$, $p_{2n+1^*}$ and $p_{\eumt_\delta}$, respectively, where
 \begin{subequations}
 \begin{align}
 p_{2n^*} &= 1-(1-2\mu \Delta w_{2n^*})^N \;, \\
-p_{2n+1} &= 1-(1-2\delta\Delta w_{2n+1})^N \;,
+p_{2n+1} &= 1-(1-2\delta\Delta w_{2n+1})^N \; \\
+p_{2n+1^*} &= 1-(1-2\mu \Delta w_{2n+1^*})^N \; \\
+p_{\eumt_\delta} &=1-(1-2\delta \Delta w_{\eumt_\delta})^N.
 \end{align}
 \end{subequations}
-where $\Delta w_i$ denotes the relative difference between the fitness $w_i$ of genotype $i$ and the population mean fitness, $\bar{w}$.
+Here, $\Delta w_i$ denotes the relative difference between the fitness $w_i$ of genotype $i$ and the population mean fitness, $\bar{w}$.
 
 However, we have two competing events: if one event occurs (e.g., mutation), then the other event (e.g., aneuploidy) is unlikely to occur. Thus, we need to find the minimum of these waiting times. The minimum of two geometric random variables with rates $p_{2n^*}$ and $p_{2n+1}$ is also a geometric random variable with rate $1-(1-p_{2n^*})(1-p_{2n+1})$, which is the inverse of the expected waiting time until the first event occurs.
 
-% TODO MP: this seems like repetition of things written above, right? should we remove this? or if there is something important here, merge it to previous paragraphs?
-%We are interested in the expected time to fixation of \eumt, and the trajectory leading to this fixation depends on the event that occurs first. If \eumt\ appears first and avoids extinction by drift, then it will fix. If \anwt\ appears first and avoids extinction, then several other events must occur for fixation of \eumt. Thus, in this aneuploid trajectory, we need to approximate the expected waiting time to reach \anmt\ and finally \eumt.
-
-Given a mutation occurs first, % TODO MP: I added this sentence, is that right?
+Given a mutation occurs first, % TODO MP: I added this sentence, is that right? I guess.
 the expected adaptation time via the mutation trajectory is 
 \begin{equation}\label{eq:T_mut}
 T_{M}=\frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + T_{2n \to 2n^*} \;,
@@ -475,7 +474,7 @@ Given that aneuploidy occurs first, % TODO MP: I added this sentence, is that ri
 the expected adaptation time via the aneuploidy trajectory is approximated by
 \begin{equation}\label{eq:T_aneu} 
 % TODO MP: p_{2n+1^*} is not defined, and why is there 1/p_{2n^*} here? shouldn't it have the waiting time for 2n+1* to appear on 2n+1 and then waiting time for 2n* to appear on 2n+1*? something is wrong here.
- T_A = \frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + \frac{1}{p_{2n+1^*}} + \frac{1}{p_{2n^*}} + T_{2n \to 2n+1} + T_{2n+1 \to 2n+1^*} + T_{2n+1^* \to 2n^*} \;.
+ T_A = \frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + \frac{1}{p_{{2n+1^*}_\delta}} + \frac{1}{p_{2n^*}} + T_{2n \to 2n+1} + T_{2n+1 \to 2n+1^*} + T_{2n+1^* \to 2n^*} \;.
  \end{equation} % TODO MP do we need the tilde ?
 Finally, the expected adaptation time is 
  \begin{equation}\label{eq:T_total}
