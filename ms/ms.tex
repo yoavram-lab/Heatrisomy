@@ -315,7 +315,7 @@ After producing a set of weighted particles from the the posterior distribution 
 -2\log\mathbb{E}[\likelihood(\theta)]\ +\ 2\mathbb{V}[\log\likelihood(\theta)]
 \end{aligned}
 \end{equation}
-where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE. %TODO IK WAIC calculation is still under consideration, update it here after
+where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE.
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
 
 We also plot posterior predictions: for each model we execute $10,000$ simulations using the MAP parameter estimates and plot the distributions of time to fixation of \eumt, one of key properties of the model likelihood. This visualizes the fit of each model to the data. 
@@ -328,7 +328,8 @@ We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a pr
 To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. 
 
 Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
-First, we tried to use additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$ ~(\Cref{fig:growth-curves}L). The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC 71.91, compared to 67.87 with the above informative prior. % generated with fixed-mutation-rate-and-WAICs.ipynb TODO IK update the WAIC with 1000 reps run
+First, we tried to use additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$ ~(\Cref{fig:growth-curves}L). The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC -57, compared to 295 with the above informative prior. % generated with WAICs.ipynb TODO IK update the WAIC with 1000 reps run for the new prior
+%TODO IK: rewrite text about alternative prior, it has lower WAIC, different estimates for mutation rate etc...maybe it should be moved to results section
 We also tested an uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$, or (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the inference algorithm failed to converge.
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9},10^{-5})$ and $\delta \sim \mathit{U}(10^{-6},10^{-2})$. A wider mutation rate prior, $\mu \sim \mathit{U}(10^{-9},10^{-3})$, produced similar results.
@@ -747,8 +748,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
   \end{figure}
  
 %TODO YR read this 
-%% generated with fixed-mutation-rate.ipynb 
-% TODO IK run for all updated files
+%% generated with WAIC.ipynb 
 \begin{table}[h]
 \centering
 \caption{
