@@ -387,7 +387,7 @@ Therefore, we cannot rule out an increased mutation rate in aneuploid cells, but
 We also checked the differences in fixation/loss times of  \euwt, \anwt and \eumt\  for the models with different $\tau$. We saw that the models can be distinguished using these parameters, especially $\tau=100$~(\Cref{fig:tau-plots}).
 
 Sensitivity analysis shows that changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
-Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We inferred similar parameters estimates compared to the model with a free $\mu$ parameter. % TODO IK where is this shown? how do you quantify it? TODO add like S5 plot and mean+hdi after simulations with 1000 reps will finish to run.
+Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter. Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates~(\Cref{fig:mu}).
 WAIC was lower when $\mu$ is fixed~(\Cref{table:WAIC}), but this is not surprising, as WAIC attempt to balance between model fit and model complexity, where the latter takes into account the number of model parameters. 
 
 
@@ -744,8 +744,57 @@ Minerva Stiftung Center for Lab Evolution (YR).
   \label{fig:tau}
   }
   % TODO IK maybe add dashed vertical lines with the same colors to show where the MAP of each distribution is?
-  
   \end{figure}
+  
+  
+% Fig mu comparisons
+%% generated with diff-mutation-rate.ipynb
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-A.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-B.pdf}      
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-C.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-D.pdf}      
+    \end{subfigure}
+  \caption{
+    \textbf{Model with fixed mutation rate.}  \textbf{(A-D)} The inferred posterior distributions for models with free and fixed mutation rate, $\mu$. The MAP (maximum a posteriori) and 50\% HDI (highest density interval) for each model are following: 
+\textbf{free $\boldsymbol{\mu}$:}
+$\delta=2.749\cdot10^{-3}\ [1.476\cdot10^{-3}-2.822\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.021-1.023]$,
+$w_{2n+1^*}=1.025\ [1.023-1.026]$,
+$w_{2n^*}=1.027\ [1.026-1.029]$;
+\textbf{free $\boldsymbol{\mu}$, run 2:}
+$\delta=1.938\cdot10^{-3}\ [1.338\cdot10^{-3}-2.748\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.02-1.023]$,
+$w_{2n+1^*}=1.025\ [1.023-1.026]$,
+$w_{2n^*}=1.027\ [1.026-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-5}}$:}
+$\delta=3.089\cdot10^{-3}\ [2.412\cdot10^{-3}-3.169\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.021-1.023]$,
+$w_{2n+1^*}=1.024\ [1.023-1.026]$,
+$w_{2n^*}=1.027\ [1.026-1.028]$;
+\textbf{$\boldsymbol{\mu=10^{-6}}$:}
+$\delta=1.413\cdot10^{-3}\ [1.04\cdot10^{-3}-2.529\cdot10^{-3}]$,
+$w_{2n+1}=1.021\ [1.02-1.023]$,
+$w_{2n+1^*}=1.024\ [1.023-1.026]$,
+$w_{2n^*}=1.028\ [1.026-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-7}}$:}
+$\delta=3.4\cdot10^{-3}\ [2.043\cdot10^{-3}-3.578\cdot10^{-3}]$,
+$w_{2n+1}=1.019\ [1.017-1.02]$,
+$w_{2n+1^*}=1.026\ [1.024-1.027]$,
+$w_{2n^*}=1.027\ [1.026-1.029]$.
+\label{fig:mu}
+  }
+  \end{figure}
+
  
 %TODO YR read this 
 %% generated with WAIC.ipynb 
