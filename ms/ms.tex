@@ -327,10 +327,9 @@ From these predictions, relative fitness values can be computed. Because \texttt
 We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$ ~(\Cref{fig:growth-curves}-D). In lieu of a more suitable prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
 To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. 
 
-Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
-First, we tried to use additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$ ~(\Cref{fig:growth-curves}L). The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC -57, compared to 295 with the above informative prior. % generated with WAICs.ipynb TODO IK update the WAIC with 1000 reps run for the new prior
-%TODO IK: rewrite text about alternative prior, it has lower WAIC, different estimates for mutation rate etc...maybe it should be moved to results section
-We also tested an uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$, or (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the inference algorithm failed to converge.
+Also we tried extended informative prior that use additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$ ~(\Cref{fig:growth-curves}L). The same prior was used for $w_{2n*}/w_{2n+1*}$.
+
+Also we tested an uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$, or (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the inference algorithm failed to converge.
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9},10^{-5})$ and $\delta \sim \mathit{U}(10^{-6},10^{-2})$. A wider mutation rate prior, $\mu \sim \mathit{U}(10^{-9},10^{-3})$, produced similar results.
 
@@ -352,6 +351,7 @@ $w_{2n^*}=1.028\ [1.026-1.029]$, all relative to the fitness of \euwt, which is 
 Thus, we can infer that the benefit and cost of trisomy was $b=2.5\%$ and $c=0.3\%$, and the benefit of the beneficial mutation was $2.8\%$~(\Cref{table:single-locus}). 
 
 
+
 % FIG posterior
 %% generated with posterior-plot.ipynb
 \begin{figure}[p]
@@ -366,6 +366,20 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+% FIG posterior alt-prior
+%% generated with alt-prior.ipynb
+%% TODO IK - update the figure to look like Figure 2
+\begin{figure}[p]
+  \centering
+\includegraphics[width=0.9\textwidth]{../figures/posterior-alt.pdf}
+  \caption{
+  \textbf{Posterior distribution of parameters for extended-prior model.}
+On the diagonal, the inferred posterior distribution of each model parameter. 
+Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+} 
+  \label{fig:posterior-alt}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Model checking and comparison.}
 The model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B). 
@@ -390,6 +404,12 @@ Sensitivity analysis shows that changing a single parameter while keeping the re
 Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter. Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates~(\Cref{fig:mu}).
 WAIC was lower when $\mu$ is fixed~(\Cref{table:WAIC}), but this is not surprising, as WAIC attempt to balance between model fit and model complexity, where the latter takes into account the number of model parameters. 
 
+% generated with alt-prior.ipynb
+At the end we inferred parameters for \emph{extended informative prior} model (see \emph{Prior distributions}) with different priors for $w_{2n+1^*}$ and $w_{2n*}$. The estimated mutation rate was much lower compared to the basic model, $\mu=2.379\cdot10^{-9}\ [2.267\cdot10^{-9}-2.458\cdot10^{-9}]$. Other parameter estimates are: $\delta=2.636\cdot10^{-3}\ [2.245\cdot10^{-3}-2.919\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.021-1.023]$,
+$w_{2n+1^*}=1.032\ [1.03-1.035]$,
+$w_{2n^*}=1.033\ [1.031-1.036]$. 
+The WAIC of the model is much lower: -57 compared to 295~(\Cref{table:WAIC}).
 
 % Fig single-locus model with and without aneuploidy
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
@@ -612,11 +632,11 @@ Minerva Stiftung Center for Lab Evolution (YR).
 	\includegraphics[width=0.95\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
 \caption{
     \textbf{Fitness estimation from growth curves.}
-    % TODO IK caption should explain what each panel shows.
-    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}. $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
+    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}. $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115). \texttt{Curveball} 
     \textbf{(E-H)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}. $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).
     Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
-	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.
+	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.  \textbf{(A,B;E,F)} The mean of mono-cultures growth curves, generated by \texttt{Curveball} model fitted to the appropriate data growth curves. %TODO YR what is vertical lines? 95% CI?
+\textbf{(C,G)} The mixed-culture prediction for the strains from A,B and E,F respectively. 6375 generated curves. \textbf{(D,H)} The appropriate relative fitness distribution
 } 
 \label{fig:growth-curves}
 \end{figure}
@@ -809,8 +829,7 @@ $w_{2n^*}=1.027\ [1.026-1.029]$.
     every last row/.style={after row=\hline},
     ]{../figures/Table_WAIC.csv} 
 \caption*{
-	TODO caption
-	%TODO IK caption; what is tau in models 1-5?
+	WAIC (widely applicable information criterion; \autoref{eq:WAIC})~\citep{gelman2013bayesian} values for models: (1) without aneuploidy;  (2-4) with aneuploidy, fixed mutation rate, and $\tau=1$; (5-10) with aneuploidy, free mutation rate model parameter, and different $\tau$. WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy and a difference of 2 is a popular threshold for model comparison~\citep{Kass1995}.
 } 
 \label{table:WAIC}
 \end{table}
