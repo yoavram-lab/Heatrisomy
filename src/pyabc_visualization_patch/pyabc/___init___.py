@@ -14,6 +14,7 @@ from .kde import (
     plot_kde_matrix2,
     plot_kde_matrix_for_paper_was,
     plot_kde_matrix_for_paper,
+    plot_kde_matrix_for_paper_extended,
     plot_kde_matrix_highlevel)
 from .sample import (
     plot_sample_numbers,
