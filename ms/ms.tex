@@ -154,6 +154,7 @@ The molecular and genetic mechanisms involved in aneuploidy have been explored~\
 Experiments with human and mouse embryos found that aneuploidy is usually lethal.
 It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
 Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Kasuga2016}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018} and hypo-osmotic-like stress~\citep{Tsai2019}.
+% TODO cite Yang, F. et al. The fitness costs and benefits of trisomy of each Candida albicans chromosome. Genetics 218, 1–7 (2021).
 
 \paragraph*{Aneuploidy can lead to adaptation.}
 However, aneuploidy can be beneficial under stressful conditions due to the wide range of phenotypes it can produce, some of which are advantageous~\citep{Pavelka2010}.
@@ -322,12 +323,11 @@ Also, for similar models we plot the marginal and joint posterior distributions 
  
 \paragraph{Prior distributions.} We used informative prior distributions for $w_{\anwt}=1-c+b$, $w_{\anmt}=(1+s)(1-c)+b$ and $w_{\eumt}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
-From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix.
+From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values to be used as a prior distribution by sampling 10,000 samples from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix~(\Cref{fig:growth-curves}).
 
-We sampled 10,000 samples to use as a prior distribution~(\Cref{fig:growth-curves}).
-We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{\anwt}$~(\Cref{fig:growth-curves}-D, assuming $w_{\euwt}=1$). In lieu of a more suitable prior, we used the same prior for $w_{\anmt}$ and $w_{\eumt}$. 
+We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{\anwt}$~(\Cref{fig:growth-curves}-D, assuming $w_{\euwt}=1$). In our standard informative prior distribution, we used the same prior for $w_{\anmt}$ and $w_{\eumt}$. 
 To increase computational efficiency, we also assumed $w(\eumt)>w(\anmt)>w(\anwt)>w(\euwt)$; running the inference without this assumption produced similar results. 
-We also examined an extended informative prior that uses additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same prior was used for $w_{\eumt}/w_{\anmt}$.
+In our extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same prior was used for $w_{\eumt}/w_{\anmt}$.
 
 As a control, we tested an uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{\anwt}$, $w_{\anmt}$, $w_{\eumt}$, or (ii) only for $w_{\anmt}$, $w_{\eumt}$, using the above informative prior for $w_{\anwt}$. In these cases the inference algorithm failed to converge.
  
@@ -366,21 +366,6 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-% FIG posterior alt-prior
-%% generated with alt-prior.ipynb
-%% TODO IK - update the figure to look like Figure 2
-\begin{figure}[p]
-  \centering
-\includegraphics[width=0.9\textwidth]{../figures/posterior-alt.pdf}
-  \caption{
-  \textbf{Posterior distribution of parameters inferred with the extended prior distribution.}
-On the diagonal, the inferred posterior distribution of each model parameter. 
-Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
-} 
-  \label{fig:posterior-alt}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
-
 \paragraph{Model checking and comparison.}
 The model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B). 
 Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\Cref{fig:ppc-plot}).
@@ -390,7 +375,11 @@ The estimated mutation rate without aneuploidy is $\mu=7.979\cdot10^{-9}\ [7.903
 The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$.
 This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
 
-We also inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
+% Rancati G, Pavelka N. Karyotypic changes as drivers and catalyzers of cellular evolvability: A perspective from non-pathogenic yeasts. Semin Cell Dev Biol. 2013;24(4):332-338. doi:10.1016/j.semcdb.2013.01.009
+% Bouchonville K, Forche A, Tang KES, Semple C a M, Berman J. Aneuploid chromosomes are highly unstable during DNA transformation of Candida albicans. Eukaryot Cell. 2009;8(10):1554-1566. doi:10.1128/EC.00209-09
+% Zhu J, Pavelka N, Bradford WD, Rancati G, Li R. Karyotypic determinants of chromosome instability in aneuploid budding yeast. PLoS Genet. 2012;8(5). doi:10.1371/journal.pgen.1002719
+
+It has been suggested that aneuploidy increased genetic instability~\citep{Sheltzer2011b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
 %% generated with MAP-and-hdi.ipynb
 With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=3.81\cdot10^{-7}\ [1.508\cdot10^{-7}-4.995\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.782\cdot10^{-3}\ [0.661\cdot10^{-3}-1.462\cdot10^{-3}]$). 
@@ -459,7 +448,7 @@ The last bin contains all the simulations with time equal or greater than 3,000.
       \includegraphics[width=\textwidth]{../figures/tau-diff-c.pdf}      
   \end{subfigure}
    \caption{
-    \textbf{Genotype fixations for models with different $\tau$.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is fixed (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if time to loss of \euwt\ is known (panel~A) or if time to fixation or loss of \anwt\ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
+    \textbf{Genotype fixations for models with increased genetic instability.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is fixed (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if time to loss of \euwt\ is known (panel~A) or if time to fixation or loss of \anwt\ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
   }
   \label{fig:tau-plots}
 \end{figure}
@@ -537,6 +526,20 @@ Minerva Stiftung Center for Lab Evolution (YR).
 % TODO IK please fix the range of x axis in D; It definitely doesnt need to go beyond 1.25...
 } 
 \label{fig:growth-curves}
+\end{figure}
+
+% FIG posterior alt-prior
+%% generated with alt-prior.ipynb
+%% TODO IK - update the figure to look like Figure 2
+\begin{figure}[p]
+  \centering
+\includegraphics[width=0.9\textwidth]{../figures/posterior-alt.pdf}
+  \caption{
+  \textbf{Posterior distribution of parameters inferred with the extended prior distribution.}
+On the diagonal, the inferred posterior distribution of each model parameter. 
+Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+} 
+  \label{fig:posterior-alt}
 \end{figure}
 
 % Fig likelihood profile
