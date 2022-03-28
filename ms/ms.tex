@@ -315,7 +315,7 @@ After producing a set of weighted particles from the the posterior distribution 
 -2\log\mathbb{E}[\likelihood(\theta)]\ +\ 2\mathbb{V}[\log\likelihood(\theta)]
 \end{aligned}
 \end{equation}
-where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE.
+where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE. It was validated that WAIC doesn't change significantly, and WAIC differences between models are presaved when we redraw 50,000 samples.
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
 
 We also plot posterior predictions: for each model we execute $10,000$ simulations using the MAP parameter estimates and plot the distributions of time to fixation of \eumt, one of key properties of the model likelihood. These plots visualize the fit of each model to the data. 
