@@ -108,18 +108,30 @@ def probaneufirst_K(N, mut_rate,aneu_rate,w1,w3):
 def T_haldane_ffix(N, s):
     return 2 * np.log(N) / np.log(1+s)
 
-#deterministic approximation to fixation assumed at frequency 95%
-def T_haldane(N, s, fixation_cutoff=0.95):
+#general deterministic approximation to fixation assumed at frequency 95%
+def T_haldane(N, s, fixation_cutoff=0.95, n0=1):
     if fixation_cutoff < 1:
-        T_ret=np.log(fixation_cutoff*N/(1-fixation_cutoff)) / np.log(1+s)
+        T_ret=np.log(fixation_cutoff*(N-n0)/((1-fixation_cutoff)*n0)) / np.log(1+s)
     else:
         T_ret=2 * np.log(N) / np.log(1+s)
     return  np.maximum(T_ret,0)
 
+#numerical simulation of the time to fixation with recurrent mutations
+def time_evolution(p0, s, rate, tmax, cf=.95):
+    p = [p0]
+
+    for t in range(1, tmax):
+        rec_p = p[t-1] * (1 + s) / (1 + p[t-1] * s)+(1-p[t-1])*2*s*rate
+        p.append( rec_p)
+        if rec_p>=cf:
+            break
+
+    return t
+
 #Fixation time after Kimura
 def integral(f, N, s, a, b):
     f = partial(f, N, s)    
-    return quad(f, a, b)[0]
+    return quad(f, a, b, limit=100)[0]
 def I1(N, s, x):
     if x == 1:
         return 0
@@ -150,11 +162,11 @@ def T_kimura(N, s, fixation_cutoff=.95, n0=1):
 
 ##Two main ones:
 
-def T_mut(N, mut_rate, aneu_rate, w1, w3, fixation=False, fc0=.95):
+def T_mut(N, mut_rate, aneu_rate, w1, w3, fixation=False, fc0=.95, n00=1):
     wait_T=min_waitT(N, mut_rate, aneu_rate, w1, w3)
     if fixation is False:
         return wait_T
-    return wait_T + T_haldane(N, sv(1,1,w3)[0], fc0)
+    return wait_T + T_haldane(N, sv(1,1,w3)[0], fc0, n00)
 
 def T_mut_K(N, mut_rate, w3, fixation=False, fc0=.95, n00=1):
     wait_T_kim=waitT_K(N, mut_rate, sv(1,1,w3)[0])
@@ -181,16 +193,16 @@ def T_mut_K_H(N, mut_rate, w3, fixation=False):
 
 ##Two main ones:
 
-def T_aneu(N, mut_rate, aneu_rate, w1, w2, w3, fixation=False, fc1=.95,fc2=.95,fc3=.95):
+def T_aneu(N, mut_rate, aneu_rate, w1, w2, w3, fixation=False, fc1=.95,fc2=.95,fc3=.95, n01=1, n02=1, n03=1):
     wait_T1=min_waitT(N, mut_rate, aneu_rate, w1, w3)
     wait_T2=waitT(N, mut_rate, sv(w1,w2,w3)[2])
     wait_T3=waitT(N, aneu_rate, sv(w1,w2,w3)[3])
     wait_T123=wait_T1+wait_T2+wait_T3
     if fixation is False:
         return wait_T123
-    fix_T1=T_haldane(N, sv(w1,w2,w3)[1], fc1)
-    fix_T2=T_haldane(N, sv(w1,w2,w3)[2], fc2)
-    fix_T3=T_haldane(N, sv(w1,w2,w3)[3], fc3)
+    fix_T1=T_haldane(N, sv(w1,w2,w3)[1], fc1, n01)
+    fix_T2=T_haldane(N, sv(w1,w2,w3)[2], fc2, n02)
+    fix_T3=T_haldane(N, sv(w1,w2,w3)[3], fc3, n03)
     fix_T123=fix_T1+fix_T2+fix_T3
     return wait_T123+fix_T123
 
@@ -236,8 +248,8 @@ def T_aneu_K_H(N, mut_rate, aneu_rate, w1, w2, w3, fixation=False):
 
 ##Two main approximations:
 
-def T(N, mut_rate, aneu_rate, w1, w2, w3, fixation=False, fc0=.95, fc1=.95, fc2=.95, fc3=.95):
-    return probaneufirst(N,mut_rate,aneu_rate,w1,w3)*T_aneu(N, mut_rate, aneu_rate, w1, w2, w3, fixation, fc1, fc2, fc3)+(1-probaneufirst(N,mut_rate,aneu_rate,w1,w3))*T_mut(N, mut_rate, aneu_rate, w1, w3, fixation, fc0)
+def T(N, mut_rate, aneu_rate, w1, w2, w3, fixation=False, fc0=.95, fc1=.95, fc2=.95, fc3=.95, n00=1, n01=1, n02=1, n03=1):
+    return probaneufirst(N,mut_rate,aneu_rate,w1,w3)*T_aneu(N, mut_rate, aneu_rate, w1, w2, w3, fixation, fc1, fc2, fc3, n01, n02, n03)+(1-probaneufirst(N,mut_rate,aneu_rate,w1,w3))*T_mut(N, mut_rate, aneu_rate, w1, w3, fixation, fc0, n00)
 
 def T_K(N, mut_rate, aneu_rate, w1, w2, w3, fixation=False, fc0=.95, fc1=.95, fc2=.95, fc3=.95, n00=1, n01=1, n02=1, n03=1):
     return probaneufirst(N,mut_rate,aneu_rate,w1,w3)*T_aneu_K(N, mut_rate, aneu_rate, w1, w2, w3, fixation, fc1, fc2, fc3, n01, n02, n03)+(1-probaneufirst(N,mut_rate,aneu_rate,w1,w3))*T_mut_K(N, mut_rate, w3, fixation, fc0, n00)
