@@ -397,7 +397,7 @@ Finally, we estimated the parameters under an extended informative prior (see \e
 $w_{\anwt}=1.022\ [1.021-1.023]$,
 $w_{\anmt}=1.032\ [1.03-1.035]$,
 $w_{\eumt}=1.033\ [1.031-1.036]$. 
-The WAIC of the model is much lower: -57 compared to 295~(\Cref{table:WAIC}).
+The WAIC of the model is much lower: -57 compared to 295~(\Cref{table:WAIC}). However the model fails to explain the experimental observations~(Figure~\ref{fig:2n*-fixation}).
 
 % Fig model with and without aneuploidy
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
@@ -414,13 +414,12 @@ The WAIC of the model is much lower: -57 compared to 295~(\Cref{table:WAIC}).
   \end{subfigure}
   \caption{
     \textbf{Model fit with and without aneuploidy.}
-    \textbf{(A)} The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations of the model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange), and a model fitted to the data assuming $\delta=0$ (green).
-In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green, and the yellow histogram has a very poor fit.
-The last bin contains all the simulations with time equal or greater than 3,000.
+    \textbf{(A)} The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations of the model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange), and a model fitted to the data assuming $\delta=0$ (green); and to the model with aneuploidy with extended prior distribution (pink).
+In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green and pink, and the yellow histogram has a very poor fit.
+The last bin contains all the simulations with time equal or greater than 3,000 - from pink and green distributions.
     \textbf{(B)}
-	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\Cref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
+	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\Cref{eq:heatstress-likelihood}) is 0.84, 0.67 with and without aneuploidy, respectively, and 0.14 for the model with aneuploidy and extended prior distribution.
      }
-     % TODO should we remove this figure altoghther? change it? because we removed no-aneuploidy model...? should we merge this with the next figure?
   \label{fig:2n*-fixation}
 \end{figure}
 
