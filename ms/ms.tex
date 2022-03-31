@@ -297,13 +297,13 @@ A proposal particle, $\theta^*$, is sampled from a proposal distribution, and is
 The number of particles, $n_t$, is adapted at every iteration $t$ using the adaptive population strategy~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}.
 For $t=0$, the proposal particle is sampled from the prior distribution, $p(\theta)$.
 For $t>0$, the proposal particle is sampled from the particles accepted in the previous iteration, $\{\theta_{i,t-1}\}_{i=1}^{n_{t-1}}$, each with a probability relative to its weight $W_{t-1}(\theta_{i,t-1})$ (see below). The proposal particle is then perturbed using a kernel perturbation kernel, $K_t(\theta^* \mid \theta)$ where $\theta$ is the sample from the previous iteration.
-Then, a set of synthetic observations $\tilde{\vec X}^*$ is simulated, and the proposal particle $\theta^*$ is accepted if its approximate likelihood (\Cref{eq:heatstress-likelihood}) is high enough, $\likelihood(\theta^*)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta^*) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. 
+Then, a set of synthetic observations $\tilde{\vec X}^*$ is simulated, and the proposal particle $\theta^*$ is accepted if its approximate likelihood (\cref{eq:heatstress-likelihood}) is high enough, $\likelihood(\theta^*)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta^*) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. 
 The acceptance threshold $\epsilon_t$ is chosen as the median of the $1-\likelihood(\theta)$ of the particles accepted in the previous iteration, $t-1$, and $\epsilon_0=0.01$. 
 For each accepted particle $\theta_{i,t}$ a weight $W_t(\theta_{i,t})$ is assigned: for $t=0$, $W_0(\theta_{i,0})=1$, and for $t>0$, 
 $W_t(\theta_{i,t}) = p(\theta_{i,t}) / \sum_{i=1}^{n_{t-1}}{W_{t-1}(\theta_{i,t-1}) K_t(\theta_{i,t}, \theta_{i,t-1})}$, where $p(\theta)$ is the prior density of $\theta$ and $K_t(\theta', \theta)$ is the probability of a perturbation from $\theta$ to $\theta'$.
 $K_t(\theta' \mid \theta)$ is a multivariate normal distribution, fitted at iteration $t$ to the particles from the previous iteration, \{$\theta_{i,t-1}\}_{i=1}{n_{t-1}}$, and their weights, $\{W(\theta_{i,t-1})\}_{i=1}^{n_{t-1}}$.
 
-Acceptance is determined according to the approximate likelihood~(\Cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}).
+Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}).
 
 After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
 
@@ -407,7 +407,7 @@ WAIC was lower when $\mu$ is fixed~(\Cref{table:WAIC}), but this is not surprisi
 In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green, and the yellow histogram has a very poor fit.
 The last bin contains all the simulations with time equal or greater than 3,000.
     \textbf{(B)}
-	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\Cref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
+	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
      }
   \label{fig:2n*-fixation}
 \end{figure}
@@ -450,15 +450,16 @@ The last bin contains all the simulations with time equal or greater than 3,000.
 
 \paragraph{Approximation.}
 We aim to approximate the adaptation time (i.e., time to fixation of \eumt) and analyse how it is affected by the model parameters.
-There are two stochastic events that can occur on the \euwt\ genotype background. The first is a mutation that produces a \eumt\ genotype.
+There are two genotypes events that can occur on the \euwt\ genotype background. The first is a mutation that produces a \eumt\ genotype.
 The second is a mis-segregation event that produces a \anwt\ genotype.
-The rate at which these events occur is significantly different, and we assume that if one event occurs (e.g., mutation), then the other event (e.g., aneuploidy) is unlikely to occur.
-The expected waiting time until one of these two genotype appears and then leads to adaptation is therefore
+The rate at which these genotypes appear is significantly different. 
+We assume that if one genotype appears (e.g., \eumt), then it will genotype rapidly fix in the population and therefore the other genotype (e.g., \anwt) is unlikely to occur. 
+The expected waiting time until one of the two genotype appears and then leads to adaptation is therefore
 \begin{equation}\label{eq:T_total}
 T = p_a T_a+(1-p_a) T_m \;,
 \end{equation}
-where $p_a$ is the probability that aneuploidy is the first event to occur, 
-$T_m$ is the expected time for appearance and fixation of \eumt\ given it appears before \anwt, and $T_a$ is the expected time for appearance of \anwt, followed by a mutation to \anmt, and loss of aneuploidy to \eumt, given that \anwt\ appears before \eumt.
+where $p_a$ is the probability that \anwt\ is the first to appear without going to extinction, 
+$T_m$ is the expected time for appearance and fixation of \eumt\ given it appears before \anwt, and $T_a$ is the expected time for appearance of \anwt, followed by a mutation to \anmt, and loss of aneuploidy to \eumt, given that \anwt\ appears before \eumt. Note that we assume the probability that \eumt\ is the first to appear without going to extinction is $1-p_a$.
 
 We assume the waiting time $T_{i,j}$ for appearance of genotype $j$ in a population of genotype $i$ is geometrically distributed with rate $p_{i,j}$, such that
 \begin{subequations}
@@ -490,7 +491,7 @@ the expected adaptation time via the aneuploidy trajectory is approximated by
 T_a = T_{min} + T_{2n+1, 2n+1^*} + T_{2n+1^*,2n^*} + \tau_{2n, 2n+1} + \tau_{2n+1, 2n+1^*} + \tau_{2n+1^*, 2n^*} \;.
 \end{equation}
 
-We assume that the waiting time until a new genotype occurs, $T{i,j}$, is much longer than the waiting time for its fixation, $\tau_{i,j}$. Nevertheless, these fixation times must be included in a rigorous analysis. There are two ways to compute the fixation times.
+We assume that the waiting time until a new genotype occurs, $T_{i,j}$, is much longer than the waiting time for its fixation, $\tau_{i,j}$. Nevertheless, these fixation times must be included in a rigorous analysis. There are two ways to compute the fixation times.
 A deterministic-process approach is given by the classical bi-allelic single-locus equation.
 It approximates the expected time for genotype $j$ to reach frequency $x$ when starting from frequency $y$ in a population of genotype $i$ by
  % TODO MP ref for equation? Crow and Kimura? YR: yes
@@ -502,15 +503,16 @@ A stochastic-process approach for approximating $T_{i, j}$ is given by the diffu
 % TODO MP give details here
 
 \paragraph{Validation.}
-To validate our approach we performed simulations of the full model (\Cref{eq:mutation-aneuploidy-single,eq:drift-single,eq:selection-single}) without aneuploidy, i.e., $\delta=0$, and with the other parameters as inferred above.
-The approximation for the expected adaptation time (\Cref{eq:T_total}) provides a good fit to simulation results except when the effective population size is above $5\cdot 10^6$ cells (\Cref{fig:only mut}).
-In that case, the expected number of new mutants per generation is roughly 0.5, and  we it is likely that the fixation event will start with more than a single \eumt\ cell appearing in the same generation, which violates our assumption that a fixation event starts from a single mutant cell (i.e., $y=1/N$ in \Cref{eq:tau_fix_x}).
+To validate our approach we performed simulations of the full model (\cref{eq:mutation-aneuploidy-single,eq:drift-single,eq:selection-single}) without aneuploidy, i.e., $\delta=0$, and with the other parameters as inferred above.
+The approximation for the expected adaptation time $T$ (\cref{eq:T_total}) has a good fit to simulation results except when the effective population size is above $5\cdot 10^6$ cells (\Cref{fig:only mut}A).
+In that case, the expected number of new mutants per generation is roughly 0.5, and   the fixation event is likely to start with more than a single \eumt\ cell appearing in the same generation, which violates our assumption that a fixation event starts from a single mutant cell (i.e., $y=1/N$ in \cref{eq:tau_fix_x}).
+% TODO can we verify that setting y to higher value corrects the approximation?
 
  \begin{figure}[h!]
  \centering
  \includegraphics[width=\textwidth]{../figures/figgrid_noaneu.pdf}
  \caption{\textbf{Expected adaptation time without aneuploidy.}
-  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) or as a function of the mutation rate, $\mu$ (\textbf{B}). Mean and 95\% CI from simulations in blue. Analytic approximation (\Cref{eq:T_total}) in orange. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. In panel A, $\mu=9.6\cdot 10^{-8}$. In panel B, $N=6\cdot 10^6$.
+  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) or as a function of the mutation rate, $\mu$ (\textbf{B}). Mean and 95\% CI from simulations in blue. Analytic approximation (\cref{eq:T_total}) in orange. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. In panel A, $\mu=9.6\cdot 10^{-8}$. In panel B, $N=6\cdot 10^6$.
   }
   %TODO MP 
   % which approximation do you use here for T_i->j ?
@@ -519,28 +521,30 @@ In that case, the expected number of new mutants per generation is roughly 0.5, 
   % more ticks for x axis
  \label{fig:only mut}
  \end{figure}
+
  
- 
- \begin{figure}[h!]
+Next, we performed simulations without mutations from \euwt\ to \eumt\ but with mutations from \anwt\ to \eumt\ (\Cref{fig:no direct mut}). 
+% TODO MP: I comment this out - not clear what "Before" refers to, and not sure we need this sentence. what do you think?
+%Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. 
+Here, aneuploidy is transient and fixation of \anwt\ or \anmt\ could be outpaced by the arrival of the next genotype (\anmt\ and \eumt, respectively). This would explain the discrepancy between the approximations and simulation results in \Cref{fig:no direct mut}.
+To asses this further, \Cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time for appearance, $T_{i,j}$ is far shorter than the time to fixation, $\tau_{i,j}$.
+Indeed, if we ignore the fixation time of $\anwt$ and $\anmt$ ($T_{2n,2n+1}$ and $T_{2n+1,2n+1^*}$) in \cref{eq:T_a}, we get a better fit to the data (compare red curves and blue markers in \Cref{fig:no direct mut}).
+Furthermore, setting $x=0.017$ for $T_{2n+1^*, 2n^*}$ in \cref{eq:tau_fix_x}, we get an even better fit in some cases (\Cref{fig:no direct mut}B), but not others (\Cref{fig:no direct mut}A,C). % TODO maybe remove these x=0.017 sentences and the next sentence
+However, we stop simulations when genotype $\eumt$ reaches frequency of $0.95>0.017$.  
+
+
+\begin{figure}[h!]
  %\centering
  \includegraphics[width=1\textwidth]{../figures/figgrid_nodirectmut_ylog_uncorr.jpg}
  \caption{\textbf{Expected adaptation time without mutations from $\euwt$ to $\eumt$.}
-  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) and as a function of the mutation rate, $\mu$ (\textbf{B}) and as a function of the aneuploidy rate, $\delta$ ({C}). Blue error bars for mean and 95\% CI from simulations. Green line for the analytic approximation (\Cref{eq:T_total}). % TODO why green? in previous figure it was orange.
+  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) and as a function of the mutation rate, $\mu$ (\textbf{B}) and as a function of the aneuploidy rate, $\delta$ ({C}). Blue error bars for mean and 95\% CI from simulations. Green line for the analytic approximation (\cref{eq:T_total}). % TODO why green? in previous figure it was orange.
   Red curve for the approximation with $T_{\euwt, \anwt}=T_{\anwt, \anmt}=0$. 
-  Orange curve for the approximation with $x=0.017$ in \Cref{eq:tau_fix_x} for the fixation time of $\eumt$; we found this gives a good fit in panel B.
+  Orange curve for the approximation with $x=0.017$ in \cref{eq:tau_fix_x} for the fixation time of $\eumt$; we found this gives a good fit in panel B.
   Here, $w_\anwt=1.021,\, w_\anmt=1.025$ and $w_\eumt=1.028$, $N=6\cdot 10^6$,\, $\mu=9.6\cdot 10^{-8}$ and $\delta=5.4\cdot 10^{-4}$ unless parameter is varied on the x-axis.
   }
  \label{fig:no direct mut}
  \end{figure}
- 
-Next, we performed simulations without mutations from $\euwt$ to $\eumt$ (\Cref{fig:no direct mut}). 
-% TODO MP: I comment this out - not clear what "Before" refers to, and not sure we need this sentence. what do you think?
-%Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. 
-Here, aneuploidy is transient and fixation of \anwt\ or \anmt\ could be outpaced by the arrival of the next genotype. This would explain the discrepancy between the approximations and simulation results in \Cref{fig:no direct mut}.
-To asses this further, \Cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time for appearance, $T_{i,j}$ is far shorter than the time to fixation, $\tau_{i,j}$.
-Indeed, if we ignore the fixation time of $\anwt$ and $\anmt$ ($T_{2n,2n+1}$ and $T_{2n+1,2n+1^*}$) in \Cref{eq:T_a}, we get a better fit to the data (compare red curves and blue markers in \Cref{fig:no direct mut}).
-Furthermore, setting $x=0.017$ for $T_{2n+1^*, 2n^*}$ in \Cref{eq:tau_fix_x}, we get an even better fit in some cases (\Cref{fig:no direct mut}B), but not others (\Cref{fig:no direct mut}A,C). % TODO maybe remove these x=0.017 sentences and the next sentence
-However, we stop simulations when genotype $\eumt$ reaches frequency of $0.95>0.017$.   
+  
   
  \begin{figure}[h!]
  %\centering
@@ -690,7 +694,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \includegraphics[width=0.325\textwidth]{../figures/runs-E.pdf} 
        \caption{
     \textbf{Posterior distribution validation.}
-    The posterior distribution of model parameters is roughly the same regardless of the number of simulations (4-10,000 replicates) used to approximate the likelihood (\Cref{eq:heatstress-likelihood}).
+    The posterior distribution of model parameters is roughly the same regardless of the number of simulations (4-10,000 replicates) used to approximate the likelihood (\cref{eq:heatstress-likelihood}).
     } 
      
      \label{fig:seeds}
