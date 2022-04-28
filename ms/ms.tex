@@ -186,16 +186,49 @@ We fit this model to the experimental results of \citet{Yona2012} using an \emph
 %%%%%%%% Fig illustation
 \begin{figure}[b!]
   \centering
-  \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
-  \label{fig:model1}
+  
+  \begin{subfigure}[t]{0.03\textwidth} \textbf{A} \end{subfigure}
+  \begin{subfigure}{0.75\textwidth}
+    \centering
+    \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
+  \end{subfigure}
+  
+  \begin{subfigure}[t]{0.03\textwidth} \textbf{B} \end{subfigure}
+  \begin{subfigure}{0.75\textwidth}
+	\centering
+	\begin{tabular}{lllll}
+	\emph{Genotype} $i$ & \euwt & \anwt & \anmt & \eumt \\
+	\hline
+	\emph{Fitness} $w_i$ & $1$ & $1-c+b$ & $(1-c)(1+s)+b$ & $1+s$               
+	\end{tabular}
+	\label{table:fitness}
+  \end{subfigure}
+  
+    \begin{subfigure}[t]{0.03\textwidth} \textbf{C} \end{subfigure}
+    \begin{subfigure}{0.75\textwidth}
+	\centering
+	\begin{tabular}{llll}
+	\emph{s, b, c} & s & c & b \\
+	\hline
+	 \emph{Calculation} & $w_{\eumt-1}$ & $1-\dfrac{w_\anmt-w_\anwt}{w_\eumt-1}$ & $w_\anwt - 1 + c$               
+	\end{tabular}
+	\label{table:fitness}
+  \end{subfigure}
+  
   \caption{
-    \textbf{Model illustration.}
+    \textbf{The model.} 
+    \textbf{(A)} Model Illustration.
     There are four genotypes in our model: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
     Overall there are two possible trajectories from \euwt\; to \eumt.
     Arrows denote transitions between genotypes, with transitions rates: $\mu$, beneficial mutation rate; $\delta$, aneuploidy rate.
-  }
+    \textbf{(B)} Fitness values. $s \ge 0$ is the selection coefficient of a beneficial mutation;
+$0 \le c \le 1$ is the fitness cost of aneuploidy;
+and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
+   \textbf{(C)} Calculations of $s,b,c$ from $w_i$ values, derived from (B) expressions.
+   }
   \label{fig:models}
 \end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -210,32 +243,14 @@ aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation.
 
 Transitions between the genotypes occur as follows~(\Cref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; and from \anwt\; to \anmt\; occur with probability $\mu$, the mutation rate. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
 Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\; and from \anmt\ to \eumt\ with probability $\delta$, the aneuploidy rate. That is, we assume chromosomes are gained and lost at the same rate, and we neglect events that form a less-fit genotype (i.e., \anwt\; to \euwt\; and \eumt\; to \anmt).
-The fitness values of the four genotypes are given by \Cref{table:fitness}.
-
-%%% Table: fitness
-\begin{table}[h]
-\centering
-\caption{\textbf{Fitness values.}}
-\begin{tabular}{lllll}
-\emph{Genotype} $i$ & \euwt & \anwt & \anmt & \eumt \\
-\hline
-\emph{Fitness} $w_i$ & $1$ & $1-c+b$ & $(1-c)(1+s)+b$ & $1+s$               
-\end{tabular}
-\label{table:fitness}
-\caption*{
-$s \ge 0$ is the selection coefficient of a beneficial mutation;
-$0 \le c \le 1$ is the fitness cost of aneuploidy;
-and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
-}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%
+The fitness values of the four genotypes are given by \Cref{fig:models}B.
 
 The initial population has $N$ cells with genotype \euwt.
 The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1, 2n+1^*, \text{or } 2n^*$ is given by
     \begin{equation} \label{eq:selection-single} 
       f^s_i = \frac{f_i w_i}{\bar{w}} \;,
     \end{equation}
-where the fitness values $w_i$ are given in \Cref{table:fitness} and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
+where the fitness values $w_i$ are given in \Cref{fig:models}B and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
 The effect of mutation and aneuploidy on genotype frequencies is given by
     \begin{equation} \label{eq:mutation-aneuploidy-single}
     \begin{aligned}
@@ -303,7 +318,8 @@ For each accepted particle $\theta_{i,t}$ a weight $W_t(\theta_{i,t})$ is assign
 $W_t(\theta_{i,t}) = p(\theta_{i,t}) / \sum_{i=1}^{n_{t-1}}{W_{t-1}(\theta_{i,t-1}) K_t(\theta_{i,t}, \theta_{i,t-1})}$, where $p(\theta)$ is the prior density of $\theta$ and $K_t(\theta', \theta)$ is the probability of a perturbation from $\theta$ to $\theta'$.
 $K_t(\theta' \mid \theta)$ is a multivariate normal distribution, fitted at iteration $t$ to the particles from the previous iteration, \{$\theta_{i,t-1}\}_{i=1}{n_{t-1}}$, and their weights, $\{W(\theta_{i,t-1})\}_{i=1}^{n_{t-1}}$.
 
-Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}).
+Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ %TODO IK for extended prior model and probably some more we used another epsilon. 
+after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}). 
 
 After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
 
@@ -344,14 +360,12 @@ For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformati
 We used ABC-SMC to infer the posterior distribution of model parameters~(\Cref{fig:posterior}). 
 We report parameter estimates using the MAP (maximum a posteriori) and providing the 50\% HDI (highest density interval) in square brackets.
 %% estimates generated by MAP-and-hdi.ipynb
-The estimated aneuploidy rate, $\delta=1.722\cdot10^{-3}\ [1.394\cdot10^{-3}-2.754\cdot10^{-3}]$, agrees with previous estimates. % TODO IK refs (9.7^10-5 in Zhu 2014 aneuploidy event per genome, 6.7^10-6 for chromosome 3 (2/(145*2062); losses only 0.7*10^-5). ILIA - we need more than one ref; also what is the units of Zho 2014?
 The estimated mutation rate, $\mu=2.942\cdot10^{-6}\ [2.017\cdot10^{-7}-4.15\cdot10^{-6}]$, corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014} or $3.3\cdot10^{-10}$~\citep{Lynch2008}.
+The estimated aneuploidy rate, $\delta=1.722\cdot10^{-3}\ [1.394\cdot10^{-3}-2.754\cdot10^{-3}]$ is higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimates  $6.7\cdot10^{-6}$ aneuploidy gain rate, \citet{Kumaran2013} estimates $3.0-4.3\cdot10^{-5}$ aneuploidy loss rate (95\% confidence interval).
 The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
 $w_{\anmt}=1.025\ [1.024-1.026]$,
 $w_{\eumt}=1.028\ [1.026-1.029]$, all relative to the fitness of \euwt, which is set to $w_{\euwt}=1$. 
-Thus, we can infer that the benefit and cost of trisomy was $b=2.5\%$ and $c=0.3\%$, and the benefit of the beneficial mutation was $2.8\%$~(\Cref{table:fitness}). 
-
-
+Thus, we can infer that the benefit and cost of trisomy was $b=92\%$ and $c=89\%$, and the benefit of the beneficial mutation was $2.8\%$~(\Cref{fig:models}C). 
 
 % FIG posterior
 %% generated with posterior-plot.ipynb
@@ -616,7 +630,6 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
  
  % Fig tau comparisons
 %% generated with diff-tau.ipynb
-% TODO IK 10_000 reps is mocked, should be rerunned and fixed
 \begin{figure}[h!]
   \centering
   \begin{subfigure}{0.45\textwidth}

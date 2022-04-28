@@ -733,7 +733,7 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
     def hist_1d(x, ax, i):
         df = pd.concat((x,), axis=1)
         import seaborn as sns
-        sns.histplot(df[x.name], ax=ax, bins=40)
+        sns.histplot(df[x.name], ax=ax, bins=40, color='darkgray')
         ax.ticklabel_format(style='plain')
         ax.axvline(refval[x.name], color=refval_color, linestyle='dotted',linewidth=2)
         ax.set_xlim(min(df[x.name])-1e-8) #1e-8 to print 0
@@ -880,7 +880,7 @@ def plot_kde_matrix_for_paper_extended(df, w, limits=None, colorbar=True, height
     def hist_1d(x, ax,i):
         df = pd.concat((x,), axis=1)
         import seaborn as sns
-        sns.histplot(df[x.name], ax=ax, bins=30)
+        sns.histplot(df[x.name], ax=ax, bins=30, color='darkgray')
         ax.ticklabel_format(style='plain')
         ax.axvline(refval[x.name], color=refval_color, linestyle='dotted',linewidth=2)
 #         ax.set_xlim(min(df[x.name])-1e-9) #1e-8 to print 0
