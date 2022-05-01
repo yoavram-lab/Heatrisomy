@@ -271,8 +271,9 @@ Overall, the change in genotype frequencies from one generation to the next is g
 \paragraph{Empirical evidence.}
 
 We use the results of evolutionary experiments reported by \citet{Yona2012}.
-In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). From unpublished results, aneuploidy did not fix before at least 200 generations elapsed.
-The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350.
+In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). 
+From re-analysis of data not published in the original paper, aneuploidy did not fix before at least 200 generations elapsed.
+The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350 while still under the same conditions of elevated heat (\SI{39}{\celsius}).
 
 
 \paragraph{Likelihood function.} 
@@ -288,7 +289,7 @@ We overcome this problem by approximating the likelihood using simulations. We s
 	\Big]\;,
 \end{aligned}\end{equation}
 where $!\{\ldots\}$ is the "logical not" operator, $P^4(\ldots)$ is the 4th power of $P(\ldots)$, and all probabilities $P_{\tilde{\vec X}}(\ldots)$ are approximated from the results of the simulations $\tilde{\vec X}$. For example, $P_{\tilde{\vec X}}\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)$ is approximated by taking simulations in which \anwt\; fixed before generation 450 but not before generation 200, and computing the fraction of such simulations in which \eumt\; did not fix by generation 1,700, and hence aneuploidy did not extinct before generation 1,700.
-\Cref{fig:seeds} compares results with less and more simulated experiments, demonstrating that 1,000 simulations are likely enough.
+\Cref{fig:seeds} compares results with less and more simulated experiments, demonstrating that 1,000 simulations are likely sufficient.
  
 For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), we disregard the increased expression in chromosome III and the growth advantage measured in generation 450, and focus on the growth advantage measured in later generations, presumably due to a beneficial mutation. 
 Therefore, the likelihood is approximated by
