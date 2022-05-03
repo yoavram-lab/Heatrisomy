@@ -880,15 +880,15 @@ def plot_kde_matrix_for_paper_extended(df, w, limits=None, colorbar=True, height
     def hist_1d(x, ax,i):
         df = pd.concat((x,), axis=1)
         import seaborn as sns
-        sns.histplot(df[x.name], ax=ax, bins=30, color='darkgray')
+        sns.histplot(df[x.name], ax=ax, bins=20)
         ax.ticklabel_format(style='plain')
         ax.axvline(refval[x.name], color=refval_color, linestyle='dotted',linewidth=2)
 #         ax.set_xlim(min(df[x.name])-1e-9) #1e-8 to print 0
         ax.set_yticks([])
         if i==0:
-            ax.text(0.92, -0.2, '$x10^{-9}$', transform=ax.transAxes)
-            ax.set_xticks([2e-9, 2.5e-9, 3e-9])
-            ax.set_xticklabels([float(a) for a in ax.get_xticks()*1e9]);
+            ax.text(0.92, -0.17, '$x10^{-9}$', transform=ax.transAxes)
+            ax.set_xticks([2.25e-9, 2.5e-9, 2.75e-9])
+            ax.set_xticklabels([round(float(a),2) for a in ax.get_xticks()*1e9]);
         if i==1:
             ax.set_xticks([0.002,0.004, 0.006])
             ax.set_xticklabels([0.002,0.004, 0.006])
@@ -912,9 +912,9 @@ def plot_kde_matrix_for_paper_extended(df, w, limits=None, colorbar=True, height
             hist_2d(x, y, ax)
             if j == 0 : #mutation rate
                 ax.ticklabel_format(style='plain')
-                ax.text(0.92, -0.2, '$x10^{-9}$', transform=ax.transAxes)
-                ax.set_xticks([2e-9, 2.5e-9, 3e-9])
-                ax.set_xticklabels([float(a) for a in ax.get_xticks()*1e9]);
+                ax.text(0.92, -0.17, '$x10^{-9}$', transform=ax.transAxes)
+                ax.set_xticks([2.25e-9, 2.5e-9, 2.75e-9])
+                ax.set_xticklabels([round(float(a),2) for a in ax.get_xticks()*1e9]);
             if j == 1: #aneuploidy rate
                 ax.set_xticks([0.002,0.004, 0.006])
                 ax.set_xticklabels([0.002,0.004, 0.006])
