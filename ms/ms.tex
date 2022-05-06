@@ -198,7 +198,8 @@ We fit this model to the experimental results of \citet{Yona2012} using an \emph
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph*{Evolutionary Model.}
-We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
+We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, %TODO we need to write in some place that it is 6.425*10**6 in our simulations: 1.6M to 2004.8M in Yona experiment
+ non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
 The model allows for a single aneuploid karyotype (e.g., chromosome III duplication) and a single mutation to accumulate in the genotype.
 Thus, the model follows four genotypes~(\Cref{fig:models}): euploid wild-type, \euwt, the initial genotype; 
@@ -406,6 +407,8 @@ The last bin contains all values equal or greater than 3,000 and the green bar i
   \label{fig:2n*-fixation}
 \end{figure}
 
+% Fig dynamics
+%% generated with dynamics-plot.ipynb
 \begin{figure}[p]
   \centering
 \includegraphics[width=0.8\textwidth]{../figures/dynamics.pdf}
