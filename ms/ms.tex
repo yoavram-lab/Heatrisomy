@@ -198,8 +198,7 @@ We fit this model to the experimental results of \citet{Yona2012} using an \emph
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph*{Evolutionary Model.}
-We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, %TODO we need to write in some place that it is 6.425*10**6 in our simulations: 1.6M to 2004.8M in Yona experiment
- non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
+We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
 The model allows for a single aneuploid karyotype (e.g., chromosome III duplication) and a single mutation to accumulate in the genotype.
 Thus, the model follows four genotypes~(\Cref{fig:models}): euploid wild-type, \euwt, the initial genotype; 
@@ -210,7 +209,9 @@ aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation.
 Transitions between the genotypes occur as follows~(\Cref{fig:models}): Beneficial mutations from \euwt\; to \eumt\; and from \anwt\; to \anmt\; occur with probability $\mu$, the mutation rate. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
 Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\; and from \anmt\ to \eumt\ with probability $\delta$, the aneuploidy rate. That is, we assume chromosomes are gained and lost at the same rate, and we neglect events that form a less-fit genotype (i.e., \anwt\; to \euwt\; and \eumt\; to \anmt).
 
-The initial population has $N$ cells with genotype \euwt.
+In the experiment by \citet{Yona2012}, the population was grown every day from $1.6 \cdot 10^6$ cells until reaching stationary phase and then diluted 1:120.
+Thus, we set the population size to $N=6.425 \cdot 10^6$, the harmonic mean of $\{2^k \cdot 1.6 \cdot 10^6\}_{k=0}^{7}$~\citep{Crow1970}.
+The initial population has $N$ cells with genotype \euwt. 
 The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1, 2n+1^*, \text{or } 2n^*$ is given by
     \begin{equation} \label{eq:selection-single} 
       f^s_i = \frac{f_i w_i}{\bar{w}} \;,
