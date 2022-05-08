@@ -123,10 +123,11 @@ The Hebrew University of Jerusalem, Israel}
 \begin{abstract}
 Aneuploidy is common in eukaryotes, often leading to decreased cell growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that aneuploidy can be beneficial under stressful conditions and lead to elevated growth rates and adaptation.
 Importantly, aneuploidy differs from point mutations in rate, fitness effect, and reversibility.
-Here, we develop evolutionary models for adaptive evolution with both mutation and aneuploidy. 
-These models are used within an approximate Bayesian computation framework to estimate the formation rate and fitness effect of aneuploidy and mutation from  results of evolutionary experiments in which \yeast adapted to heat stress: the experimental populations first acquired chromosome duplications, only to later revert back to a euploid state.
-We also analyze our models to estimate the effect of the aneuploidy and mutation rates on the expected adaptation time and the probability for adaptation via aneuploidy.
-Our results suggest that aneuploidy can be a transient adaptive solution, which can decelerate adaptation in a non-intuitive manner. By creating an evolutionary conflict between the individual and the population, aneuploidy further complicates the process of adaptation in cell populations.
+Here, we develop an evolutionary model for adaptive evolution with both aneuploidy and  mutation, and apply it within an Bayesian inference framework.
+We estimate the formation rate and fitness effect of aneuploidy and mutation in an evolutionary experiment in which \yeast adapted to heat stress.
+Our results suggest that aneuploidy is more frequent than previously estimated and that experimental observations cannot be explained without aneuploidy.
+We do not find evidence for genetic instability in aneuploid cells.
+Our results support the hypothesis that aneuploidy is a transient adaptive hypothesis: the experimental populations adapted by first acquiring a chromosome duplication; then by acquiring a beneficial mutation that likely appeared in aneuploid cells, rather than euploid cells; and finally by rapidly losing the extra chromosome to avoid paying the fitness cost of aneuploidy.
 \end{abstract}
 
 % TODO cite https://www.biorxiv.org/content/10.1101/2020.10.07.327759v1
@@ -172,8 +173,8 @@ However, under gradual heat stress, aneuploidy was not observed.
 \paragraph*{The present study.}
 Here, we develop an evolutionary-genetic model that includes the effects of natural selection, genetic drift, aneuploidy, and mutation to examine the role of aneuploidy in adaptive evolution.
 This model follows a population of cells characterised by both their ploidy and their genotype.
-We fit this model to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including selection coefficients and rates of aneuploidy and mutation, and to test hypotheses about the evolutionary process by performing model selection between different versions of the model.
-%We also mathematically analyze this evolutionary-genetic model to estimate the effects of selection, mutation, and aneuploidy on the adaptation time and the probability for adaptation via aneuploidy.
+We fit this model to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including rates and fitness effects of aneuploidy and mutation, and to test hypotheses about the evolutionary process by comparing different versions of the model and predicting the genotype frequency dynamics using the estimated parameter values.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -425,6 +426,14 @@ Interestingly, the genotype frequency dynamics in these simulations demonstrate 
 % Discussion
 \section*{Discussion}
 
+\paragraph*{Results of current study.}
+We inferred the rates and fitness effects of aneuploidy and mutation in a previously published evolutionary experiment in which yeast populations adapted to heat stress~\citep{Yona2012}. 
+First, we estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 1e0^{-6}$~\citep{Zhu2016}. % TODO explain?
+Second, the experiments results cannot be explained without aneuploidy ($\delta=0$) or if aneuploidy is neutral ($w_{\anwt}=w_{\euwt}$, $w_{\anmt}=w_{\eumt}$), and therefore we conclude that aneuploidy plays a significant role in the dynamics.
+Third, we find no evidence for increased mutation rates in aneuploid cells, but more data would have allowed a more conclusive statement. Therefore, the effect of aneuploidy on genetic instability remains to be explored in future work.
+Fourth, we simulated genotype frequency dynamics using inferred rates and fitness effects of aneuploidy and mutation. We found that the aneuploid mutant, \anmt, never reaches high frequency, in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004}. % TODO ref komarova & nowak
+Furthermore, we find that XXXX. % TODO transient solution?
+
 \paragraph*{Aneuploidy is not just another type of mutation.}
 The published data indicate that, like mutation, aneuploidy can be both deleterious and beneficial~\citep{Pavelka2010, Sheltzer2011}.
 Nevertheless, there are important and fundamental differences between adaptation by aneuploidy
@@ -441,6 +450,7 @@ Fourth, aneuploidy is a reversible state, as the rate of chromosome loss is high
 Indeed, aneuploidy often provides a transient solution: under short-term stress conditions, aneuploidy reverts (chromosome number returns to normal) when the stress subsides; under long-term stress conditions, aneuploidy reverts when refined solutions, generated by beneficial mutations, take over~\citep{Yona2012}.
 Finally, aneuploidy results in increased genome instability, potentially increasing genetic variation by a positive feedback loop~\citep{Rancati2013, Bouchonville2009, Zhu2012}, while also increasing its own transience.
 
+% TODO do we want the following two paragraphs?
 \paragraph*{Evolutionary theory of aneuploidy.}
 The role of aneuploidy in adaptation has only recently been observed~\citep{Sionov2010, Yona2012, Gerstein2015}, and is largely missing from the literature on evolution and adaptation:
 the introductory textbook \emph{Evolution} by~\citet{Bergstrom2012} does not mention the word aneuploidy, and the graduate-level book \emph{Mutation-Driven Evolution} by~\citet{Nei2013} only briefly mentions aneuploidy in the context of speciation, but not adaptation.
