@@ -355,7 +355,8 @@ However, a model without aneuploidy (where the aneuploidy rate is fixed at zero,
 The estimated mutation rate without aneuploidy is $\mu=7.979\cdot10^{-9}\ [7.903\cdot 10^{-9}-8.135\cdot10^{-9}]$, much lower compared to a model with aneuploidy and suggesting a target size of just 40. 
 The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$.
 This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
-We also checked a model in which aneuploidy is neutral compared to the wild type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\anwt}>w_{\euwt}$~(\Cref{fig:2n*-fixation}). 
+
+We also checked a model in which aneuploidy occurs but is adaptively neutral compared to the wild type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$~(\Cref{fig:2n*-fixation}). 
 Thus, our results suggest that aneuploidy plays a significant role in the evolutionary dynamics \citep{Yona2012,Yona2015}.
 
 % Fig model comparison 
@@ -373,11 +374,12 @@ Thus, our results suggest that aneuploidy plays a significant role in the evolut
   \end{subfigure}
   \caption{
     \textbf{Model fit with and without aneuploidy.}
-    \textbf{(A)} The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations of the model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange), and a model fitted to the data assuming $\delta=0$ (green); and to the model with aneuploidy and an extended prior distribution (pink).
-In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green and pink, and the yellow histogram has a very poor fit.
-The last bin contains all values equal or greater than 3,000 and the green bar is partially concealed by the pink bar.
-    \textbf{(B)}
-	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84, 0.67, and 0.14 for the models represented by blue, green, and pink distributions, respectively. 
+    The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations using MAP parameters of the model with beneficial aneuploidy (blue; $\delta>0, \; w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$) compared to alternative models: a model with the same parameter values but without aneuploidy (gray, $\delta=0$, concentrated at $t=450$); a model fitted to the data assuming no aneuploidy (green, $\delta=0$); a model fitted to the data assuming neutral aneuploidy (yellow, $\delta>0, \; w_{\anwt}=w_{\euwt}, \; w_{\anmt}=w_{\eumt}$); and a model with beneficial aneuploidy and an extended prior distribution (pink).
+In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450.
+Thus, the blue distribution has a better fit compared to the other distributions (the gray distribution has a particulary poor fit).
+The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84, 0.78, 0.67, and 0.14 for the models represented by blue, yellow, green, and pink distributions, respectively. 
+\textbf{(A)} Histogram of the time to fixation of \eumt. The last bin contains all values equal or greater than 3,000.
+\textbf{(B)} Cumulative distribution of the time to fixation. 
      }
   \label{fig:2n*-fixation}
 \end{figure}
@@ -388,7 +390,8 @@ The last bin contains all values equal or greater than 3,000 and the green bar i
 % Bouchonville K, Forche A, Tang KES, Semple C a M, Berman J. Aneuploid chromosomes are highly unstable during DNA transformation of Candida albicans. Eukaryot Cell. 2009;8(10):1554-1566. doi:10.1128/EC.00209-09
 % Zhu J, Pavelka N, Bradford WD, Rancati G, Li R. Karyotypic determinants of chromosome instability in aneuploid budding yeast. PLoS Genet. 2012;8(5). doi:10.1371/journal.pgen.1002719
 
-It has been suggested that aneuploidy increased genetic instability~\citep{Sheltzer2011b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
+\paragraph*{Genetic instability in aneuploid cells.}
+It has been suggested that aneuploidy increased genetic instability~\citep{Sheltzer2011b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
 %% generated with MAP-and-hdi.ipynb
 With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=3.81\cdot10^{-7}\ [1.508\cdot10^{-7}-4.995\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.782\cdot10^{-3}\ [0.661\cdot10^{-3}-1.462\cdot10^{-3}]$). 
@@ -650,7 +653,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
       \includegraphics[width=\textwidth]{../figures/tau-joint-K.pdf}      
   \end{subfigure}
   \caption{
-    \textbf{Model with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions for models with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). Vertical dashed lines represent MAP (maximum a posteriori) of each distribution. When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rate tends to be lower. 
+    \textbf{Model with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions for models with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). Vertical dashed lines represent the MAP (maximum a posteriori) of each distribution. When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rates tend to be lower. 
     \textbf{(F-K)} The inferred joint posterior distribution of mutation rate ($\mu$) and aneuploidy rate ($\delta$) with different $\tau$ values (dark purple and bright yellow for low and high density, respectively).
   \label{fig:tau}
   }
