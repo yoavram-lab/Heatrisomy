@@ -295,7 +295,7 @@ We examine several versions of our evolutionary models, e.g. without aneuploidy 
 To compare these, we plot posterior predictions: for each model we execute $10,000$ simulations using the MAP parameter estimates and plot the distributions of time to fixation of \eumt, one of key properties of the model likelihood. These plots visualize the fit of each model to the data. 
 Also, for similar models we plot the marginal and joint posterior distributions of the parameters; if these are similar, we consider the models interchangeable. We validate this by comparing HDI (highest density interval) of posterior distributions.
 
-Where posterior plots are very similar, we use WAIC, or the widely applicable information criterion ~\citep{gelman2013bayesian}, defined as
+Where posterior plots are very similar and the number of parameters is the same, we use WAIC, or the widely applicable information criterion ~\citep{gelman2013bayesian}, defined as
 \begin{equation} \label{eq:WAIC}
 \begin{aligned}
 \mathit{WAIC}(\theta) &\ =\ 
@@ -403,7 +403,7 @@ We also checked the differences in genotype frequency dynamics for different $\t
 
 
 \paragraph*{Genotype frequency dynamics.}
-Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\Cref{fig:ppc-plot}). % TODO new figure by Martin and discussion of the probability of 2n* arriving via 2n+1.
+Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\Cref{fig:ppc-plot}). % TODO new figure by Martin and discussion of the probability of 2n* arriving via 2n+1 - transient solution etc.
 
 % Fig dynamics
 %% generated with dynamics-plot.ipynb
@@ -739,7 +739,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 \begin{table}[h]
 \centering
 \caption{
-\textbf{WAIC values for various model specifications.}}
+\textbf{WAIC values for different $\tau$ values.}}
 \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
@@ -747,7 +747,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
     every last row/.style={after row=\hline},
     ]{../figures/Table_WAIC.csv} 
 \caption*{
-	WAIC (widely applicable information criterion, \cref{eq:WAIC}, ~\citep{gelman2013bayesian}) values for models with different configurations. WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy and a difference of 2 is a popular threshold for model comparison~\citep{Kass1995}.
+	WAIC defined in \cref{eq:WAIC}.
 } 
 \label{table:WAIC}
 \end{table}
