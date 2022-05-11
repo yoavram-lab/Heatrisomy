@@ -60,7 +60,6 @@ class D_RV(pyabc.RVBase):
         raise NotImplementedError('cdf')
 
 passed_count = Value('i', 0)
-total_count = Value('i', 0)
 
 class CustomDistribution1(pyabc.Distribution):
     def rvs(self):
@@ -80,32 +79,55 @@ class CustomDistribution1(pyabc.Distribution):
 
 
 def abc_model1(parameter, reps=REPS1, toprint=True):
-    global total_count
     #trisomy gain and loss are the same, therefore parameter.p2_tr twice
+    w1 = parameter.p3_w1
+    w2 = parameter.p4_w2
     w3 = parameter.p5_w3
-    x = [parameter.p1_mr, parameter.p2_tr, parameter.p2_tr, 1, w3, w3]
+    if PRIOR_TYPE==4:
+        w2 = w1*w2
+        w3 = w1*w3
+    x = [parameter.p1_mr, parameter.p2_tr, parameter.p2_tr, w1, w2, w3]
     # if toprint:
         # print(x)
-    if x[0]<0 or x[1]<0 or x[2]<0 or x[4]<1 or x[5]<1:
+    if not x[3]<x[4]<x[5] or x[0]<0 or x[1]<0 or x[2]<0 or x[3]<1 or x[4]<1 or x[5]<1:
+        # x[3]<x[4] because otherwise trisomy will not be reached.  x[3]<x[5] by Fig4A.
         return {'res':1}
 
     times_p = model1.run_simulations(N, x[0], x[1], x[2], x[3], x[4], x[5], repetitions=REPS1, seed=SIM_SEED)
     grade = 1+model1.grade_function2(times_p, a0=200, a=A, b=B, c=C)
-    with total_count.get_lock():
-        total_count.value += 1
-    print('model1',total_count.value, 1-grade, x, flush=True)
+    print('model1', 1-grade, x, flush=True)
     return {'res':grade}
 
 def distance(x, y):
     return x['res']
 
 if PRIOR_TYPE==1:
-    prior1 = CustomDistribution1(p1_mr=pyabc.RV("uniform", 10.0**-9, 10.0**-5-10.0**-9),
-                                 p2_tr=pyabc.RV("uniform", 10.0**-6, 10.0**-2-10.0**-6),
-                                 p5_w3=W_RV())
+    prior1 = CustomDistribution1(p1_mr=pyabc.RV("uniform", 10.0**-9, 10.0**-5-10.0**-9)
+                                ,p2_tr=pyabc.RV("uniform", 10.0**-6, 10.0**-2-10.0**-6)
+                                ,p3_w1=W_RV()
+                                ,p4_w2=W_RV()
+                                ,p5_w3=W_RV())
+elif PRIOR_TYPE==2:
+    prior1 = CustomDistribution1(p1_mr=pyabc.RV("uniform", 10.0**-9, 10.0**-5-10.0**-9)
+                                ,p2_tr=pyabc.RV("uniform", 10.0**-6, 10.0**-2-10.0**-6)
+                                ,p3_w1=pyabc.RV("uniform", 1., 6-1)
+                                ,p4_w2=pyabc.RV("uniform", 1., 6-1)
+                                ,p5_w3=pyabc.RV("uniform", 1., 6-1)) 
+elif PRIOR_TYPE==3:
+    prior1 = CustomDistribution1(p1_mr=pyabc.RV("uniform", 10.0**-9, 10.0**-5-10.0**-9)
+                                ,p2_tr=pyabc.RV("uniform", 10.0**-6, 10.0**-2-10.0**-6)
+                                ,p3_w1=W_RV()
+                                ,p4_w2=pyabc.RV("uniform", 1., 6-1)
+                                ,p5_w3=pyabc.RV("uniform", 1., 6-1)) 
+elif PRIOR_TYPE==4:
+    prior1 = CustomDistribution1(p1_mr=pyabc.RV("uniform", 10.0**-9, 10.0**-5-10.0**-9)
+                                ,p2_tr=pyabc.RV("uniform", 10.0**-6, 10.0**-2-10.0**-6)
+                                ,p3_w1=W_RV()
+                                ,p4_w2=D_RV()
+                                ,p5_w3=D_RV())
 else:
     print('wrong prior type')
-    exit(-3)                                  
+    exit(-3)                                
 
 sampler = pyabc.sampler.MulticoreParticleParallelSampler(n_procs=CPUS)
 if (CPUS==1):
