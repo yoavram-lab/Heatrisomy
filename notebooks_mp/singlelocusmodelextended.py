@@ -12,7 +12,7 @@ class SingleLocusModelExt:
     # w1 is 2n+1 fitness
     # w2 is 2n+1* fitness
     # w3 is 2n* fitness
-    def run_simulations(self, N, mutation_rate, aneuploidy_rate, aneuploidy_loss_rate, w1, w2, w3, repetitions=1000, max_gen=2500, seed=3,clonal_intf=True):
+    def run_simulations(self, N, mutation_rate, aneuploidy_rate, aneuploidy_loss_rate, w1, w2, w3, repetitions=1000, fixation=0.95, max_gen=2500, seed=3, clonal_intf=True):
         curr_rand_state = np.random.get_state()
         np.random.seed(seed)
 
@@ -26,10 +26,10 @@ class SingleLocusModelExt:
         Mt[2][3] = aneuploidy_loss_rate 
         Mt[0][4] = self.k*mutation_rate  
         w = [1., w1, w2, w3, w3]
-        times, p, non_aneu_fix= self._simulation(N, w, Mt, repetitions=repetitions, max_gen=max_gen,clonal_intf=clonal_intf)
+        times, p, non_aneu_fix= self._simulation(N, w, Mt, repetitions=repetitions, max_gen=max_gen,clonal_intf=clonal_intf ,fixation=fixation)
         
         np.random.set_state(curr_rand_state)
-        return (times,p,non_aneu_fix)   
+        return (times, p, non_aneu_fix)   
 
     
     #have side effect on M, but not harmfull, can run twice simulation
@@ -38,6 +38,7 @@ class SingleLocusModelExt:
         N = np.uint64(N)
         L = len(w)
         S = np.diag(w)
+        
         if clonal_intf==False:
             Mnotr=Mt+1e-5
             Mnotr=Mnotr-1e-5
@@ -60,7 +61,9 @@ class SingleLocusModelExt:
         # which columns to update
         update = np.array([True] * repetitions)
         directmut = np.array([True] * repetitions)
+        #clonal_int=np.array([False]*repetitions)
         combfix=np.array([True] * repetitions)
+        fixbool=np.array([False]*repetitions)
         # follow time
         T = np.zeros(repetitions)
         t = 0
@@ -79,7 +82,7 @@ class SingleLocusModelExt:
     #         W.append(w.reshape(1, L) @ p)  # mean fitness
             P.append(p)
             p = E @ p  # natural selection + mutation   
-            p[-1,clonal_int]=0
+            #p[-1,clonal_int]=0
             p /= p.sum(axis=0)  # mean fitness
             for j in update.nonzero()[0]:
                 # random genetic drift
@@ -91,16 +94,17 @@ class SingleLocusModelExt:
             #clonal_int[update]=(n[1,update]+n[-1,update])>=1
             update = (n[-2,:] < N*fixation)  # fixation of fittest genotype with aneuploidy
             update = update*directmut
-            #combfix[update] = (n[-1,update]+n[-2,update] < N*fixation)  # fixation of fittest genotype as a combination
-            #update = update*combfix
+            combfix[update] = (n[-1,update]+n[-2,update] < N*fixation)  # fixation of fittest genotype as a combination
+            update = update*combfix
         #last generation update
+        
         p = n/N 
         P.append(p)
         nona=(~directmut).nonzero()[0]
-        #combfix=(~combfix).nonzero()[0]
+        combfix=(~combfix).nonzero()[0]
 
-        #return T, P, (nona, combfix)
-        return T, P, nona
+        return T, P, (nona, combfix)
+        #return T, P, nona
     
     # simulations only with waiting time as return
     def run_simulations_time(self, N, mutation_rate, aneuploidy_rate, aneuploidy_loss_rate, w1, w2, w3, repetitions=1000, max_gen=2500, fixation=0.95, seed=5,clonal_intf=True):
@@ -188,16 +192,18 @@ class SingleLocusModelExt:
             #clonal_int[update]=np.logical_and((n[1,update]+n[2,update]>N*clonal_block_perc),(n[-1,update]<N*clonal_block_perc))
             update = (n[-2,:] < N*fixation)  # fixation of fittest genotype with aneuploidy
             update = update*directmut
-            #combfix[update] = (n[-1,update]+n[-2,update] < N*fixation)  # fixation of fittest genotype as a combination
-            #update = update*combfix
+            #solution to problem? 20.4.22
+            combfix[update] = (n[-1,update]+n[-2,update] < N*fixation)  # fixation of fittest genotype as a combination
+            update = update*combfix
+            
         #last generation update
         p = n/N 
         #P.append(p)
         nona=(~directmut).nonzero()[0]
-        #combfix=(~combfix).nonzero()[0]
+        combfix=(~combfix).nonzero()[0]
 
-        #return T, (nona,combfix)
-        return T, nona
+        return T, (nona,combfix)
+        #return T, nona
     
         
     # simulations only with waiting time as return
@@ -455,4 +461,48 @@ class SingleLocusModelExt:
             err0595_mut.append(e1)
         return (means_aneu, means_mut), (np.array(err0595_aneu).transpose(),np.array(err0595_mut).transpose())
 
+    
+    def plot_progress(self, nparr, replicaid, state_names, colors, fixation = 0.95, ax=None, alpha=1, legend=True, xlim=True, ylim=(0,1), lw=None, g_o=False, logscale=False):
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(10, 8))
+
+        #nparr[:,stateid][:,replicaid]
+        #states_num = len(nparr[0])
+
+        #finding last fixation index
+        try:
+            last = next(i for i,p in enumerate(nparr[:,-1][:,replicaid]) if p>=fixation)
+        except StopIteration:
+            last = nparr.shape[0]-1
+
+        ind = -1
+        for n,c in zip(state_names, colors):    
+            ind+=1
+            progress = nparr[:,ind][:last,replicaid]
+
+            if g_o is False:
+                ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw) 
+            elif ind==3:
+                ax.plot(range(last), progress, label=n, color=c, alpha=.4, lw=lw, zorder=4)
+            elif ind==2:
+                ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw, zorder=5)
+            else:
+                ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw)
+                
+        if xlim is not True:
+            ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
+        
+        if legend is True:
+            lg=ax.legend(loc='best')
+            for lh in lg.legendHandles: 
+                lh.set_alpha(1)
+                
+        if logscale is True:
+            ax.set_yscale('log')
+                
+        ax.set_xlabel('Time in generations')
+        ax.set_ylabel('Frequency')
+        return ax
+       # plt.show()
     
