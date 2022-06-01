@@ -359,7 +359,7 @@ The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$
 This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
 
 We also checked a model in which aneuploidy occurs but is adaptively neutral compared to the wild type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$~(\Cref{fig:2n*-fixation}). 
-Thus, our results suggest that aneuploidy plays a significant role in the evolutionary dynamics \citep{Yona2012,Yona2015}.
+Thus, our results suggest that aneuploidy significantly affects the evolutionary dynamics.
 
 % Fig model comparison 
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
@@ -403,20 +403,59 @@ Therefore, evidence does not support an increase in mutation rate in aneuploid c
 We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
 
 
-\paragraph*{Genotype frequency dynamics.}
-Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\Cref{fig:ppc-plot}). % TODO new figure by Martin and discussion of the probability of 2n* arriving via 2n+1 - transient solution etc.
+\paragraph*{Competition between mutation and aneuploidy.}
+
+We simulated 50 % TODO is it 50?
+ replicate genotype frequency dynamics using the MAP estimate parameters. 
+The MAP frequency dynamics (\Cref{fig:ppc-plot}A) show the four genotypes but also the frequencies of \eumt\ arose from either the \anwt\ genotype via mutation and chromosome loss events, or direct from the \euwt\ genotype via mutation.
+We observe that \anmt\ never reaches substantial frequency.
+But more importantly, we observe that the majority % TODO add number
+of \eumt\ cells are descendant of \euwt\ cells and arose via direct mutation, despite the fact that the \anwt\ genotype reaches high frequencies in the population. % TODO add number
+This finding is not unique to the MAP parameter estimate. 
+We simulated genotype frequency dynamics using 100,000 parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the average frequency of \eumt\ arising from \anwt at the end of the simulation, $F_A$, over 50 replicates. 
+$F_A$, was % TODO add number
+and only in 681 (0.6\%) of the 100,000 posterior samples was it larger than 0.5
+(see \Cref{fig:ppc-plot}B) for the full histogram). 
+Overall, the frequency of \eumt\ descending from \anwt\ increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate (\Cref{fig:ppc-plot}C).
+The cases in which $F_A>0.5$ can be roughly divided to two clusters.
+The first, with a low formation rate ratio ($\delta/\mu \approx 500$) and a small fitness difference between \eumt\ and \anwt\ ($w_{\eumt}/w_{\anwt}-1 \approx 0.0055$). In these cases, aneuploidy is not generated much faster than mutation, but this is compensated by similar fitness values that decrease the fixation probability of \eumt\ and limit the strength of clonal interference.
+The second cluster, with high formation rate ratio ($\delta/\mu \approx 10^5$) and a higher fitness difference between \eumt\ and \anwt\ ($w_{\eumt}/w_{\anwt}-1 \approx 0.007$). 
+In these cases, the larger fitness difference between \anwt\ and \eumt\ means that once \eumt\ appears it can more easily avoid extinction and compete with \anwt; this is compensated by much faster generation of \anwt\ and can therefore lead to high $F_A$ (note that we only use samples from the posterior, that is, we only compute $F_A$ for parameter choices that reasonably agree with the experimental results.)
+
+
+% 
 
 % Fig dynamics
-%% generated with dynamics-plot.ipynb
 \begin{figure}[h!]
-  \centering
-\includegraphics[width=0.8\textwidth]{../figures/dynamics.pdf}
+  \begin{subfigure}{0.5\textwidth}
+      \centering
+      %% generated with dynamics-plot.ipynb
+      \includegraphics[width=\textwidth]{../figures/dynamics.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/histo_100000.pdf}
+  \end{subfigure}
+  \\
+  \begin{subfigure}{0.33\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter100000_log_star.pdf}
+  \end{subfigure}
+  \begin{subfigure}{0.33\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter_dirmut_log_star_byr.pdf}
+  \end{subfigure}
+  \begin{subfigure}{0.33\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_fitr.pdf}
+  \end{subfigure}
   \caption{
-  \textbf{Posterior genotype frequency dynamics for the model.} 
-  The posterior prediction for the frequencies of the four genotypes over time. Each of the 20 curves is the average of 10,000 simulations of the model using parameters drawn from the posterior distribution.
-  }
+    \textbf{Posterior genotype frequency dynamics.} 
+    \textbf{(A)} The posterior prediction for the frequencies of the four genotypes over time. Each of the 20 curves is the average of 10,000 simulations of the model using parameters drawn from the posterior distribution.	
+     }
   \label{fig:ppc-plot}
 \end{figure}
+
 
 
 
