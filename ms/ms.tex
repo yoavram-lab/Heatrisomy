@@ -407,23 +407,27 @@ We also checked the differences in genotype frequency dynamics for different $\t
 
 We simulated 50 % TODO is it 50?
  replicate genotype frequency dynamics using the MAP estimate parameters. 
-The MAP frequency dynamics (\Cref{fig:ppc-plot}A) show the four genotypes but also the frequencies of \eumt\ arose from either the \anwt\ genotype via mutation and chromosome loss events, or direct from the \euwt\ genotype via mutation.
-We observe that \anmt\ never reaches substantial frequency.
-But more importantly, we observe that the majority % TODO add number
-of \eumt\ cells are descendant of \euwt\ cells and arose via direct mutation, despite the fact that the \anwt\ genotype reaches high frequencies in the population. % TODO add number
-This finding is not unique to the MAP parameter estimate. 
-We simulated genotype frequency dynamics using 100,000 parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the average frequency of \eumt\ arising from \anwt at the end of the simulation, $F_A$, over 50 replicates. 
-$F_A$, was % TODO add number
-and only in 681 (0.6\%) of the 100,000 posterior samples was it larger than 0.5
-(see \Cref{fig:ppc-plot}B) for the full histogram). 
-Overall, the frequency of \eumt\ descending from \anwt\ increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate (\Cref{fig:ppc-plot}C).
-The cases in which $F_A>0.5$ can be roughly divided to two clusters.
-The first, with a low formation rate ratio ($\delta/\mu \approx 500$) and a small fitness difference between \eumt\ and \anwt\ ($w_{\eumt}/w_{\anwt}-1 \approx 0.0055$). In these cases, aneuploidy is not generated much faster than mutation, but this is compensated by similar fitness values that decrease the fixation probability of \eumt\ and limit the strength of clonal interference.
-The second cluster, with high formation rate ratio ($\delta/\mu \approx 10^5$) and a higher fitness difference between \eumt\ and \anwt\ ($w_{\eumt}/w_{\anwt}-1 \approx 0.007$). 
-In these cases, the larger fitness difference between \anwt\ and \eumt\ means that once \eumt\ appears it can more easily avoid extinction and compete with \anwt; this is compensated by much faster generation of \anwt\ and can therefore lead to high $F_A$ (note that we only use samples from the posterior, that is, we only compute $F_A$ for parameter choices that reasonably agree with the experimental results.)
+\Cref{fig:ppc-plot}A shows the simulated frequencies of the four genotypes (\euwt, \anwt, \anmt\ and \eumt), as well as the frequencies of \eumt\ cells that arose from either \anwt\ cells via a sequences of mutation and chromosome loss events, or directly from \euwt\ cells via a mutation event.
+We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt.
 
+\citet{Yona2012} have suggested that aneuploidy is a transient adaptive solution, arising quickly due to increased fitness and high formation rate, but 
+ultimately lost as beneficial mutations appear and the extra chromosome is lost due to the cost of aneuploidy. 
+We tested this scenario by estimating $F_A$, the expected frequency of \eumt\ that arose from \anwt\ (as the average frequency of such cells at the end of 50 replicate simulations).
+Surprisingly, we observe that the majority ($F_A=XX$) % TODO add number
+of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells. 
+This is despite the fact that the \anwt\ genotype reaches high frequencies in the population (\Cref{fig:ppc-plot}A). % TODO add number
+This result is not unique to the MAP parameter estimate. 
+We simulated genotype frequency dynamics using parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the posterior distribution of $F_A$ (\Cref{fig:ppc-plot}B). 
+The mean $F_A$ was just XX [XX-XX 95\% CI], % TODO add number
+such that if we pick up a cell from the evolved population it is more likely to have descended directly from a euploid cell than from an aneuploid cell.
+As expected, the probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate, $\mu$ (\Cref{fig:ppc-plot}C and D).
 
-% 
+Only in 681 of 100,000 posterior samples (0.6\%) $F_A$ was  larger than 0.5, that is, \eumt\ was more likely to occur via aneuploidy lineage.  
+These parameter samples can be roughly divided to two clusters (\Cref{fig:ppc-plot}C and E).
+In the first, aneuploidy formation is not much faster than mutation ($\delta/\mu \approx 500$), but this is compensated by a small fitness difference between \eumt\ and \anwt\ ($w_{\eumt}/w_{\anwt}-1 \approx 0.0055$), which results in a low fixation probability for \eumt\ once \anwt\ is at a high frequency, and limits the strength of clonal interference.
+In the second cluster, aneuploidy formation is much faster than mutation ($\delta/\mu \approx 10^5$), but the fitness difference between \eumt\ and \anwt\ is also larger ($w_{\eumt}/w_{\anwt}-1 \approx 0.007$). 
+Thus, once \eumt\ appears it more easily avoids extinction and competes with \anwt. This is compensated by the high aneuploidy rate (note that we only use samples from the posterior, that is, we only compute $F_A$ for parameter choices that reasonably agree with the experimental results.)
+
 
 % Fig dynamics
 \begin{figure}[h!]
@@ -439,24 +443,24 @@ In these cases, the larger fitness difference between \anwt\ and \eumt\ means th
   \\
   \begin{subfigure}{0.33\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{../figures/scatter100000_log_star.pdf}
+      \includegraphics[width=\textwidth]{../figures/scatter100000_log_star.png}
   \end{subfigure}
   \begin{subfigure}{0.33\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{../figures/scatter_dirmut_log_star_byr.pdf}
+      \includegraphics[width=\textwidth]{../figures/scatter_dirmut_log_star_byr.png}
   \end{subfigure}
   \begin{subfigure}{0.33\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_fitr.pdf}
+      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_fitr.png}
   \end{subfigure}
   \caption{
-    \textbf{Posterior genotype frequency dynamics.} 
-    \textbf{(A)} The posterior prediction for the frequencies of the four genotypes over time. Each of the 20 curves is the average of 10,000 simulations of the model using parameters drawn from the posterior distribution.	
+    \textbf{Posterior genotype frequency dynamics.}     
+    \textbf{(A)} The posterior prediction for the frequencies of the four genotypes over time, including the source of \eumt. Each of the curves is the average of 50 simulations  using parameters drawn from the posterior distribution. % TODO check if true
+    \textbf{(B)} Marginal posterior distribution of $F_A$, the expected frequency of \eumt\ cells that arose from \anwt cells, computed as the average frequency at the end of 50 simulations for each of 100,000 samples from the parameter posterior distribution. Solid and dashed lines show the mean and 95\% CI.
+	\textbf{(C-E)} $F_A$ values (color coded) from panel B, with their corresponding parameter values on the x- and y-axes. White start shows the MAP estimate. Panel D only shows $F_A<0.5$.
      }
   \label{fig:ppc-plot}
 \end{figure}
-
-
 
 
 \pagebreak
