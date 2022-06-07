@@ -107,7 +107,7 @@ class SingleLocusModelExt:
         #return T, P, nona
     
     # simulations only with waiting time as return
-    def run_simulations_time(self, N, mutation_rate, aneuploidy_rate, aneuploidy_loss_rate, w1, w2, w3, repetitions=1000, max_gen=2500, fixation=0.95, seed=5,clonal_intf=True):
+    def run_simulations_time(self, N, mutation_rate, aneuploidy_rate, aneuploidy_loss_rate, w1, w2, w3, repetitions=1000, max_gen=2500, fixation=0.95, seed=5,clonal_intf=True, fix_frequ=False):
         curr_rand_state = np.random.get_state()
         np.random.seed(seed)
 
@@ -121,14 +121,17 @@ class SingleLocusModelExt:
         M[2][3] = aneuploidy_loss_rate 
         M[0][4] = self.k*mutation_rate  
         w = [1., w1, w2, w3, w3]
-        times, non_aneu_fix= self._simulation_time(N, w, M, repetitions=repetitions, fixation=fixation, max_gen=max_gen,clonal_intf=clonal_intf)
+        times, non_aneu_fix, P= self._simulation_time(N, w, M, repetitions=repetitions, fixation=fixation, max_gen=max_gen,clonal_intf=clonal_intf, fix_frequ=fix_frequ)
         
         np.random.set_state(curr_rand_state)
-        return (times, non_aneu_fix)
+        if fix_frequ is True:
+            return (times, non_aneu_fix, P)
+        else:
+            return (times, non_aneu_fix)
 
     
     #have side effect on M, but not harmfull, can run twice simulation
-    def _simulation_time(self, N, w, M ,repetitions=1000, fixation=0.95, max_gen=2500,clonal_intf=True):
+    def _simulation_time(self, N, w, M ,repetitions=1000, fixation=0.95, max_gen=2500,clonal_intf=True, fix_frequ=False):
         assert N > 0
         N = np.uint64(N)
         L = len(w)
@@ -198,11 +201,12 @@ class SingleLocusModelExt:
             
         #last generation update
         p = n/N 
-        #P.append(p)
+        if fix_frequ is True:
+            P.append(p[3:5])
         nona=(~directmut).nonzero()[0]
         combfix=(~combfix).nonzero()[0]
 
-        return T, (nona,combfix)
+        return T, (nona,combfix), P
         #return T, nona
     
         
@@ -474,20 +478,37 @@ class SingleLocusModelExt:
             last = next(i for i,p in enumerate(nparr[:,-1][:,replicaid]) if p>=fixation)
         except StopIteration:
             last = nparr.shape[0]-1
+        
+        if legend is True:
+            ind = -1
+            for n,c in zip(state_names, colors):    
+                ind+=1
+                progress = nparr[:,ind][:last,replicaid]
 
-        ind = -1
-        for n,c in zip(state_names, colors):    
-            ind+=1
-            progress = nparr[:,ind][:last,replicaid]
+                if g_o is False:
+                    ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw) 
+                elif ind==3:
+                    ax.plot(range(last), progress, label=n, color=c, alpha=.4, lw=lw, zorder=4)
+                elif ind==2:
+                    ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw, zorder=5)
+                else:
+                    ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw)
+                    
+        else:
+            ind = -1
+            for n,c in zip(state_names, colors):     
+                ind+=1
+                progress = nparr[:,ind][:last,replicaid]
 
-            if g_o is False:
-                ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw) 
-            elif ind==3:
-                ax.plot(range(last), progress, label=n, color=c, alpha=.4, lw=lw, zorder=4)
-            elif ind==2:
-                ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw, zorder=5)
-            else:
-                ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw)
+                if g_o is False:
+                    ax.plot(range(last), progress,  color=c, alpha=alpha, lw=lw) 
+                elif ind==3:
+                    ax.plot(range(last), progress,  color=c, alpha=.4, lw=lw, zorder=4)
+                elif ind==2:
+                    ax.plot(range(last), progress,  color=c, alpha=alpha, lw=lw, zorder=5)
+                else:
+                    ax.plot(range(last), progress,  color=c, alpha=alpha, lw=lw)
+                    
                 
         if xlim is not True:
             ax.set_xlim(xlim)
@@ -497,12 +518,35 @@ class SingleLocusModelExt:
             lg=ax.legend(loc='best')
             for lh in lg.legendHandles: 
                 lh.set_alpha(1)
+                lh.set_linewidth(1.5)
                 
         if logscale is True:
             ax.set_yscale('log')
                 
-        ax.set_xlabel('Time in generations')
+        ax.set_xlabel('Time')
         ax.set_ylabel('Frequency')
         return ax
        # plt.show()
+        
+        
+        
+        
+        
+        
+        
+#        if legend is True:
+#            ind = -1
+#            for n,c in zip(state_names, colors):    
+#                ind+=1
+#                progress = nparr[:,ind][:last,replicaid]
+
+#                if g_o is False:
+#                    ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw) 
+#                elif ind==3:
+##                    ax.plot(range(last), progress, label=n, color=c, alpha=.4, lw=lw, zorder=4)
+#                elif ind==2:
+#                    ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw, zorder=5)
+#                else:
+#                    ax.plot(range(last), progress, label=n, color=c, alpha=alpha, lw=lw)
+      
     
