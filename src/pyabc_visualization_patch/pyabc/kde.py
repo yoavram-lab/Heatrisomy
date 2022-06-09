@@ -719,6 +719,8 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
                     refval=refval, refval_color=refval_color,
                     # kde=kde,
                     xname=names[x.name], yname=names[y.name], bins=20)
+#         ax.set_yticks(ax.get_yticks()[1:-1])
+
 
     def scatter(x, y, ax):
         alpha = w / w.max()
@@ -740,7 +742,7 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
         ax.set_yticks([])
         if i==0:
             ax.text(0.88, -0.11, '$x10^{-6}$', transform=ax.transAxes)
-            ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+            ax.set_xticks([1e-6, 4e-6, 7e-6])
             ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
         if i==1:
             ax.text(0.88, -0.11, '$x10^{-3}$', transform=ax.transAxes)
@@ -783,7 +785,7 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
             if j == 0: #mutation rate
                 ax.ticklabel_format(style='plain')
                 ax.text(0.88, -0.11, '$x10^{-6}$', transform=ax.transAxes)
-                ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+                ax.set_xticks([1e-6, 4e-6, 7e-6])
                 # ax.set_xticks([0,5e-6, 10e-6])
                 ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
 
@@ -798,7 +800,7 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
             if j == 0 and i!=j: #mutation rate again
                 # ax.ticklabel_format(style='plain')
                 # ax.text(0.88, -0.15, '$x10^{-6}$', transform=ax.transAxes)
-                ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+                ax.set_xticks([1e-6, 4e-6, 7e-6])
                 # ax.set_xticks([0,5e-6, 10e-6])
                 ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
             
