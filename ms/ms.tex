@@ -288,7 +288,7 @@ $K_t(\theta' \mid \theta)$ is a multivariate normal distribution, fitted at iter
 Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of $\likelihood_{max}=0.875$ (giving a minimal value of $\epsilon_{min}=0.125$). We terminated the inference iterations when the change in $\epsilon$ value from one iteration to the next was small.
 With our standard prior and model, we reached $\epsilon=0.13$ (or $\likelihood=0.87$) after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}). 
 
-After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels. Since KDE can have positive posterior probability for values with the prior zero, we truncate KDE, giving zero probability for the ranges outside of the prior. From maximum of the KDE function we get the MAP (maximum a posteriori) estimate, and then draw $5,000,000$ samples from the posterior KDE to compute the HDI (highest density interval) and draw $50,000$ samples from it to visualize the posterior distribution with histograms. 
+After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels. We truncate the estimated posterior to avoid positive posterior density for values with zero prior density. The MAP (maximum a posteriori) estimate is computed as the the maximum of the estimated joint posterior density. We then draw $5,000,000$ samples from the posterior distribution to compute the HDI (highest density interval) and draw $50,000$ samples to visualize the posterior distribution with histograms.
 
 \paragraph{Model comparison.} 
 We examine several versions of our evolutionary models, e.g. without aneuploidy or with increased mutation rate in aneuploid cells, as well as several different prior distributions (see below).
@@ -341,8 +341,8 @@ Thus, we can infer that the cost of trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$
 \includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
   \caption{
   \textbf{Posterior distribution of model parameters.}
-On the diagonal, the inferred posterior distribution of each model parameter. 
-Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+On the diagonal, the marginal posterior distribution of each model parameter. 
+Below the diagonal, the joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
 } 
   \label{fig:posterior}
 \end{figure}
@@ -411,7 +411,7 @@ We find that \anmt\ never reaches substantial frequency as it is quickly replace
 \citet{Yona2012} have suggested that aneuploidy is a transient adaptive solution, arising quickly due to increased fitness and high formation rate, but 
 ultimately lost due to the cost of aneuploidy as beneficial mutations take over.
 We tested this hypothesis by estimating $F_A$, the expected frequency of \eumt\ that arose from \anwt, as the average frequency of such cells at the end of simulations using the MAP estimate parameters.
-Surprisingly, we observe that the majority of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:ppc-plot}A). 
+Surprisingly, we observe that the majority of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:ppc-plot}A). % TODO update numbers
 This is despite the fact that the \anwt\ genotype reaches high frequencies in the population (at least 0.98, \Cref{fig:ppc-plot}A).
 
 This result is not unique to the MAP parameter estimate. 
@@ -426,7 +426,7 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
   \begin{subfigure}{\textwidth}
       \centering
       %% generated with dynamics-plot.ipynb
-      \includegraphics[width=7in,height=2.5in]{../figures/dynamic_MAP.pdf}      
+      \includegraphics[width=7in,height=2.5in]{../figures/full_dynamic_MAP.pdf}      
   \end{subfigure}
   \begin{subfigure}{0.5\textwidth}
       \centering
@@ -438,10 +438,12 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
   \end{subfigure}
   \caption{
     \textbf{Posterior genotype frequency dynamics.}     
-    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt. Shown are 50 simulations using the MAP estimate parameters.
-    \textbf{(B)} Marginal posterior distribution of $F_A$, the expected frequency of \eumt\ cells that arose from \anwt cells, computed as the average frequency at the end of 50 simulations for 86,349 samples from the parameter posterior distribution. Solid and dashed lines show the mean and 95\% CI.
-	\textbf{(C)} $F_A$ values (color coded) from panel B, with their corresponding mutation rate $\mu$ on x-axis and aneuploidy rate $\delta$ on the y-axisWhite star shows the MAP estimate. See also \Cref{fig:posterior_FA_supp}.
-     }
+    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, where as $2n^*_M$ arose directly from $2n$. Shown are 50 simulations using the MAP estimate parameters.
+    \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells that arose from \anwt cells, computed as the average frequency at the end of 50 simulations for 86,349 samples from the parameter posterior distribution.
+    Solid and dashed lines show the mean and 95\% CI.
+	\textbf{(C)} $F_A$ values (color coded) from panel B, with their corresponding mutation rate $\mu$ on x-axis and aneuploidy rate $\delta$ on the y-axis.
+	White star shows the MAP estimate. See also \Cref{fig:posterior_FA_supp}.
+     } % TODO update numbers
   \label{fig:ppc-plot}
 \end{figure}
 
