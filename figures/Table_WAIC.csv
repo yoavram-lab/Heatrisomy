@@ -1,11 +1,7 @@
-id;Model;WAIC
-1;Without aneuploidy;-35
-2;Fixed mutation rate, $\mu=10^{{-{5}}}$, $\tau=1$;-16
-3;Fixed mutation rate, $\mu=10^{{-{6}}}$, $\tau=1$;-38
-4;Fixed mutation rate, $\mu=10^{{-{7}}}$, $\tau=1$;-53
-5;Free mutation rate, $\tau=1$;295
-6;Free mutation rate, $\tau=33/32$;266
-7;Free mutation rate, $\tau=2$;501
-8;Free mutation rate, $\tau=5$;376
-9;Free mutation rate, $\tau=10$;318
-10;Free mutation rate, $\tau=100$;319
+Model;WAIC
+$\tau=1$;295
+$\tau=33/32$;266
+$\tau=2$;501
+$\tau=5$;376
+$\tau=10$;318
+$\tau=100$;319

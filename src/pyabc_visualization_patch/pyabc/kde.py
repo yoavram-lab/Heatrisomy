@@ -719,6 +719,8 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
                     refval=refval, refval_color=refval_color,
                     # kde=kde,
                     xname=names[x.name], yname=names[y.name], bins=20)
+#         ax.set_yticks(ax.get_yticks()[1:-1])
+
 
     def scatter(x, y, ax):
         alpha = w / w.max()
@@ -733,14 +735,14 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
     def hist_1d(x, ax, i):
         df = pd.concat((x,), axis=1)
         import seaborn as sns
-        sns.histplot(df[x.name], ax=ax, bins=40)
+        sns.histplot(df[x.name], ax=ax, bins=40, color='darkgray')
         ax.ticklabel_format(style='plain')
         ax.axvline(refval[x.name], color=refval_color, linestyle='dotted',linewidth=2)
         ax.set_xlim(min(df[x.name])-1e-8) #1e-8 to print 0
         ax.set_yticks([])
         if i==0:
             ax.text(0.88, -0.11, '$x10^{-6}$', transform=ax.transAxes)
-            ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+            ax.set_xticks([1e-6, 4e-6, 7e-6])
             ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
         if i==1:
             ax.text(0.88, -0.11, '$x10^{-3}$', transform=ax.transAxes)
@@ -783,7 +785,7 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
             if j == 0: #mutation rate
                 ax.ticklabel_format(style='plain')
                 ax.text(0.88, -0.11, '$x10^{-6}$', transform=ax.transAxes)
-                ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+                ax.set_xticks([1e-6, 4e-6, 7e-6])
                 # ax.set_xticks([0,5e-6, 10e-6])
                 ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
 
@@ -798,7 +800,7 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
             if j == 0 and i!=j: #mutation rate again
                 # ax.ticklabel_format(style='plain')
                 # ax.text(0.88, -0.15, '$x10^{-6}$', transform=ax.transAxes)
-                ax.set_xticks([1e-6, 4e-6, 7e-6, 10e-6])
+                ax.set_xticks([1e-6, 4e-6, 7e-6])
                 # ax.set_xticks([0,5e-6, 10e-6])
                 ax.set_xticklabels([int(a) for a in ax.get_xticks()*1e6]);
             
@@ -807,6 +809,121 @@ def plot_kde_matrix_for_paper(df, w, limits=None, colorbar=True, height=2.5,
                 ax.set_xticklabels([1.015,1.020, 1.025, 1.030])
                 ax.set_xlim(min(x)-1e-7)
 
+            # upper
+            ax = arr_ax[j, i]
+            ax.axis('off')
+            
+            # scatter(y, x, ax)
+
+    # format
+    format_plot_matrix(arr_ax, [names[key] for key in par_ids])
+    arr_ax[0,0].set_ylabel('')
+
+    # adjust subplots to fit
+    fig.tight_layout()
+
+    return arr_ax
+
+def plot_kde_matrix_for_paper_extended(df, w, limits=None, colorbar=True, height=2.5,
+                    numx=50, numy=50, refval=None, refval_color='C1',
+                    kde=None, names: dict = None, arr_ax=None):
+    """
+    Plot a KDE matrix for 1- and 2-dim marginals of the parameter samples.
+
+    Parameters
+    ----------
+    df: Pandas Dataframe
+        The rows are the observations, the columns the variables.
+    w: np.narray
+        The corresponding weights.
+
+    Other parameters: See plot_kde_matrix_highlevel.
+
+    Returns
+    -------
+    arr_ax:
+        Array of the generated plots' axes.
+    """
+
+    n_par = df.shape[1]
+    par_ids = list(df.columns.values)
+
+    if names is None:
+        names = {key: key for key in par_ids}
+    if arr_ax is None:
+        fig, arr_ax = plt.subplots(nrows=n_par, ncols=n_par,
+                                   sharex=False, sharey=False,
+                                   figsize=(height * n_par, height * n_par))
+    else:
+        fig = arr_ax[0, 0].get_figure()
+
+    if limits is None:
+        limits = {}
+    default = (None, None)
+        
+    def hist_2d(x, y, ax):
+        df = pd.concat((x, y), axis=1)
+        histogram.plot_histogram_2d_lowlevel(df, w,
+                    x.name, y.name,
+                    xmin=limits.get(x.name, default)[0],
+                    xmax=limits.get(x.name, default)[1],
+                    ymin=limits.get(y.name, default)[0],
+                    ymax=limits.get(y.name, default)[1],
+                    # numx=numx, numy=numy,
+                    ax=ax, 
+                    # title=None, 
+                    # colorbar=colorbar,
+                    refval=refval, refval_color=refval_color,
+                    # kde=kde,
+                    xname=names[x.name], yname=names[y.name], bins=20)
+#         print(ax.get_yticks())
+        ax.set_yticks(ax.get_yticks()[1:-1])
+
+    def hist_1d(x, ax,i):
+        df = pd.concat((x,), axis=1)
+        import seaborn as sns
+        sns.histplot(df[x.name], ax=ax, bins=40, color='darkgray')
+        ax.ticklabel_format(style='plain')
+        ax.axvline(refval[x.name], color=refval_color, linestyle='dotted',linewidth=2)
+#         ax.set_xlim(min(df[x.name])-1e-9) #1e-8 to print 0
+        ax.set_yticks([])
+        if i==0:
+            ax.text(0.92, -0.17, '$x10^{-9}$', transform=ax.transAxes)
+            ax.set_xticks([2.25e-9, 2.5e-9, 2.75e-9])
+            ax.set_xticklabels([round(float(a),2) for a in ax.get_xticks()*1e9]);
+        if i==1:
+            ax.set_xticks([0.002,0.004, 0.006])
+            ax.set_xticklabels([0.002,0.004, 0.006])
+            ax.set_xlim(min(df[x.name])-1e-5)
+
+    # fill all subplots
+    for i in range(0, n_par):
+        y_name = par_ids[i]
+        y = df[y_name]
+
+        # diagonal
+        ax = arr_ax[i, i]
+        hist_1d(y, ax, i)
+
+        for j in range(0, i):
+            x_name = par_ids[j]                
+            x = df[x_name]
+
+            # lower
+            ax = arr_ax[i, j]
+            hist_2d(x, y, ax)
+            if j == 0 : #mutation rate
+                ax.ticklabel_format(style='plain')
+                ax.text(0.92, -0.17, '$x10^{-9}$', transform=ax.transAxes)
+                ax.set_xticks([2.25e-9, 2.5e-9, 2.75e-9])
+                ax.set_xticklabels([round(float(a),2) for a in ax.get_xticks()*1e9]);
+            if j == 1: #aneuploidy rate
+                ax.set_xticks([0.002,0.004, 0.006])
+                ax.set_xticklabels([0.002,0.004, 0.006])
+            if j == 2:
+                ax.set_xticks([1.01, 1.02, 1.03])
+                ax.set_xticklabels([1.01, 1.02, 1.03])
+                
             # upper
             ax = arr_ax[j, i]
             ax.axis('off')

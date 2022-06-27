@@ -102,19 +102,16 @@ headheight=12pt
 % Authors
 \renewcommand\Affilfont{\small}
 
-\author[1,*]{Ilia Kohanovski}
-\author[2,*]{Martin Pontz}
+\author[1,2,*]{Ilia Kohanovski}
+\author[1,*]{Martin Pontz}
 \author[3]{Avihu H. Yona}
-%\author[d]{Orna Dahan}
-%\author[d]{Yitzhak Pilpel}
-\author[1,2,$\dagger$]{Yoav Ram}
+\author[1,$\dagger$]{Yoav Ram}
 
-\affil[1]{School of Computer Science, Reichman University, Herzliya, Israel}
-\affil[2]{School of Zoology, Faculty of Life Sciences, Tel Aviv University, Tel Aviv, Israel}
+\affil[1]{School of Zoology, Faculty of Life Sciences, Tel Aviv University, Tel Aviv, Israel}
+\affil[2]{School of Computer Science, Reichman University, Herzliya, Israel}
 \affil[3]{Institute of Biochemistry, Food Science and Nutrition,
 Robert H. Smith Faculty of Agriculture, Food and Environment,
 The Hebrew University of Jerusalem, Israel}
-%\affil[d]{Department of Molecular Genetics, Weizmann Institute of Science, Rehovot 76100, Israel}
 \affil[*]{These authors contributed equally to this work}
 \affil[$\dagger$]{Corresponding author: yoav@yoavram.com}
 
@@ -126,14 +123,14 @@ The Hebrew University of Jerusalem, Israel}
 \begin{abstract}
 Aneuploidy is common in eukaryotes, often leading to decreased cell growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that aneuploidy can be beneficial under stressful conditions and lead to elevated growth rates and adaptation.
 Importantly, aneuploidy differs from point mutations in rate, fitness effect, and reversibility.
-Here, we develop evolutionary models for adaptive evolution with both mutation and aneuploidy. 
-These models are used within an approximate Bayesian computation framework to estimate the formation rate and fitness effect of aneuploidy and mutation from  results of evolutionary experiments in which \yeast adapted to heat stress: the experimental populations first acquired chromosome duplications, only to later revert back to a euploid state.
-We also analyze our models to estimate the effect of the aneuploidy and mutation rates on the expected adaptation time and the probability for adaptation via aneuploidy.
-Our results suggest that aneuploidy can be a transient adaptive solution, which can decelerate adaptation in a non-intuitive manner. By creating an evolutionary conflict between the individual and the population, aneuploidy further complicates the process of adaptation in cell populations.
+Here, we develop an evolutionary model for adaptive evolution with both aneuploidy and  mutation, and apply it within an Bayesian inference framework.
+We estimate the formation rate and fitness effect of aneuploidy and mutation in an evolutionary experiment in which \yeast adapted to heat stress.
+Our results suggest that aneuploidy is more frequent than previously estimated and that experimental observations cannot be explained without aneuploidy.
+We do not find evidence for genetic instability in aneuploid cells.
+Our results support the hypothesis that aneuploidy is a transient adaptive hypothesis: the experimental populations adapted by first acquiring a chromosome duplication; then by acquiring a beneficial mutation that likely appeared in aneuploid cells, rather than euploid cells; and finally by rapidly losing the extra chromosome to avoid paying the fitness cost of aneuploidy.
 \end{abstract}
 
 % TODO cite https://www.biorxiv.org/content/10.1101/2020.10.07.327759v1
-% TODO cite Yang, F. et al. The fitness costs and benefits of trisomy of each Candida albicans chromosome. Genetics 218, 1–7 (2021). https://academic.oup.com/genetics/article/218/2/iyab056/6218773
 % cite: https://www.cell.com/developmental-cell/fulltext/S1534-5807(21)00562-1?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1534580721005621%3Fshowall%3Dtrue
 % cite: https://www.cell.com/developmental-cell/fulltext/S1534-5807(21)00592-X?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS153458072100592X%3Fshowall%3Dtrue
 
@@ -154,6 +151,7 @@ The molecular and genetic mechanisms involved in aneuploidy have been explored~\
 Experiments with human and mouse embryos found that aneuploidy is usually lethal.
 It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
 Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Kasuga2016}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018} and hypo-osmotic-like stress~\citep{Tsai2019}.
+% TODO cite Yang, F. et al. The fitness costs and benefits of trisomy of each Candida albicans chromosome. Genetics 218, 1–7 (2021).
 
 \paragraph*{Aneuploidy can lead to adaptation.}
 However, aneuploidy can be beneficial under stressful conditions due to the wide range of phenotypes it can produce, some of which are advantageous~\citep{Pavelka2010}.
@@ -175,8 +173,8 @@ However, under gradual heat stress, aneuploidy was not observed.
 \paragraph*{The present study.}
 Here, we develop an evolutionary-genetic model that includes the effects of natural selection, genetic drift, aneuploidy, and mutation to examine the role of aneuploidy in adaptive evolution.
 This model follows a population of cells characterised by both their ploidy and their genotype.
-We fit this model to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including selection coefficients and rates of aneuploidy and mutation, and to test hypotheses about the evolutionary process by performing model selection between different versions of the model.
-We also mathematically analyze this evolutionary-genetic model to estimate the effects of selection, mutation, and aneuploidy on the adaptation time and the probability for adaptation via aneuploidy.
+We fit this model to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including rates and fitness effects of aneuploidy and mutation, and to test hypotheses about the evolutionary process by comparing different versions of the model and predicting the genotype frequency dynamics using the estimated parameter values.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -186,20 +184,21 @@ We also mathematically analyze this evolutionary-genetic model to estimate the e
 %%%%%%%% Fig illustation
 \begin{figure}[b!]
   \centering
-  \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
-  \label{fig:model1}
+    \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
   \caption{
-    \textbf{Model illustration.}
+    \textbf{Model Illustration.}
     There are four genotypes in our model: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
     Overall there are two possible trajectories from \euwt\; to \eumt.
-    Arrows denote transitions between genotypes, with transitions rates: $\mu$, beneficial mutation rate; $\delta$, aneuploidy rate.
-  }
+    Arrows denote transitions between genotypes, with transitions rates $\mu$ for the beneficial mutation rate and $\delta$ for the aneuploidy rate.
+   }
   \label{fig:models}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph*{Evolutionary Models.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph*{Evolutionary Model.}
 We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
 The model allows for a single aneuploid karyotype (e.g., chromosome III duplication) and a single mutation to accumulate in the genotype.
@@ -208,34 +207,17 @@ euploid mutant, \eumt, with the standard karyotype and a single beneficial mutat
 aneuploid wild-type, \anwt, with an extra chromosome, i.e., following chromosome duplication; and
 aneuploid mutant, \anmt, with and extra chromosome and a beneficial mutation. 
 
-Transitions between the genotypes occur as follows~(\Cref{fig:models}A): Beneficial mutations from \euwt\; to \eumt\; and from \anwt\; to \anmt\; occur with probability $\mu$, the mutation rate. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
+Transitions between the genotypes occur as follows~(\Cref{fig:models}): Beneficial mutations from \euwt\; to \eumt\; and from \anwt\; to \anmt\; occur with probability $\mu$, the mutation rate. We neglect back-mutations (i.e., from \eumt\; to \euwt\; and from \anmt\; to \anwt).
 Aneuploidy is formed by chromosome mis-segregation, so that cells transition from \euwt\; to \anwt\; and from \anmt\ to \eumt\ with probability $\delta$, the aneuploidy rate. That is, we assume chromosomes are gained and lost at the same rate, and we neglect events that form a less-fit genotype (i.e., \anwt\; to \euwt\; and \eumt\; to \anmt).
-The fitness values of the four genotypes are given by \Cref{table:single-locus}.
 
-%%% Table: single-locus model
-\begin{table}[h]
-\centering
-\caption{\textbf{Single-locus model fitness values.}}
-\begin{tabular}{lllll}
-\emph{Genotype} $i$ & $2n$ & $2n+1$ & $2n+1^*$ & $2n^*$ \\
-\hline
-\emph{Fitness} $w_i$ & $1$ & $1-c+b$ & $(1-c)(1+s)+b$ & $1+s$               
-\end{tabular}
-\label{table:single-locus}
-\caption*{
-$s \ge 0$ is the selection coefficient of a beneficial mutation;
-$0 \le c \le 1$ is the fitness cost of aneuploidy;
-and $b \ge c$ is the selection coefficient, or fitness benefit, of aneuploidy.
-}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%
-
-The initial population has $N$ cells with genotype \euwt.
+In the experiment by \citet{Yona2012}, the population was grown every day from $1.6 \cdot 10^6$ cells until reaching stationary phase and then diluted 1:120.
+Thus, we set the population size to $N=6.425 \cdot 10^6$, the harmonic mean of $\{2^k \cdot 1.6 \cdot 10^6\}_{k=0}^{7}$~\citep{Crow1970}.
+The initial population has $N$ cells with genotype \euwt. 
 The effect of natural selection on the frequency $f_i$ of genotype $i = 2n, 2n+1, 2n+1^*, \text{or } 2n^*$ is given by
     \begin{equation} \label{eq:selection-single} 
       f^s_i = \frac{f_i w_i}{\bar{w}} \;,
     \end{equation}
-where the fitness values $w_i$ are given in \Cref{table:single-locus} and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
+where $w_i$ is the fitness of genotype $i$ and $\bar{w} = \sum_{j}{f_j w_j}$ is the population mean fitness.
 The effect of mutation and aneuploidy on genotype frequencies is given by
     \begin{equation} \label{eq:mutation-aneuploidy-single}
     \begin{aligned}
@@ -256,8 +238,9 @@ Overall, the change in genotype frequencies from one generation to the next is g
 \paragraph{Empirical evidence.}
 
 We use the results of evolutionary experiments reported by \citet{Yona2012}.
-In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). From unpublished results, aneuploidy did not fix before at least 200 generations elapsed.
-The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350.
+In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). 
+From re-analysis of data not published in the original paper, aneuploidy did not fix before at least 200 generations elapsed.
+The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350 while still under the same conditions of elevated heat (\SI{39}{\celsius}).
 
 
 \paragraph{Likelihood function.} 
@@ -273,20 +256,19 @@ We overcome this problem by approximating the likelihood using simulations. We s
 	\Big]\;,
 \end{aligned}\end{equation}
 where $!\{\ldots\}$ is the "logical not" operator, $P^4(\ldots)$ is the 4th power of $P(\ldots)$, and all probabilities $P_{\tilde{\vec X}}(\ldots)$ are approximated from the results of the simulations $\tilde{\vec X}$. For example, $P_{\tilde{\vec X}}\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)$ is approximated by taking simulations in which \anwt\; fixed before generation 450 but not before generation 200, and computing the fraction of such simulations in which \eumt\; did not fix by generation 1,700, and hence aneuploidy did not extinct before generation 1,700.
-\Cref{fig:seeds} compares results with less and more simulated experiments, demonstrating that 1,000 simulations are likely enough.
+\Cref{fig:seeds} compares results with less and more simulated experiments, demonstrating that 1,000 simulations are likely sufficient.
  
-% YR: this whole section doesn't really make sense. We know there was aneuploidy. If we assume delta=0 that means that we think this aneuploidy was not relevant to the adaptation process. But then why do we take generations 1700 and 2300 to be the time for 2n* fixation? These times were not observed for fixation of a mutant but rather for elimination of aneuploidy. If we disregard aneuploidy, why do we still consider these times?
-%For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), 
-%the likelihood is similarly approximated by
-%\begin{equation}\begin{aligned}
-%\label{eq:heatstress-noaneuploidy-likelihood}
-%\likelihood_{!}(\theta) = &\ 
-%	1 - 
-%	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\}\big) - \\
-%&	P_{\tilde{\vec X}}^4\big(!\{1700 < T(2n^*) < 2350\}\big) + \\
-%&	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \land !\{1700 < T(2n^*) < 2350\}\big)
-%\;.
-%\end{aligned}\end{equation}
+For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), we disregard the increased expression in chromosome III and the growth advantage measured in generation 450, and focus on the growth advantage measured in later generations, presumably due to a beneficial mutation. 
+Therefore, the likelihood is approximated by
+\begin{equation}\begin{aligned}
+\label{eq:heatstress-noaneuploidy-likelihood}
+\likelihood_{!}(\theta) = &\ 
+	1 - 
+	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\}\big) - \\
+&	P_{\tilde{\vec X}}^4\big(!\{1700 < T(2n^*) < 2350\}\big) + \\
+&	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \land !\{1700 < T(2n^*) < 2350\}\big)
+\;.
+\end{aligned}\end{equation}
 
 \paragraph{Parameter inference.} To infer model parameters, we use approximate Bayesian computation with a sequential Monte-Carlo scheme, or ABC-SMC~\citep{Sisson2009}, implemented in the \texttt{pyABC} Python package~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}.
 This approach uses numerical stochastic simulations of the model to infer a posterior distribution over the model parameters. It is a method of likelihood-free, simulation-based inference~\citep{Cranmer2020}, that is, for estimating a posterior distribution when a likelihood function cannot be directly computed. It is therefore suitable in our case, in which the likelihood function can only be approximated from simulations, and cannot be directly computed. 
@@ -297,40 +279,43 @@ A proposal particle, $\theta^*$, is sampled from a proposal distribution, and is
 The number of particles, $n_t$, is adapted at every iteration $t$ using the adaptive population strategy~\citep[\href{https://pyabc.readthedocs.io}{pyabc.readthedocs.io}]{Klinger2018}.
 For $t=0$, the proposal particle is sampled from the prior distribution, $p(\theta)$.
 For $t>0$, the proposal particle is sampled from the particles accepted in the previous iteration, $\{\theta_{i,t-1}\}_{i=1}^{n_{t-1}}$, each with a probability relative to its weight $W_{t-1}(\theta_{i,t-1})$ (see below). The proposal particle is then perturbed using a kernel perturbation kernel, $K_t(\theta^* \mid \theta)$ where $\theta$ is the sample from the previous iteration.
-Then, a set of synthetic observations $\tilde{\vec X}^*$ is simulated, and the proposal particle $\theta^*$ is accepted if its approximate likelihood (\Cref{eq:heatstress-likelihood}) is high enough, $\likelihood(\theta^*)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta^*) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. 
+Then, a set of synthetic observations $\tilde{\vec X}^*$ is simulated, and the proposal particle $\theta^*$ is accepted if its approximate likelihood (\cref{eq:heatstress-likelihood}) is high enough, $\likelihood(\theta^*)>1-\epsilon_t$ (or more commonly, if $1-\likelihood(\theta^*) < \epsilon_t$), where $\epsilon_t>0$ is the \emph{acceptance threshold}, as higher values of $\epsilon_t$ allow more particles to be accepted. 
 The acceptance threshold $\epsilon_t$ is chosen as the median of the $1-\likelihood(\theta)$ of the particles accepted in the previous iteration, $t-1$, and $\epsilon_0=0.01$. 
 For each accepted particle $\theta_{i,t}$ a weight $W_t(\theta_{i,t})$ is assigned: for $t=0$, $W_0(\theta_{i,0})=1$, and for $t>0$, 
 $W_t(\theta_{i,t}) = p(\theta_{i,t}) / \sum_{i=1}^{n_{t-1}}{W_{t-1}(\theta_{i,t-1}) K_t(\theta_{i,t}, \theta_{i,t-1})}$, where $p(\theta)$ is the prior density of $\theta$ and $K_t(\theta', \theta)$ is the probability of a perturbation from $\theta$ to $\theta'$.
 $K_t(\theta' \mid \theta)$ is a multivariate normal distribution, fitted at iteration $t$ to the particles from the previous iteration, \{$\theta_{i,t-1}\}_{i=1}{n_{t-1}}$, and their weights, $\{W(\theta_{i,t-1})\}_{i=1}^{n_{t-1}}$.
 
-Acceptance is determined according to the approximate likelihood~(\Cref{eq:heatstress-likelihood}), which has a maximum value of 0.875. Thus, we terminated the inference when $\epsilon \le 0.13$ after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}).
+Acceptance is determined according to the approximate likelihood~(\cref{eq:heatstress-likelihood}), which has a maximum value of $\likelihood_{max}=0.875$ (giving a minimal value of $\epsilon_{min}=0.125$). We terminated the inference iterations when the change in $\epsilon$ value from one iteration to the next was small.
+With our standard prior and model, we reached $\epsilon=0.13$ (or $\likelihood=0.87$) after six iterations, with $n_6=982$ accepted parameter vectors and effective sample size ESS=651 (\Cref{fig:convergence}). Running the inference algorithm with different initialization seeds and less or more simulations for approximating the likelihood produced similar posterior distributions~(\Cref{fig:seeds}). 
 
-After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels, from which we find the MAP (maximum a posteriori) estimate as the maximum of the KDE function. We then draw $50,000$ samples from the posterior KDE to compute the HDI (highest density interval) and visualize the posterior distribution with histograms.
+After producing a set of weighted particles from the the posterior distribution using the above ABC-SMC algorithm, we approximate the posterior using kernel density estimation (KDE) with Gaussian kernels. We truncate the estimated posterior to avoid positive posterior density for values with zero prior density. The MAP (maximum a posteriori) estimate is computed as the the maximum of the estimated joint posterior density. We then draw $5,000,000$ samples from the posterior distribution to compute the HDI (highest density interval) and draw $50,000$ samples to visualize the posterior distribution with histograms.
 
+\paragraph{Model comparison.} 
+We examine several versions of our evolutionary models, e.g. without aneuploidy or with increased mutation rate in aneuploid cells, as well as several different prior distributions (see below).
+To compare these, we plot posterior predictions: for each model we execute $10,000$ simulations using the MAP parameter estimates and plot the distributions of time to fixation of \eumt, one of key properties of the model likelihood. These plots visualize the fit of each model to the data. 
+Also, for similar models we plot the marginal and joint posterior distributions of the parameters; if these are similar, we consider the models interchangeable. We validate this by comparing HDI (highest density interval) of posterior distributions.
 
-\paragraph{Model comparison.} The main criterion that we use for model selection is WAIC, the widely applicable information criterion ~\citep{gelman2013bayesian},
+Where posterior plots are very similar and the number of parameters is the same, we use WAIC, or the widely applicable information criterion ~\citep{gelman2013bayesian}, defined as
 \begin{equation} \label{eq:WAIC}
 \begin{aligned}
 \mathit{WAIC}(\theta) &\ =\ 
 -2\log\mathbb{E}[\likelihood(\theta)]\ +\ 2\mathbb{V}[\log\likelihood(\theta)]
 \end{aligned}
 \end{equation}
-where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE.
+where $\theta$ is a parameter vector, and $\mathbb{E}[\cdot]$ and $\mathbb{V}[\cdot]$ are the expectation and variance taken over the posterior distribution, which in practice are approximated using 50,000 samples from the posterior KDE. We validated that upon resampling WAIC values do not significantly change and that differences in WAIC between models are preserved.
 WAIC values are scaled as a deviance measure: lower values imply higher predictive accuracy~\citep{Kass1995}.
-
-We also plot posterior predictions: for each model we execute $10,000$ simulations using the MAP parameter estimates and plot the distributions of time to fixation of \eumt, one of key properties of the model likelihood. This visualizes the fit of each model to the data. 
-Also, for similar models we plot the marginal and joint posterior distributions of the parameters; if these are similar, we consider the models are interchangeable. We validate this by comparing HDI (highest density interval) of posterior distributions.
  
-\paragraph{Prior distributions.} We used informative prior distributions for $w_{2n+1}=1-c+b$, $w_{2n+1^*}=(1+s)(1-c)+b$ and $w_{2n^*}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
+\paragraph{Prior distributions.} \label{par:prior}
+We used informative prior distributions for $w_{\anwt}=1-c+b$, $w_{\anmt}=(1+s)(1-c)+b$ and $w_{\eumt}=1+s$, which we estimated from growth curves data from mono-culture growth experiments previously reported by \citet[Figs. 3C, 4A, and S2]{Yona2012}.
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
-From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values by sampling from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix. We sampled 10,000 samples to use as a prior distribution~(\Cref{fig:growth-curves}).
-We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate a prior distribution for $w_{2n+1}$ ~(\Cref{fig:growth-curves}-D). In lieu of a more suitable prior, we used the same prior for $w_{2n+1^*}$ and $w_{2n^*}$. 
-To increase computational efficiency, we also assumed $w(2n*)>w(2n+1*)>w(2n+1)>w(2n)$; running the inference without this assumption produced similar results. 
+From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values to be used as a prior distribution by sampling 10,000 samples from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix~(\Cref{fig:growth-curves}).
 
-Compared to other priors we tested, this prior produced lower WAIC, better posterior prediction plots, and more stable parameter estimates, as follows.
-First, we tried to use additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{2n*}/w_{2n+1}$ ~(\Cref{fig:growth-curves}L). The same prior was used for $w_{2n*}/w_{2n+1*}$. This prior resulted in WAIC -57, compared to 295 with the above informative prior. % generated with WAICs.ipynb TODO IK update the WAIC with 1000 reps run for the new prior
-%TODO IK: rewrite text about alternative prior, it has lower WAIC, different estimates for mutation rate etc...maybe it should be moved to results section
-We also tested an uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{2n+1}$, $w_{2n+1^*}$, $w_{2n^*}$, or (ii) only for $w_{2n+1^*}$, $w_{2n^*}$, using the above informative prior for $w_{2n+1}$. In both cases the inference algorithm failed to converge.
+We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate an informative prior distribution for $w_{\anwt}$~(\Cref{fig:growth-curves}-D, assuming $w_{\euwt}=1$).
+In this prior distribution, we used the same prior for $w_{\anmt}$ and $w_{\eumt}$. 
+To increase computational efficiency, we also assumed $w_\eumt>w_\anmt>w_\anwt>w_\euwt$; running the inference without this assumption produced similar results.
+See \emph{supporting material} for an extended informative prior distribution that uses growth curves of \eumt\ and \anwt\ growing in \SI{39}{\celsius}; this prior distribution proved to be less useful.
+
+As a control, we tested an uninformative uniform prior with $\mathit{U}(1,6)$, for (i) all $w_{\anwt}$, $w_{\anmt}$, $w_{\eumt}$, or (ii) only for $w_{\anmt}$, $w_{\eumt}$, using the above informative prior for $w_{\anwt}$. In these cases the inference algorithm failed to converge.
  
 For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformative uniform priors, $\mu \sim \mathit{U}(10^{-9},10^{-5})$ and $\delta \sim \mathit{U}(10^{-6},10^{-2})$. A wider mutation rate prior, $\mu \sim \mathit{U}(10^{-9},10^{-3})$, produced similar results.
 
@@ -338,62 +323,46 @@ For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformati
 % Results
 \section*{Results}
 
-\subsection*{Statistical inference}
-
-\paragraph{Parameter estimation.} 
+\paragraph{Rates and fitness effects of aneuploidy and mutation.} 
 We used ABC-SMC to infer the posterior distribution of model parameters~(\Cref{fig:posterior}). 
-We report parameter estimates using the MAP (maximum a posteriori) and providing the 50\% HDI (highest density interval) in square brackets.
+We report parameter estimates using the MAP (maximum a posteriori) and providing the 50\% HDI (highest density interval) in square brackets. See \emph{Supporting material} for sensitivity analysis.
 %% estimates generated by MAP-and-hdi.ipynb
-The estimated aneuploidy rate, $\delta=1.722\cdot10^{-3}\ [1.394\cdot10^{-3}-2.754\cdot10^{-3}]$, agrees with previous estimates. % TODO refs (9.7*10-5 in Zhu 2014, so it's lower). YR: we need more than one ref; also what is the units of Zho 2014?
-The estimated mutation rate, $\mu=2.942\cdot10^{-6}\ [2.017\cdot10^{-7}-4.15\cdot10^{-6}]$, corresponds to a mutation target size of $10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014} or $3.3\cdot10^{-10}$~\citep{Lynch2008}.
-The estimated fitness values are $w_{2n+1}=1.022\ [1.021-1.023]$,
-$w_{2n+1^*}=1.025\ [1.024-1.026]$,
-$w_{2n^*}=1.028\ [1.026-1.029]$, all relative to the fitness of \euwt, which is set to $w_{2n}=1$. 
-Thus, we can infer that the benefit and cost of trisomy was $b=2.5\%$ and $c=0.3\%$, and the benefit of the beneficial mutation was $2.8\%$~(\Cref{table:single-locus}). 
-
+The estimated mutation rate, $\mu=2.965\cdot10^{-6}\ [2.718\cdot10^{-7}-3.589\cdot10^{-6}]$, corresponds to a mutation target size of $\sim 10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014} or $3.3\cdot10^{-10}$~\citep{Lynch2008}.
+The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is much higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval).
+The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
+$w_{\anmt}=1.025\ [1.024-1.026]$,
+$w_{\eumt}=1.028\ [1.026-1.029]$, all relative to the fitness of \euwt, which is set to $w_{\euwt}=1$. 
+Thus, we can infer that the cost of trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$ (or 0.3\%) and the benefit of trisomy is $w_{\anwt}-1-c=0.019$ (1.9\%), whereas the benefit of beneficial mutation is $w_{\eumt}-1=0.028$ (2.8\%).
 
 % FIG posterior
 %% generated with posterior-plot.ipynb
-\begin{figure}[p]
+\begin{figure}[h!]
   \centering
 \includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
   \caption{
   \textbf{Posterior distribution of model parameters.}
-On the diagonal, the inferred posterior distribution of each model parameter. 
-Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+On the diagonal, the marginal posterior distribution of each model parameter. 
+Below the diagonal, the joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
 } 
   \label{fig:posterior}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+\paragraph{Role of aneuploidy in the evolutionary dynamics.}
 
-\paragraph{Model checking and comparison.}
-The model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B). 
-Interestingly, the genotype frequency dynamics in these simulations demonstrate that \anmt\ never reaches substantial frequency (\Cref{fig:ppc-plot}).
+Our model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B).
+ 
+However, a model without aneuploidy (where the aneuploidy rate is fixed at zero, $\delta=0$), fails to explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). %% generated with MAP-and-hdi.ipynb
+The estimated mutation rate without aneuploidy is $\mu=7.98\cdot10^{-9}\ [7.906\cdot10^{-9}-8.138\cdot10^{-9}]$, much lower compared to a model with aneuploidy and suggesting a target size of just 40. 
+The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$.
+This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
 
-% commented out, see remark above when describing likelihood of delta=0.
-%Moreover, a model without aneuploidy (where the aneuploidy rate is fixed at zero, $\delta=0$), fails to explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). %% generated with MAP-and-hdi.ipynb
-%The estimated mutation rate without aneuploidy is $\mu=7.979\cdot10^{-9}\ [7.903\cdot 10^{-9}-8.135\cdot10^{-9}]$, much lower compared to a model with aneuploidy and suggesting a target size of just 40. 
-%The fitness of the mutant is also much lower at $w_{2n^*}=1.013\ [1.012-1.013]$.
-%This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
+We also checked a model in which aneuploidy occurs but is adaptively neutral compared to the wild type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$~(\Cref{fig:2n*-fixation}). 
+Thus, our results suggest that aneuploidy significantly affects the evolutionary dynamics.
 
-We also inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
-We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
-%% generated with MAP-and-hdi.ipynb
-With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=3.81\cdot10^{-7}\ [1.508\cdot10^{-7}-4.995\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.782\cdot10^{-3}\ [0.661\cdot10^{-3}-1.462\cdot10^{-3}]$). 
-With $\tau=10$, the estimated mutation rate was only slightly lower compared to $\tau=1$ ($\mu=1.674\cdot10^{-6}\ [2.501\cdot10^{-7}-1.741\cdot10^{-6}]$). 
-WAIC is lowest for $\tau=100$~(\Cref{table:WAIC}), and if we rule such a strong effect of genetic instability a-priori, the next two lowest WAIC values are for $\tau=33/32$ and $\tau=5$.  
-Therefore, we cannot rule out an increased mutation rate in aneuploid cells, but unless the effect is strong ($\tau=100$), it does not seem to affect our inference results.
-We also checked the differences in fixation/loss times of  \euwt, \anwt and \eumt\  for the models with different $\tau$. We saw that the models can be distinguished using these parameters, especially $\tau=100$~(\Cref{fig:tau-plots}).
-
-Sensitivity analysis shows that changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
-Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$. We inferred similar parameters estimates compared to the model with a free $\mu$ parameter. % TODO IK where is this shown? how do you quantify it? TODO add like S5 plot and mean+hdi after simulations with 1000 reps will finish to run.
-WAIC was lower when $\mu$ is fixed~(\Cref{table:WAIC}), but this is not surprising, as WAIC attempt to balance between model fit and model complexity, where the latter takes into account the number of model parameters. 
-
-
-% Fig single-locus model with and without aneuploidy
+% Fig model comparison 
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
-\begin{figure}[p]
+\begin{figure}[h!]
   \begin{subfigure}{0.5\textwidth}
       \centering
       \includegraphics[width=\textwidth]{../figures/fixation-plot-a.pdf}      
@@ -405,159 +374,93 @@ WAIC was lower when $\mu$ is fixed~(\Cref{table:WAIC}), but this is not surprisi
       \label{fig:fit-cumulative}
   \end{subfigure}
   \caption{
-    \textbf{Single-locus model fit with and without aneuploidy.}
-    \textbf{(A)} The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations of the single-locus model with aneuploidy (blue; MAP parameters) compared to two models without aneuploidy: a model with the same parameter values except $\delta=0$ (orange), and a model fitted to the data assuming $\delta=0$ (green).
-In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450. Thus, the blue distribution is a better fit compared to the green, and the yellow histogram has a very poor fit.
-The last bin contains all the simulations with time equal or greater than 3,000.
-    \textbf{(B)}
-	Cumulative distribution of the time to fixation of \eumt\ in 10,000 simulations using the MAP estimate with and without aneuploidy in blue and green, respectively, and corresponding to the blue and green bars in panel A. The MAP likelihood (\Cref{eq:heatstress-likelihood}) is 0.84 and 0.67 with and without aneuploidy, respectively.
+    \textbf{Model fit with and without aneuploidy.}
+    The distribution of time to fixation of \eumt\ (i.e., adaptation time) in $10,000$ simulations using MAP parameters of the model with beneficial aneuploidy (blue; $\delta>0, \; w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$) compared to alternative models: a model with the same parameter values but without aneuploidy (gray, $\delta=0$, concentrated at $t=450$); a model fitted to the data assuming no aneuploidy (green, $\delta=0$); a model fitted to the data assuming neutral aneuploidy (yellow, $\delta>0, \; w_{\anwt}=w_{\euwt}, \; w_{\anmt}=w_{\eumt}$); and a model with beneficial aneuploidy and an extended prior distribution (pink).
+In the experiment by \citet{Yona2012}, one population lost aneuploidy by generation 1,700 and another by generation 2,350 (dashed lines) but not before generation 450.
+Thus, the blue distribution has a better fit compared to the other distributions (the gray distribution has a particulary poor fit).
+The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84, 0.78, 0.67, and 0.14 for the models represented by blue, yellow, green, and pink distributions, respectively. 
+\textbf{(A)} Histogram of the time to fixation of \eumt. The last bin contains all values equal or greater than 3,000.
+\textbf{(B)} Cumulative distribution of the time to fixation. 
      }
   \label{fig:2n*-fixation}
 \end{figure}
 
-\begin{figure}[p]
-  \centering
-\includegraphics[width=0.8\textwidth]{../figures/dynamics.pdf}
+
+
+% Rancati G, Pavelka N. Karyotypic changes as drivers and catalyzers of cellular evolvability: A perspective from non-pathogenic yeasts. Semin Cell Dev Biol. 2013;24(4):332-338. doi:10.1016/j.semcdb.2013.01.009
+% Bouchonville K, Forche A, Tang KES, Semple C a M, Berman J. Aneuploid chromosomes are highly unstable during DNA transformation of Candida albicans. Eukaryot Cell. 2009;8(10):1554-1566. doi:10.1128/EC.00209-09
+% Zhu J, Pavelka N, Bradford WD, Rancati G, Li R. Karyotypic determinants of chromosome instability in aneuploid budding yeast. PLoS Genet. 2012;8(5). doi:10.1371/journal.pgen.1002719
+
+\paragraph*{Genetic instability in aneuploid cells.}
+It has been suggested that aneuploidy increased genetic instability~\citep{Sheltzer2011b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
+We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
+%% generated with MAP-and-hdi.ipynb
+With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=4.094\cdot10^{-7}\ [6.252\cdot10^{-8}-6.046\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.744\cdot10^{-3}\ [0.506\cdot10^{-3}-1.827\cdot10^{-3}]$). 
+With $\tau=10$, the estimated mutation rate was only slightly lower compared to $\tau=1$ ($\mu=1.67\cdot10^{-6}\ [2.836\cdot10^{-8}-2.245\cdot10^{-6}]$). 
+WAIC is lowest for $\tau=33/32$ and $\tau=1$.
+Therefore, evidence does not support an increase in mutation rate in aneuploid cells, and moreover, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference.
+We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
+
+
+\paragraph*{Competition between mutation and aneuploidy.}
+
+We simulated 50 replicate genotype frequency dynamics using the MAP estimate parameters. 
+\Cref{fig:ppc-plot}A shows the simulated frequencies of the four genotypes (\euwt, \anwt, \anmt\ and \eumt), as well as the frequencies of \eumt\ cells that arose from either \anwt\ cells via a sequences of mutation and chromosome loss events ($2n^*_A$), or directly from \euwt\ cells via a mutation event ($2n^*_M$).
+We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt.
+
+\citet{Yona2012} have suggested that aneuploidy is a transient adaptive solution, arising quickly due to increased fitness and high formation rate, but 
+ultimately lost due to the cost of aneuploidy as beneficial mutations take over.
+We tested this hypothesis by estimating $F_A$, the expected frequency of \eumt\ that arose from \anwt, as the average frequency of such cells at the end of simulations using the MAP estimate parameters.
+Surprisingly, we observe that the majority of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:ppc-plot}A). % TODO update numbers
+This is despite the fact that the \anwt\ genotype reaches high frequencies in the population (at least 0.98, \Cref{fig:ppc-plot}A).
+
+This result is not unique to the MAP parameter estimate. 
+We simulated genotype frequency dynamics using parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the posterior distribution of $F_A$ (\Cref{fig:ppc-plot}B). 
+The mean $F_A$ was just 0.1675 [0.0142 - 0.3758 95\% CI] and only in 408 of 86,349 posterior samples (0.47\%) $F_A$ was  larger than 0.5, that is, \eumt\ was more likely to arise from an aneuploid cell.  
+Thus, if we pick up a cell from the evolved \eumt\ population, it is more likely to have descended directly from an euploid cell than from an aneuploid cell.
+The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate, $\mu$, and in some cases can also be affected by the fitness parameters (\Cref{fig:ppc-plot}C and \Cref{fig:posterior_FA_supp}).
+
+
+% Fig dynamics
+\begin{figure}[h!]
+  \begin{subfigure}{\textwidth}
+      \centering
+      %% generated with dynamics-plot.ipynb
+      \includegraphics[width=7in,height=2.5in]{../figures/full_dynamic_MAP.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/histo_100000.pdf}
+  \end{subfigure}
+  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter100000_log_star.pdf}
+  \end{subfigure}
   \caption{
-  \textbf{Posterior genotype frequency dynamics for the single-locus model.} 
-  The posterior prediction for the frequencies of the four genotypes over time. Each of the 20 curves is the average of 10,000 simulations of the single-locus model using parameters drawn from the posterior distribution.
-  }
+    \textbf{Posterior genotype frequency dynamics.}     
+    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, where as $2n^*_M$ arose directly from $2n$. Shown are 50 simulations using the MAP estimate parameters.
+    \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells that arose from \anwt cells, computed as the average frequency at the end of 50 simulations for 86,349 samples from the parameter posterior distribution.
+    Solid and dashed lines show the mean and 95\% CI.
+	\textbf{(C)} $F_A$ values (color coded) from panel B, with their corresponding mutation rate $\mu$ on x-axis and aneuploidy rate $\delta$ on the y-axis.
+	White star shows the MAP estimate. See also \Cref{fig:posterior_FA_supp}.
+     } % TODO update numbers
   \label{fig:ppc-plot}
 \end{figure}
 
-% Fig tau plots
-%% generated by diff-tau-plots.ipynb
-\begin{figure}[p]
-  \centering
-  \begin{subfigure}{0.75\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-diff-a.pdf}      
-  \end{subfigure}
-  \begin{subfigure}{0.75\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-diff-b.pdf}      
-  \end{subfigure}
-   \begin{subfigure}{0.75\textwidth}
-      \includegraphics[width=\textwidth]{../figures/tau-diff-c.pdf}      
-  \end{subfigure}
-   \caption{
-    \textbf{Genotype fixations for single-locus models with different $\tau$.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is fixed (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if time to loss of \euwt\ is known (panel~A) or if time to fixation or loss of \anwt\ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
-  }
-  \label{fig:tau-plots}
-\end{figure}
 
-
-\pagebreak
-%%%%%%%%%%
-\subsection*{Analysis}
-
-Here, we aim to approximate the adaptation time (i.e., time to fixation of \eumt) and analyse how it is affected by the model parameters.
-As a stochastic model, there are two events that can occur on the \euwt\ genotype background. The first is a mutation that produces a \eumt\ genotype. The second is a missegregation event that produces a \anwt\ genotype. The probabilities with which these events occur is significantly different. We are interested in the average waiting time until one of these two genotype appears and then leads to adaptation, i.e., appearance and fixation of the \eumt; in the second case, appearance of \anwt\ will be followed by a mutation to \anmt\ and loss of aneuploidy to \eumt.
-
-We assume the waiting time for appearance of \eumt\ from \euwt\ and appearance of \anwt\ from \euwt\ are geometrically distributed with rates $p_{2n^*}$ and $p_{2n+1}$, respectively, where
-\begin{subequations}
-\begin{align}
-p_{2n^*} &= 1-(1-2\mu \Delta w_{2n^*})^N \;, \\
-p_{2n+1} &= 1-(1-2\delta\Delta w_{2n+1})^N \;,
-\end{align}
-\end{subequations}
-where $\Delta w_i$ denotes the relative difference between the fitness $w_i$ of genotype $i$ and the population mean fitness, $\bar{w}$.
-
-However, we have two competing events: if one event occurs (e.g., mutation), then the other event (e.g., aneuploidy) is unlikely to occur. Thus, we need to find the minimum of these waiting times. The minimum of two geometric random variables with rates $p_{2n^*}$ and $p_{2n+1}$ is also a geometric random variable with rate $1-(1-p_{2n^*})(1-p_{2n+1})$, which is the inverse of the expected waiting time until the first event occurs.
-
-% TODO MP: this seems like repetition of things written above, right? should we remove this? or if there is something important here, merge it to previous paragraphs?
-%We are interested in the expected time to fixation of \eumt, and the trajectory leading to this fixation depends on the event that occurs first. If \eumt\ appears first and avoids extinction by drift, then it will fix. If \anwt\ appears first and avoids extinction, then several other events must occur for fixation of \eumt. Thus, in this aneuploid trajectory, we need to approximate the expected waiting time to reach \anmt\ and finally \eumt.
-
-Given a mutation occurs first, % TODO MP: I added this sentence, is that right?
-the expected adaptation time via the mutation trajectory is 
-\begin{equation}\label{eq:T_mut}
-T_{M}=\frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + T_{2n \to 2n^*} \;,
-\end{equation}
-where $T_{i \to j}$ is the waiting time for fixation of genotype $i$ in a population of genotype $j$, given it starts with a single copy and does not go to extinction by drift.
-Given that aneuploidy occurs first, % TODO MP: I added this sentence, is that right?
-the expected adaptation time via the aneuploidy trajectory is approximated by
-\begin{equation}\label{eq:T_aneu} 
-% TODO MP: p_{2n+1^*} is not defined, and why is there 1/p_{2n^*} here? shouldn't it have the waiting time for 2n+1* to appear on 2n+1 and then waiting time for 2n* to appear on 2n+1*? something is wrong here.
- T_A = \frac{1}{1-(1-p_{2n^*})(1-p_{2n+1})} + \frac{1}{p_{2n+1^*}} + \frac{1}{p_{2n^*}} + T_{2n \to 2n+1} + T_{2n+1 \to 2n+1^*} + T_{2n+1^* \to 2n^*} \;.
- \end{equation} % TODO MP do we need the tilde ?
-Finally, the expected adaptation time is 
- \begin{equation}\label{eq:T_total}
- T = p_A T_{A}+(1-p_A) T_{M} \;,
- \end{equation}
- where $p_A$ is he probability that aneuploidy will be the first event to occur,
-\begin{equation}
-p_A = \frac{p_{2n+1}}{p_{2n^*}+p_{2n+1}} \;.
-\end{equation}
-
-We assume that the waiting time until a new genotype occurs is much longer than the waiting time for its fixation in the population. Nevertheless, these fixation times must be included in a rigorous analysis. There are two ways to compute the fixation times and they differ in the assumption of the underlying process.
-A deterministic-process approach is given by the classical bi-allelic single-locus equation.
-It approximates the expected time for genotype $i$ to reach frequency $x$ when starting from frequency $1-x$ in a population of genotype $j$,
- % TODO MP ref for equation? Crow and Kimura? YR: yes
-\begin{equation} \label{eq:T_fix_x}
- T_{i \to j} \approx 2\frac{\log{\big(\frac{x}{1-x}N\big)}}{\log(w_i/w_j)} \;,
-\end{equation} 
-A stochastic-process approach for approximating $T_{i \to j}$ is given by the diffusion-equation approximation \citep[eq.~17]{Kimura1969a}.
-
-% TODO MP - the following remark should be removed. Instead, wherever you use one of these assumptions in the above text, you should explicitly say so (rather then say the assumptions are implicit). Then you can discuss here how these assumptions may not be met when the parameters are so and so, and that you will point it out in the results or something like that.
- %\begin{remark} There are several implicit assumptions that the equations hold like this.
- %\begin{enumerate}
- %\item The two processes fixation and occurrence of a new type are sequential and do not interfere with each other.
- %\item There is no clonal interference.
- %\item The fixation process starts from exactly one individual. 
- %\end{enumerate}
- %There are certainly combinations of the mutation rate, the aneuploidy rate, the selection strength and the population size for which at least one of these assumptions is violated. Thus, \Cref{eq:T_total} may not yield a good approximation to the actual time to the adapted state.
- %\end{remark}
-
-First, to validate the approximation in \Cref{eq:T_total}, we performed simulations of the full model (\Cref{eq:mutation-aneuploidy-single,eq:drift-single,eq:selection-single}) without aneuploidy, i.e., $\delta=0$ (\Cref{fig:only mut}), and with the other parameters as inferred above. The approximation provides a good fit to simulation results except when the effective population size is larger than $5\cdot 10^6$ cells. In that case, the expected number of new mutants per generation is roughly 0.5, and  we can expect that in many generations the fixation event will start with more than a single \eumt\ cell appearing in the same generation, which violates our assumption that an adaptation event starts from a single mutant cell.
-
-
- \begin{figure}[h!]
- \centering
- \includegraphics[width=\textwidth]{../figures/figgrid_noaneu.pdf}
- \caption{\textbf{Expected adaptation time without aneuploidy.}
-  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) or as a function of the mutation rate, $\mu$ (\textbf{B}). Mean and 95\% CI from simulations in blue. Analytic approximation (\Cref{eq:T_total}) in orange. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. In panel A, $\mu=9.6\cdot 10^{-8}$. In panel B, $N=6\cdot 10^6$.
-  }
-  %TODO MP 
-  % which approximation do you use here for T_i->j ?
-  % The error bars a quite large, can you make them smaller by running more simulations?
-  % --> or by making the y axis in log scale!!
- \label{fig:only mut}
- \end{figure}
- 
- 
- \begin{figure}[h!]
- %\centering
- \includegraphics[width=1\textwidth]{../figures/figgrid_nodirectmut_ylog_uncorr0.jpg}
- \caption{\textbf{Expected adaptation time without mutations from $\euwt$ to $\eumt$.}
-  The expected time to appearance and fixation of \eumt\ as a function of the population size, $N$ (\textbf{A}) and as a function of the mutation rate, $\mu$ (\textbf{B}) and as a function of the aneuploidy rate, $\delta$ ({C}). Blue error bars for mean and 95\% CI from simulations. Green line for the analytic approximation (\Cref{eq:T_total}). % TODO why green? in previous figure it was orange.
-  Red curve for the approximation with $T_{\euwt \to \anwt}=T_{\anwt \to \anmt}=0$. 
-  Orange curve for the approximation with $x=0.017$ in \Cref{eq:T_fix_x} for the fixation time of $\eumt$; we found this gives a good fit in panel B.
-  Here, $w_\anwt=1.021,\, w_\anmt=1.025$ and $w_\eumt=1.028$, $N=6\cdot 10^6$,\, $\mu=9.6\cdot 10^{-8}$ and $\delta=5.4\cdot 10^{-4}$ unless parameter is varied on the x-axis.
-  }
- \label{fig:no direct mut}
- \end{figure}
- 
-  \begin{figure}[h!]
- %\centering
- \includegraphics[width=1\textwidth]{../figures/figgrid_fixT_vs_waitT.jpg}
- \caption{\textbf{Expected time of fixation and waiting time events on the aneuploid trajectory.}
-  The expected time to appearance and fixation of each step seperately in the aneuploid trajectory as a function of the population size, $N$ (panel A) and as a function of the mutation rate, $\mu$ (panel B) and as a function of the aneuploidy rate, $\delta$ (panel C). Solid curves give the fixation time and dashed curves the waiting time. Curves of the same color indicate the same base population state;  e.g. the blue dashed curve is the waiting time in state $\anwt$ until a succesful individual of type $\anmt$ appears. The corresponding solid curve indicates the time to fixation of the population in state $\anwt$. Here, $w_\anwt=1.021,\,   w_\anmt=1.025$ and $w_\eumt=1.028$. Parameter values in panels where it is not varied, $N=6\cdot 10^6$,\, $\mu=9.6\cdot 10^{-8}$ and $\delta=5.4\cdot 10^{-4}$.  }
- \label{fig:fixT vs waitT}
- \end{figure}
- 
-Second, we performed simulations without mutations from $\euwt$ to $\eumt$ (\Cref{fig:no direct mut}). 
-% TODO MP: I comment this out - not clear what "Before" refers to, and not sure we need this sentence. what do you think?
-%Before, we had the optimal scenario of waiting until the first successful mutation appears and then waiting until is reaches fixation. Our approximations did quite well there. 
-Here, aneuploidy is transient and fixation of \anwt\ or \anmt\ could be outpaced by the arrival of the next genotype. This would explain the discrepancy between the green curves in \Cref{fig:no direct mut}.
-To asses this further, \Cref{fig:fixT vs waitT} provides a clear picture. At least for intermediate to high values of the respective range of the parameters, the waiting time until a new genotype appears and does not go to extinction is far shorter compared  to waiting time for fixation of the previous genotype. Taking this into account, it seems reasonable to ignore the fixation time of $\anwt$ and $\anmt$, which results in a better fit between our approximation and simulation results (red curves in \Cref{fig:no direct mut}), although still an overestimation.
-% TODO MP : not sure we should say this without explaining why x=0.017. did we use 0.95 in the approximation or not?
-% Inferring $x=0.017$ for $\tilde{T}_{\anmt \rightarrow \eumt}$ to get the best fit in panel B, does not imply that it is also a best fit for panels A and C. However, we stop simulations in state $\eumt$ if they have frequency $0.95$. 
-The discrepancies in \Cref{fig:no direct mut}C seem to be particularly odd as the approximations are nearly constant whereas the average time from simulations decreases log-linearly with the aneuploidy rate, $\delta$. 
-
-In summary, our approximation fit simulation results with only mutation and without aneuploidy (\Cref{fig:only mut}). With aneuploidy and without a direct mutation from \euwt\ to \eumt\, our approximation agrees with simulations only in a restricted parameter range (\Cref{fig:no direct mut}), but otherwise it seems that some of our assumptions are violated.
-
+%\pagebreak
 
 %%%%%%%%%%
 % Discussion
 \section*{Discussion}
+
+\paragraph*{Results of current study.}
+We inferred the rates and fitness effects of aneuploidy and mutation in a previously published evolutionary experiment in which yeast populations adapted to heat stress~\citep{Yona2012}. 
+First, we estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 1e0^{-6}$~\citep{Zhu2016}. % TODO explain?
+Second, the experiments results cannot be explained without aneuploidy ($\delta=0$) or if aneuploidy is neutral ($w_{\anwt}=w_{\euwt}$, $w_{\anmt}=w_{\eumt}$), and therefore we conclude that aneuploidy plays a significant role in the dynamics.
+Third, we find no evidence for increased mutation rates in aneuploid cells, but more data would have allowed a more conclusive statement. Therefore, the effect of aneuploidy on genetic instability remains to be explored in future work.
+Fourth, we simulated genotype frequency dynamics using inferred rates and fitness effects of aneuploidy and mutation. We found that the aneuploid mutant, \anmt, never reaches high frequency, in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004}. % TODO ref komarova & nowak
+Furthermore, we find that XXXX. % TODO transient solution?
 
 \paragraph*{Aneuploidy is not just another type of mutation.}
 The published data indicate that, like mutation, aneuploidy can be both deleterious and beneficial~\citep{Pavelka2010, Sheltzer2011}.
@@ -575,6 +478,7 @@ Fourth, aneuploidy is a reversible state, as the rate of chromosome loss is high
 Indeed, aneuploidy often provides a transient solution: under short-term stress conditions, aneuploidy reverts (chromosome number returns to normal) when the stress subsides; under long-term stress conditions, aneuploidy reverts when refined solutions, generated by beneficial mutations, take over~\citep{Yona2012}.
 Finally, aneuploidy results in increased genome instability, potentially increasing genetic variation by a positive feedback loop~\citep{Rancati2013, Bouchonville2009, Zhu2012}, while also increasing its own transience.
 
+% TODO do we want the following two paragraphs?
 \paragraph*{Evolutionary theory of aneuploidy.}
 The role of aneuploidy in adaptation has only recently been observed~\citep{Sionov2010, Yona2012, Gerstein2015}, and is largely missing from the literature on evolution and adaptation:
 the introductory textbook \emph{Evolution} by~\citet{Bergstrom2012} does not mention the word aneuploidy, and the graduate-level book \emph{Mutation-Driven Evolution} by~\citet{Nei2013} only briefly mentions aneuploidy in the context of speciation, but not adaptation.
@@ -584,7 +488,7 @@ Therefore, there is a critical need to develop an evolutionary theory of aneuplo
 An evolutionary theory of aneuploidy will be central to the interpretation of experimental and clinical observations and design of new hypotheses, experiments, and treatments~\citep{Carja2014}.
 For example, despite the lack of theoretical models, aneuploidy has been invoked in a new strategy to combat pathogens and tumour cells by setting ``evolutionary traps''~\citep{Gerstein2015,Chen2015}, in which a condition that predictably leads to emergence of aneuploidy is applied, followed by a condition that specifically selects against aneuploid cells.
 
-\pagebreak
+%\pagebreak
 % Acknowledgements
 {\small
 \section*{Acknowledgements}
@@ -603,60 +507,61 @@ Minerva Stiftung Center for Lab Evolution (YR).
 \section*{Supplementary Material}
 \beginsupplement % https://support.authorea.com/en-us/article/how-to-create-an-appendix-section-or-supplementary-information-1g25i5a/
 
-% Fig Curveball 
-\begin{figure}[h]
-	\centering
-	% generated with growth_curves.ipynb and deg = '39' 
-	\includegraphics[width=.95\textwidth]{../figures/evo39_fitness_39deg.pdf} 
-	% generated with growth_curves_refined.ipynb
-	\includegraphics[width=0.95\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
-\caption{
-    \textbf{Fitness estimation from growth curves.}
-    % TODO IK caption should explain what each panel shows.
-    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}. $\hat w_{2n+1}/w_{2n}$=1.024 (95\% CI: 0.959 - 1.115).
-    \textbf{(E-H)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}. $\hat w_{2n*}/w_{2n+1}$=1.033 (95\% CI: 1.027 - 1.041).
-    Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
-	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.
-} 
-\label{fig:growth-curves}
-\end{figure}
+\subsection*{Supplementary Analysis}
+\label{sec:supp_analysis}
 
-% Fig likelihood profile
-%% generated by sensitivity-analysis.ipynb
-\begin{figure}[p]
-  \centering
-  \begin{subfigure}{0.3\textwidth}
-      \includegraphics[width=\textwidth]{../figures/sensitivity-A.pdf}      
-      \label{fig:sensitivity-mutation}
-  \end{subfigure}
-  \begin{subfigure}{0.3\textwidth}
-      \includegraphics[width=\textwidth]{../figures/sensitivity-B.pdf}      
-      \label{fig:sensitivity-aneuploidy}
-  \end{subfigure}
-  \\
-   \begin{subfigure}{0.3\textwidth}
-      \includegraphics[width=\textwidth]{../figures/sensitivity-C.pdf}      
-      \label{fig:sensitivity-anwt}
-  \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \includegraphics[width=\textwidth]{../figures/sensitivity-D.pdf}      
-      \label{fig:sensitivity-anmt}
-  \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \includegraphics[width=\textwidth]{../figures/sensitivity-E.pdf}      
-      \label{fig:sensitivity-eumt}
-  \end{subfigure}
-  \caption{
-    \textbf{Likelihood profiles.} Sensitivity of the model approximate likelihood, $\likelihood(\theta)$, to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value. The prior distributions for the mutation rate and aneuploidy rate are $\mu \sim U(10^{-9}, 10^{-5})$ and $\delta \sim U(10^{-6}, 10^{-2})$, respectively. 
-  }
-  
-  \label{fig:sensitivity}
-\end{figure}
+\paragraph*{Sensitivity analysis.} 
+Changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
+Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$.
+We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter, in which the inferred mutation rate is $\mu \approx 3\cdot10^{-6}$.
+Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates, including higher aneuploidy rate and lower fitness values for \anwt\ and \eumt~(\Cref{fig:mu}).
+
+\paragraph*{Extended informative prior distribution.}
+In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
+Thus, our main informative prior uses a single prior distribution for fitness values of \anwt, \anmt, and \eumt, whereas the extended informative prior uses one distribution for \anwt, and another distribution for both \anmt\ and \eumt. 
+
+% generated with alt-prior.ipynb
+We estimated the parameters under this extended informative prior.
+Inference took much longer to run but the posterior distribution seemed to converge, as it did not change much in the final iterations. 
+The posterior predictive plot shows that inference with this extended prior produces a posterior distribution that fails to explain the empirical observations~(pink in Figure~\ref{fig:2n*-fixation}).
+However, the inferred posterior distribution is considerably narrower (compare \Cref{fig:posterior,fig:posterior-alt}) and therefore parameter estimates are less variable.
+The estimated mutation rate was much lower compared to the main informative prior, 
+% generated with MAP-and-hdi.ipynb
+with $\mu=2.475\cdot10^{-9}\ [2.419\cdot10^{-9}-2.609\cdot10^{-9}]$. Other parameter estimates are: $\delta=2.707\cdot10^{-3}\ [2.093\cdot10^{-3}-3.092\cdot10^{-3}]$,
+$w_{\anwt}=1.022\ [1.021-1.024]$,
+$w_{\anmt}=1.029\ [1.027-1.03]$,
+$w_{\eumt}=1.03\ [1.029-1.031]$. 
+Notably, the maximum posterior ratio $w_{\eumt}/w_{\anwt}=1.007$ is much lower than the maximum prior ratio of $1.033$ (\Cref{fig:growth-curves}H) and closer to the ratio of $1$ that we assume in our standard prior.
+Together with the posterior predictive results, we conclude that the main informative prior is preferable over the extended informative prior.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection*{Supplementary Figures \& Tables}
+
+
+% Fig Validation of posteriors
+%% generated with diff-runs.ipynb
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=0.45\textwidth]{../figures/runs-A.pdf}      
+      \includegraphics[width=0.45\textwidth]{../figures/runs-B.pdf}    
+      \includegraphics[width=0.325\textwidth]{../figures/runs-C.pdf}      
+      \includegraphics[width=0.325\textwidth]{../figures/runs-D.pdf}      
+      \includegraphics[width=0.325\textwidth]{../figures/runs-E.pdf} 
+       \caption{
+    \textbf{Posterior distribution validation.}
+    The posterior distribution of model parameters is roughly the same regardless of the number of simulations (4-10,000 replicates) used to approximate the likelihood (\cref{eq:heatstress-likelihood}).
+    } 
+     
+     \label{fig:seeds}
+ \end{figure}
+
 
 
 % Fig ABC iterations, convergence
 %% generated with convergence.ipynb
-\begin{figure}[h]
+\begin{figure}[p]
 
   \begin{subfigure}{1\textwidth}
     \centering
@@ -675,33 +580,36 @@ Minerva Stiftung Center for Lab Evolution (YR).
     \caption{
     \textbf{Inference convergence.} 
     The ABC-SMC algorithm was used to infer the model parameters. \textbf{(A-E)} The approximate posterior distributions of model parameters at each iteration of the ABC-SMC algorithm demonstrates convergence, as the posterior did not significantly change after the first iteration, $t=1$.
-    \textbf{(F-I)} ABC-SMC measures of convergence. After iteration number 6, the acceptance threshold was $\epsilon=0.13$, the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size ESS=651.
+    \textbf{(F-I)} ABC-SMC measures of convergence. After iteration number 6, the acceptance threshold was $\epsilon=0.13$ (i.e., $\likelihood=0.87$, \cref{eq:heatstress-likelihood}), the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size ESS=651.
 }
     \label{fig:convergence}
 \end{figure}
 
 
-% Fig Validation of posteriors
-%% generated with diff-runs.ipynb
-\begin{figure}[h]
-    \centering
-      \includegraphics[width=0.45\textwidth]{../figures/runs-A.pdf}      
-      \includegraphics[width=0.45\textwidth]{../figures/runs-B.pdf}    
-      \includegraphics[width=0.325\textwidth]{../figures/runs-C.pdf}      
-      \includegraphics[width=0.325\textwidth]{../figures/runs-D.pdf}      
-      \includegraphics[width=0.325\textwidth]{../figures/runs-E.pdf} 
-       \caption{
-    \textbf{Posterior distribution validation.}
-    The posterior distribution of model parameters is roughly the same regardless of the number of simulations (4-10,000 replicates) used to approximate the likelihood (\Cref{eq:heatstress-likelihood}).
-    } 
-     
-     \label{fig:seeds}
- \end{figure}
- 
- % Fig tau comparisons
+
+% Fig Curveball 
+\begin{figure}[p]
+	\centering
+	% generated with growth_curves.ipynb and deg = '39' 
+	\includegraphics[width=.95\textwidth]{../figures/evo39_fitness_39deg.pdf} 
+	% generated with growth_curves_refined.ipynb
+	\includegraphics[width=0.95\textwidth]{../figures/refined_vs_evo39_fitness_39deg.pdf}
+\caption{
+    \textbf{Fitness estimation from growth curves.}
+    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}. $ w_{\anwt}/w_{\euwt}$=1.024 (95\% CI: 0.959 - 1.115). \texttt{Curveball} 
+    \textbf{(E-H)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}. $ w_{\eumt}/w_{\anwt}$=1.033 (95\% CI: 1.027 - 1.041).
+    Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
+	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.  \textbf{(A,B;E,F)} Mono-culture growth curve data (markers) and best-fit growth models (lines).
+\textbf{(C,G)} The mixed-culture prediction for the strains from A,B and E,F respectively, 6,375 generated curves. \textbf{(D,H)} The relative fitness distribution for \anwt\ relative to \euwt\ (panel D) and \eumt\ relative to \anwt\ (panel H). Figures generated by \texttt{Curveball}.
+} 
+\label{fig:growth-curves}
+\end{figure}
+
+
+
+% Fig tau comparisons
 %% generated with diff-tau.ipynb
-% TODO IK 10_000 reps is mocked, should be rerunned and fixed
-\begin{figure}[h!]
+\begin{figure}[p]
   \centering
   \begin{subfigure}{0.45\textwidth}
       \includegraphics[width=\textwidth]{../figures/tau-A.pdf}      
@@ -739,20 +647,162 @@ Minerva Stiftung Center for Lab Evolution (YR).
       \includegraphics[width=\textwidth]{../figures/tau-joint-K.pdf}      
   \end{subfigure}
   \caption{
-    \textbf{Model with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions for models with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rate tends to be lower. 
+    \textbf{Model with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions for models with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). Vertical dashed lines represent the MAP (maximum a posteriori) of each distribution. When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rates tend to be lower. 
     \textbf{(F-K)} The inferred joint posterior distribution of mutation rate ($\mu$) and aneuploidy rate ($\delta$) with different $\tau$ values (dark purple and bright yellow for low and high density, respectively).
   \label{fig:tau}
   }
-  % TODO IK maybe add dashed vertical lines with the same colors to show where the MAP of each distribution is?
-  
   \end{figure}
- 
-%TODO YR read this 
+  
+  
+  
+% Fig tau plots
+%% generated by diff-tau-more-plots.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.75\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-diff-a.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.75\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-diff-b.pdf}      
+  \end{subfigure}
+   \begin{subfigure}{0.75\textwidth}
+      \includegraphics[width=\textwidth]{../figures/tau-diff-c.pdf}      
+  \end{subfigure}
+   \caption{
+    \textbf{Genotype fixations for models with increased genetic instability.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the frequency of genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is above 95\% (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if the waiting time for $f_{\euwt}<95\%$ is known (panel~A) or if the waiting time for $f_{\anwt}>95\%$ or $f_{\anwt}<95\%$ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
+  }
+  \label{fig:tau-plots}
+\end{figure}
+
+
+
+% Fig likelihood profile
+%% generated by sensitivity-analysis.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-A.pdf}      
+      \label{fig:sensitivity-mutation}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-B.pdf}      
+      \label{fig:sensitivity-aneuploidy}
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-C.pdf}      
+      \label{fig:sensitivity-anwt}
+  \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-D.pdf}      
+      \label{fig:sensitivity-anmt}
+  \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../figures/sensitivity-E.pdf}      
+      \label{fig:sensitivity-eumt}
+  \end{subfigure}
+  \caption{
+    \textbf{Likelihood profiles.} Sensitivity of the model approximate likelihood, $\likelihood(\theta)$, to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value. The prior distributions for the mutation rate and aneuploidy rate are $\mu \sim U(10^{-9}, 10^{-5})$ and $\delta \sim U(10^{-6}, 10^{-2})$, respectively. 
+  }
+  
+  \label{fig:sensitivity}
+\end{figure}
+
+
+    
+% Fig mu comparisons
+%% generated with diff-mutation-rate.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-A.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-B.pdf}      
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-C.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{../figures/mu-D.pdf}      
+    \end{subfigure}
+  \caption{
+    \textbf{Model with fixed mutation rate.}  \textbf{(A-D)} The inferred posterior distributions for models with free and fixed mutation rate, $\mu$. The MAP (maximum a posteriori) and 50\% HDI (highest density interval) for each model are: 
+\textbf{free $\boldsymbol{\mu}$, run 1:}
+$\delta=2.749\cdot10^{-3}\ [1.476\cdot10^{-3}-2.822\cdot10^{-3}]$,
+$w_{\anwt}=1.022\ [1.021-1.023]$,
+$w_{\anmt}=1.025\ [1.023-1.026]$,
+$w_{\eumt}=1.027\ [1.026-1.029]$;
+\textbf{free $\boldsymbol{\mu}$, run 2:}
+$\delta=1.938\cdot10^{-3}\ [1.338\cdot10^{-3}-2.748\cdot10^{-3}]$,
+$w_{\anwt}=1.022\ [1.02-1.023]$,
+$w_{\anmt}=1.025\ [1.023-1.026]$,
+$w_{\eumt}=1.027\ [1.026-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-5}}$:}
+$\delta=3.089\cdot10^{-3}\ [2.412\cdot10^{-3}-3.169\cdot10^{-3}]$,
+$w_{\anwt}=1.022\ [1.021-1.023]$,
+$w_{\anmt}=1.024\ [1.023-1.026]$,
+$w_{\eumt}=1.027\ [1.026-1.028]$;
+\textbf{$\boldsymbol{\mu=10^{-6}}$:}
+$\delta=1.413\cdot10^{-3}\ [1.04\cdot10^{-3}-2.529\cdot10^{-3}]$,
+$w_{\anwt}=1.021\ [1.02-1.023]$,
+$w_{\anmt}=1.024\ [1.023-1.026]$,
+$w_{\eumt}=1.028\ [1.026-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-7}}$:}
+$\delta=3.4\cdot10^{-3}\ [2.043\cdot10^{-3}-3.578\cdot10^{-3}]$,
+$w_{\anwt}=1.019\ [1.017-1.02]$,
+$w_{\anmt}=1.026\ [1.024-1.027]$,
+$w_{\eumt}=1.027\ [1.026-1.029]$.
+\label{fig:mu}
+  }
+\end{figure}
+
+
+
+% FIG posterior alt-prior
+%% generated with alt-prior.ipynb
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../figures/posterior-alt.pdf}
+  \caption{
+  \textbf{Posterior distribution of parameters inferred with the extended prior distribution.}
+On the diagonal, the inferred posterior distribution of each model parameter. 
+Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+} 
+  \label{fig:posterior-alt}
+\end{figure}
+
+% FIG posterior F_A supplementary
+\begin{figure}[p]
+	\begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_fitr_from_wt.pdf}      
+	\end{subfigure}
+	  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_fitr_mut.pdf}
+  \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_means_log.pdf}
+    \end{subfigure}    
+  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{../figures/plot_rateratios_means.pdf}
+  \end{subfigure}
+	\caption{\textbf{Posterior distribution of $F_A$.}
+	\textbf{(A,B)} $F_A$ values (color coded) as in \Cref{fig:ppc-plot} for different parameter choices on the x- and y-axes. White start denotes the MAP estimate.
+	\textbf{(C,D)} $F_A$ values (y-axis) as a function of $\delta/\mu$, the aneuploidy-to-mutation rate ratio.
+	}
+    \label{fig:posterior_FA_supp}
+\end{figure}
+
 %% generated with WAIC.ipynb 
 \begin{table}[h]
 \centering
 \caption{
-\textbf{WAIC values for various model specifications.}}
+\textbf{WAIC values for different $\tau$ values.}}
 \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
@@ -760,8 +810,7 @@ Minerva Stiftung Center for Lab Evolution (YR).
     every last row/.style={after row=\hline},
     ]{../figures/Table_WAIC.csv} 
 \caption*{
-	TODO caption
-	%TODO IK caption; what is tau in models 1-5?
+	WAIC defined in \cref{eq:WAIC}.
 } 
 \label{table:WAIC}
 \end{table}
