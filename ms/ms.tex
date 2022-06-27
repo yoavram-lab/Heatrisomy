@@ -406,17 +406,17 @@ We also checked the differences in genotype frequency dynamics for different $\t
 
 We simulated 50 replicate genotype frequency dynamics using the MAP estimate parameters. 
 \Cref{fig:ppc-plot}A shows the simulated frequencies of the four genotypes (\euwt, \anwt, \anmt\ and \eumt), as well as the frequencies of \eumt\ cells that arose from either \anwt\ cells via a sequences of mutation and chromosome loss events ($2n^*_A$), or directly from \euwt\ cells via a mutation event ($2n^*_M$).
-We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt.
+We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt. 
 
 \citet{Yona2012} have suggested that aneuploidy is a transient adaptive solution, arising quickly due to increased fitness and high formation rate, but 
 ultimately lost due to the cost of aneuploidy as beneficial mutations take over.
 We tested this hypothesis by estimating $F_A$, the expected frequency of \eumt\ that arose from \anwt, as the average frequency of such cells at the end of simulations using the MAP estimate parameters.
-Surprisingly, we observe that the majority of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:ppc-plot}A). % TODO update numbers
+Surprisingly, we observe that the majority of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:ppc-plot}A). 
 This is despite the fact that the \anwt\ genotype reaches high frequencies in the population (at least 0.98, \Cref{fig:ppc-plot}A).
 
 This result is not unique to the MAP parameter estimate. 
 We simulated genotype frequency dynamics using parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the posterior distribution of $F_A$ (\Cref{fig:ppc-plot}B). 
-The mean $F_A$ was just 0.1675 [0.0142 - 0.3758 95\% CI] and only in 408 of 86,349 posterior samples (0.47\%) $F_A$ was  larger than 0.5, that is, \eumt\ was more likely to arise from an aneuploid cell.  
+The mean $F_A$ was just 0.1673 [0.0154-0.370 95\% CI] and only in 489 of 100,000 posterior samples (0.489\%) $F_A$ was  larger than 0.5, that is, \eumt\ was more likely to arise from an aneuploid cell.  
 Thus, if we pick up a cell from the evolved \eumt\ population, it is more likely to have descended directly from an euploid cell than from an aneuploid cell.
 The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate, $\mu$, and in some cases can also be affected by the fitness parameters (\Cref{fig:ppc-plot}C and \Cref{fig:posterior_FA_supp}).
 
@@ -438,12 +438,12 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
   \end{subfigure}
   \caption{
     \textbf{Posterior genotype frequency dynamics.}     
-    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, where as $2n^*_M$ arose directly from $2n$. Shown are 50 simulations using the MAP estimate parameters.
-    \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells that arose from \anwt cells, computed as the average frequency at the end of 50 simulations for 86,349 samples from the parameter posterior distribution.
+    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, whereas $2n^*_M$ arose directly from $2n$. Shown are 50 simulations using the MAP estimate parameters.
+    \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells descended from \anwt\ cells, computed as the average frequency at the end of 100 simulations for 100,000 samples from the parameter posterior distribution.
     Solid and dashed lines show the mean and 95\% CI.
 	\textbf{(C)} $F_A$ values (color coded) from panel B, with their corresponding mutation rate $\mu$ on x-axis and aneuploidy rate $\delta$ on the y-axis.
 	White star shows the MAP estimate. See also \Cref{fig:posterior_FA_supp}.
-     } % TODO update numbers
+     }
   \label{fig:ppc-plot}
 \end{figure}
 
@@ -456,7 +456,7 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
 
 \paragraph*{Results of current study.}
 We inferred the rates and fitness effects of aneuploidy and mutation in a previously published evolutionary experiment in which yeast populations adapted to heat stress~\citep{Yona2012}. 
-First, we estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 1e0^{-6}$~\citep{Zhu2016}. % TODO explain?
+First, we estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 10^{-6}$~\citep{Zhu2016}. % TODO explain?
 Second, the experiments results cannot be explained without aneuploidy ($\delta=0$) or if aneuploidy is neutral ($w_{\anwt}=w_{\euwt}$, $w_{\anmt}=w_{\eumt}$), and therefore we conclude that aneuploidy plays a significant role in the dynamics.
 Third, we find no evidence for increased mutation rates in aneuploid cells, but more data would have allowed a more conclusive statement. Therefore, the effect of aneuploidy on genetic instability remains to be explored in future work.
 Fourth, we simulated genotype frequency dynamics using inferred rates and fitness effects of aneuploidy and mutation. We found that the aneuploid mutant, \anmt, never reaches high frequency, in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004}. % TODO ref komarova & nowak
@@ -492,11 +492,12 @@ For example, despite the lack of theoretical models, aneuploidy has been invoked
 % Acknowledgements
 {\small
 \section*{Acknowledgements}
-We thank Yitzhak Pilpel, Orna Dahan, Lilach Hadany, Judith Berman, David Gresham, Shay Covo, Martin Kupiec, and Tal Simon for discussions and comments.
+We thank Yitzhak Pilpel, Orna Dahan, Lilach Hadany, Judith Berman, David Gresham, Shay Covo, Martin Kupiec, Uri Obolski, and Tal Simon for discussions and comments.
 This work was supported in part by 
-the Israel Science Foundation (YR 552/19) and
-Minerva Stiftung Center for Lab Evolution (YR).
-% TODO add Minerva for Martin; funding for Avihu?
+the Israel Science Foundation (YR 552/19),
+Minerva Stiftung Center for Lab Evolution (YR),
+Minerva Stiftung short-term research grant (MP).
+% TODO funding for Avihu
 }
 
 \bibliographystyle{agsm}
@@ -783,17 +784,8 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
       \centering
       \includegraphics[width=\textwidth]{../figures/scatter100000_rater_fitr_mut.pdf}
   \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../figures/scatter100000_rater_means_log.pdf}
-    \end{subfigure}    
-  \begin{subfigure}{0.5\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../figures/plot_rateratios_means.pdf}
-  \end{subfigure}
 	\caption{\textbf{Posterior distribution of $F_A$.}
-	\textbf{(A,B)} $F_A$ values (color coded) as in \Cref{fig:ppc-plot} for different parameter choices on the x- and y-axes. White start denotes the MAP estimate.
-	\textbf{(C,D)} $F_A$ values (y-axis) as a function of $\delta/\mu$, the aneuploidy-to-mutation rate ratio.
+	\textbf{(A,B)} $F_A$ values (color coded) as in \Cref{fig:ppc-plot} for different parameter choices on the x- and y-axes. White star denotes the MAP estimate.
 	}
     \label{fig:posterior_FA_supp}
 \end{figure}
