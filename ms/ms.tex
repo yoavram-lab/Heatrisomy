@@ -97,7 +97,7 @@ headheight=12pt
 
 % Title page
 % Chromosomal duplication is a transient evolutionary solution to stress
-\title{Aneuploidy is an evolutionary sidetrack on the path to adaptation}
+\title{Aneuploidy may be an evolutionary sidetrack on the path to adaptation}
 
 % Authors
 \renewcommand\Affilfont{\small}
@@ -119,8 +119,8 @@ The Hebrew University of Jerusalem, Israel}
 \begin{document}
 \maketitle
 
-% Abstract
-\begin{abstract}
+% Abstract 250 words
+\begin{abstract} 
 BLA
 %Aneuploidy is common in eukaryotes, often leading to decreased cell growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that aneuploidy can be beneficial under stressful conditions and lead to elevated growth rates and adaptation.
 %Importantly, aneuploidy differs from point mutations in rate, fitness effect, and reversibility.
@@ -131,6 +131,12 @@ BLA
 %Our results support the hypothesis that aneuploidy is a transient adaptive hypothesis: the experimental populations adapted by first acquiring a chromosome duplication; then by acquiring a beneficial mutation that likely appeared in aneuploid cells, rather than euploid cells; and finally by rapidly losing the extra chromosome to avoid paying the fitness cost of aneuploidy.
 \end{abstract}
 
+% TODO Significance statement 120 words
+
+Classifications. Biological Sciences: Evolution, Genetics, Microbiology, Population Biology.
+
+Keywords: aneuploidy, evolutionary model, adaptive evolution
+
 % TODO cite https://www.biorxiv.org/content/10.1101/2020.10.07.327759v1
 % cite: https://www.cell.com/developmental-cell/fulltext/S1534-5807(21)00562-1?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1534580721005621%3Fshowall%3Dtrue
 % cite: https://www.cell.com/developmental-cell/fulltext/S1534-5807(21)00592-X?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS153458072100592X%3Fshowall%3Dtrue
@@ -139,59 +145,55 @@ BLA
 % Introduction
 \section*{Introduction}
 
-%\paragraph*{Aneuploidy is common in eukaryotes.}
+%\paragraph{Aneuploidy is common in eukaryotes.}
 Aneuploidy is an imbalance in the number of chromosomes in the cell: an incorrect karyotype.
 Evidence suggests aneuploidy is very common in eukaryotes, e.g. animals~\citep{Santaguida2015review, Naylor2016, Bakhoum2017}, and fungi~\citep{Pavelka2010, Zhu2016, Robbins2017, Todd2017}.
 Aneuploidy has been implicated in cancer formation and progression~\citep{Boveri2008, Schvartzman2010,Santaguida2015review}.
 %90\% of solid tumours and 50\% of blood cancers are aneuploid~\citep{Santaguida2015review}.
 It is also common in protozoan pathogens of the Leishmania genus, a major global health concern~\citep{Mannaert2012}, and contributes to the emergence of drug resistance~\citep{Selmecki2009} and virulence~\citep{Moller2018} in fungal pathogens, which are under-studied~\citep{Rodrigues2018}, despite infecting a billion people per year, causing significant morbidity in >150 million and death in >1.5 million people per year~\citep{Selmecki2009, Rodrigues2018}.
 
-%\paragraph*{Aneuploidy is generally deleterious.}
+%\paragraph{Aneuploidy is generally deleterious.}
 %The molecular and genetic mechanisms involved in aneuploidy have been explored~\citep{Musacchio2007, Sheltzer2011, Chen2012b, Rancati2013, Gerstein2015, Shor2015}.
 Experiments with human and mouse embryos found that aneuploidy is usually lethal.
 It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
 Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Kasuga2016, Yang2021}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018} and hypo-osmotic-like stress~\citep{Tsai2019}.
 
-%\paragraph*{Aneuploidy can lead to adaptation.}
+%\paragraph{Aneuploidy can lead to adaptation.}
 However, aneuploidy can be beneficial under stressful conditions due to the wide range of phenotypes it can produce, some of which are advantageous~\citep{Pavelka2010, Yang2021}.
 Thus, aneuploidy can lead to rapid adaptation in unicellular eukaryotes~\citep{Gerstein2015,Torres2010, Hong2014, Rancati2008}, as well as to rapid growth of somatic tumour cells~\citep{Schvartzman2010, Sheltzer2017}.
 For example, aneuploidy in \yeast facilitates adaptation to a variety of stressful conditions like heat and pH~\citep{Yona2012}, copper~\citep{Covo2014, Gerstein2015}, salt~\citep{Dhar2011}, and nutrient limitation~\citep{Dunham2002, Gresham2008, Avecilla2022}, with similar results in \calbicans~\citep{Yang2021}.
 Importantly, aneuploidy can also lead to drug resistance in pathogenic fungi such as \calbicans~\citep{Selmecki2008, Selmecki2010, Gerstein2018} and \cneoformans~\citep{Sionov2010}, which cause candidiasis and meningoencephalitis, respectively.
 
-%\paragraph*{Transient adaptive solution.} 
+%\paragraph{Transient adaptive solution.} 
 Experimental evidence for the role of aneuploidy in adaptive evolution was demonstrated by \citet{Yona2012}. They evolved populations of \yeast under strong heat stress.
 The populations adapted to the heat stress within 450 generations, and this adaptation was determined to be due a duplication of chromosome III.
 Later on, after more than 1,500 generations, the populations reverted back to an euploid state, while remaining adapted to the heat stress. 
 The authors hypothesized that aneuploidy is a \emph{transient adaptive solution}, because it can rapidly appear and fixate in the population under stressful conditions, and can then be rapidly lost when the cost of aneuploidy outweighs its benefit---after the stress is removed, or after "refined" beneficial mutations appear and fixate.
 
-%\paragraph*{The present study.}
+%\paragraph{The present study.}
 Here, we test the hypothesis that aneuploidy is a \emph{transient adaptive solution}.
 First, we analyze previously unpublished sequencing data from the original experimental populations of \citet{Yona2012} to assess if the aneuploid population and the evolved euploid population carry the same mutant alleles, as expected if the later is descended from the former.
 Second, we develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} in order to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
-Our results show that, despite aneuploidy having reached high frequencies in the experimental populations, the majority of cells in the evolved euploid populations likely did not descend from aneuploid cells, but rather directly from wild type euploid cells.
+Our results show that, despite aneuploidy having reached high frequencies in the experimental populations, the majority of cells in the evolved euploid populations likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
 These results suggest that aneuploidy may have been a sidetrack, rather than a stepping stone, on the path to adaptation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results
 \section*{Results}
+In the heat-stress experiment of \citet{Yona2012}, four populations of \yeast evolved under \SI{39}{\celsius}.
+Aneuploidy fixed in all four experimental repetitions in the first 450 generations.
+Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a chromosome III trisomy.
+These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350.
 
-\paragraph{DNA sequencing.} 
-
-In the heat-stress experiment of \citet{Yona2012}, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four experimental repetitions in the first 450 generations. Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a chromosome III trisomy. These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350.
-For each of these two populations we sequenced the ancestral population (generation zero), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations}).
+\paragraph{Empirical frequencies of mutant alleles.} 
+Our first test of the \emph{transient adaptive solution hypothesis} employs previously unpublished sequencing data.
+For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral population (generation zero), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations}).
 Overall, between 100 and 173 mutant alleles were detected with at least a single read in the six population that were sampled. 
 Disregarding 45 and 40 alleles that were present in the ancestral populations at a frequency >10\%, the aneuploid and euploid populations carried a large number of mutant alleles: 82 and 95, respectively, in repetition $H2$, and 60 and 66 in repetition $H4$.
 
-Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
-Moreover, a high mutant allele frequency in the aneuploid population implies a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}). 
-Specifically, for the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
-Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
-Thus, mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost, and most evolved euploid cells are likely not descendent from aneuploid~cells.
-
-
 %%%%%%%% Fig mutation frequencies
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
     \includegraphics[width=\textwidth]{../figures/mutation_frequencies.pdf}      
   \caption{
@@ -206,15 +208,30 @@ Dashed vertical and horizontal lines show allele frequencies 20\%. Error bars sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
+Furthermore, a high mutant allele frequency in the aneuploid population implies a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), such that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
+Moreover, for the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
+Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
+These results suggest evolved euploid cells are unlikely to descend from aneuploid~cells.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \paragraph{Evolutionary genetic model.} 
-% TODO continue here
+To further test the \emph{transient adaptive solution hypothesis}, we developed an evolutionary genetic model, fitted the model to empirical data, and used it to predict the genotype frequency dynamics, or specifically, the fraction of the evolved euploid population descended from aneuploid cells. 
 
-We develop an evolutionary genetic model that that includes the effects of natural selection, genetic drift, aneuploidy, and mutation to examine the role of aneuploidy in adaptive evolution.
-The model follows a population of cells characterised by both their ploidy and their genotype, fit this model to the experimental results of \citet{Yona2012} using an \emph{approximate Bayesian computation} framework~\citep{Sisson2009} to infer model parameters, including rates and fitness effects of aneuploidy and mutation, and to test hypotheses about the evolutionary process by comparing different versions of the model and predicting the genotype frequency dynamics using the estimated parameter values.
+The model includes the effects of natural selection, genetic drift, aneuploidy, and mutation, and follows a population of cells characterized by both their genotype: 
+euploid wild-type, \euwt, is the ancestral diploid genotype; 
+euploid mutant, \eumt, has a diploid karyotype and a single beneficial mutation; 
+aneuploid wild-type, \anwt, has an extra chromosome due to a chromosome duplication event; and
+aneuploid mutant, \anmt, has and extra chromosome and a beneficial mutation.
+Fitness values of the different genotypes are denoted by $w_{\euwt}$, $w_{\eumt}$, $w_{\anwt}$, and $w_{\anmt}$, and the rate of mutation and aneuploidy are denoted by $\mu$ and $\delta$. See \Cref{fig:models} for an illustration of the model.
+
+We fitted this model to the experimental results\citep{Yona2012} -- time for fixation and for loss of aneuploidy -- using approximate Bayesian computation with sequential Monte Carol, or ABC-SMC~\citep{Sisson2009}, thereby inferring the model parameters: rates and fitness effects of aneuploidy and mutation.
+We then sampled posterior predictions for the genotype frequency dynamics using the estimated parameter values and compared different versions of the model to test additional hypotheses about the evolutionary process.
 
 
-%%%%%%%% Fig illustation
-\begin{figure}[b!]
+%%%%%%%% Fig illustration
+\begin{figure}[h]
   \centering
     \includegraphics[height=1.8in]{../figures/Fig1-A.pdf}      
   \caption{
@@ -228,8 +245,8 @@ The model follows a population of cells characterised by both their ploidy and t
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph{Rates and fitness effects of aneuploidy and mutation.} 
-We used ABC-SMC to infer the posterior distribution of model parameters~(\Cref{fig:posterior}). 
+\paragraph{Estimated rates and fitness effects of aneuploidy and mutation.} 
+We inferred the posterior distribution of model parameters~(\Cref{fig:posterior}). 
 We report parameter estimates using the MAP (maximum a posteriori) and providing the 50\% HDI (highest density interval) in square brackets. See \emph{Supporting material} for sensitivity analysis.
 %% estimates generated by MAP-and-hdi.ipynb
 The estimated mutation rate, $\mu=2.965\cdot10^{-6}\ [2.718\cdot10^{-7}-3.589\cdot10^{-6}]$, corresponds to a mutation target size of $\sim 10^{4}$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$~\citep{Zhu2014} or $3.3\cdot10^{-10}$~\citep{Lynch2008}.
@@ -241,7 +258,7 @@ Thus, we can infer that the cost of trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$
 
 % FIG posterior
 %% generated with posterior-plot.ipynb
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
 \includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
   \caption{
@@ -253,7 +270,7 @@ Below the diagonal, the joint posterior distribution of pairs of model parameter
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph{Role of aneuploidy in the evolutionary dynamics.}
+\paragraph{Model comparison and goodness-of-fit.}
 
 Our model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B).
  
@@ -262,8 +279,7 @@ The estimated mutation rate without aneuploidy is $\mu=7.98\cdot10^{-9}\ [7.906\
 The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$.
 This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
 
-We also checked a model in which aneuploidy occurs but is adaptively neutral compared to the wild type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$~(\Cref{fig:2n*-fixation}). 
-Thus, our results suggest that aneuploidy significantly affects the evolutionary dynamics.
+We also checked a model in which aneuploidy occurs but is adaptively neutral compared to the wild-type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$~(\Cref{fig:2n*-fixation}). 
 
 % Fig model comparison 
 %% generated with with-aneuploidy_vs_no_aneuploidy.ipynb
@@ -290,45 +306,24 @@ The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84, 0.78, 0.67, and 0.
   \label{fig:2n*-fixation}
 \end{figure}
 
-
-
-% Rancati G, Pavelka N. Karyotypic changes as drivers and catalyzers of cellular evolvability: A perspective from non-pathogenic yeasts. Semin Cell Dev Biol. 2013;24(4):332-338. doi:10.1016/j.semcdb.2013.01.009
-% Bouchonville K, Forche A, Tang KES, Semple C a M, Berman J. Aneuploid chromosomes are highly unstable during DNA transformation of Candida albicans. Eukaryot Cell. 2009;8(10):1554-1566. doi:10.1128/EC.00209-09
-% Zhu J, Pavelka N, Bradford WD, Rancati G, Li R. Karyotypic determinants of chromosome instability in aneuploid budding yeast. PLoS Genet. 2012;8(5). doi:10.1371/journal.pgen.1002719
-
-\paragraph*{Genetic instability in aneuploid cells.}
-It has been suggested that aneuploidy increased genetic instability~\citep{Sheltzer2011b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
-We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
-%% generated with MAP-and-hdi.ipynb
-With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=4.094\cdot10^{-7}\ [6.252\cdot10^{-8}-6.046\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.744\cdot10^{-3}\ [0.506\cdot10^{-3}-1.827\cdot10^{-3}]$). 
-With $\tau=10$, the estimated mutation rate was only slightly lower compared to $\tau=1$ ($\mu=1.67\cdot10^{-6}\ [2.836\cdot10^{-8}-2.245\cdot10^{-6}]$). 
-WAIC is lowest for $\tau=33/32$ and $\tau=1$.
-Therefore, evidence does not support an increase in mutation rate in aneuploid cells, and moreover, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference.
-% TODO Avihu - in the literature it is suggested elevated mut rate is due to stress; here wt is also stressed so maybe that's why we dont see an effect
-We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
-
-
-\paragraph*{Competition between mutation and aneuploidy.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph{Model predictions of genotype frequency dynamics.}
 
 We simulated 50 replicate genotype frequency dynamics using the MAP estimate parameters. 
 \Cref{fig:ppc-plot}A shows the simulated frequencies of the four genotypes (\euwt, \anwt, \anmt\ and \eumt), as well as the frequencies of \eumt\ cells that arose from either \anwt\ cells via a sequences of mutation and chromosome loss events ($2n^*_A$), or directly from \euwt\ cells via a mutation event ($2n^*_M$).
-We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt. 
+We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt\ in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004,Komarova2003}.
 
-\citet{Yona2012} have suggested that aneuploidy is a transient adaptive solution, arising quickly due to increased fitness and high formation rate, but 
-ultimately lost due to the cost of aneuploidy as beneficial mutations take over.
-We tested this hypothesis by estimating $F_A$, the expected frequency of \eumt\ that arose from \anwt, as the average frequency of such cells at the end of simulations using the MAP estimate parameters.
+We tested the \emph{transient adaptive solution hypothesis} by estimating $F_A$, the expected frequency of \eumt\ that arose from \anwt, computed as the average frequency of such cells at the end of simulations using the MAP estimate parameters.
 Surprisingly, we observe that the majority of \eumt\ cells are a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:ppc-plot}A). 
 This is despite the fact that the \anwt\ genotype reaches high frequencies in the population (at least 0.98, \Cref{fig:ppc-plot}A).
 
 This result is not unique to the MAP parameter estimate. 
 We simulated genotype frequency dynamics using parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the posterior distribution of $F_A$ (\Cref{fig:ppc-plot}B). 
 The mean $F_A$ was just 0.1673 [0.0154-0.370 95\% CI] and only in 489 of 100,000 posterior samples (0.489\%) $F_A$ was  larger than 0.5, that is, \eumt\ was more likely to arise from an aneuploid cell.  
-Thus, if we pick up a cell from the evolved \eumt\ population, it is more likely to have descended directly from an euploid cell than from an aneuploid cell.
+Thus, if we sample a random cell from the evolved \eumt\ population, it is more likely to have descended directly from an euploid cell than from an aneuploid cell.
 The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate, $\mu$, and in some cases can also be affected by the fitness parameters (\Cref{fig:ppc-plot}C and \Cref{fig:posterior_FA_supp}).
 
-%TODO revise AY text:
-At the first stage there are more 2n cells than 2n+1 cells because of the advantage of aneuploidy under heat. Accordingly, at the seconds stage, there are more 2n+1* cells than 2n*. However, in most cases 2n*M dominate the population (and not 2n*A), because the fitness advantage of a refined mutation that emerge in 2n+1 background in hindered by the cost of aneuploidy and by the extra step needed to eliminate the extra copy of the chromosome. 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Fig dynamics
 \begin{figure}[h!]
@@ -346,7 +341,7 @@ At the first stage there are more 2n cells than 2n+1 cells because of the advant
       \includegraphics[width=\textwidth]{../figures/F_A_mu_delta.pdf}
   \end{subfigure}
   \caption{
-    \textbf{Posterior genotype frequency dynamics.}     
+    \textbf{Simulated genotype frequency dynamics.}     
     \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, whereas $2n^*_M$ arose directly from $2n$. Shown are 50 simulations using the MAP estimate parameters.
     \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells descended from \anwt\ cells, computed as the average frequency at the end of 100 simulations for 100,000 samples from the parameter posterior distribution.
     Solid and dashed lines show the mean and 95\% CI.
@@ -355,60 +350,45 @@ At the first stage there are more 2n cells than 2n+1 cells because of the advant
      }
   \label{fig:ppc-plot}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Rancati G, Pavelka N. Karyotypic changes as drivers and catalyzers of cellular evolvability: A perspective from non-pathogenic yeasts. Semin Cell Dev Biol. 2013;24(4):332-338. doi:10.1016/j.semcdb.2013.01.009
+% Bouchonville K, Forche A, Tang KES, Semple C a M, Berman J. Aneuploid chromosomes are highly unstable during DNA transformation of Candida albicans. Eukaryot Cell. 2009;8(10):1554-1566. doi:10.1128/EC.00209-09
+% Zhu J, Pavelka N, Bradford WD, Rancati G, Li R. Karyotypic determinants of chromosome instability in aneuploid budding yeast. PLoS Genet. 2012;8(5). doi:10.1371/journal.pgen.1002719
+
+\paragraph{Genetic instability in aneuploid cells.}
+It has been suggested that aneuploidy increased genetic instability~\citep{Sheltzer2011b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
+We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
+%% generated with MAP-and-hdi.ipynb
+With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=4.094\cdot10^{-7}\ [6.252\cdot10^{-8}-6.046\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.744\cdot10^{-3}\ [0.506\cdot10^{-3}-1.827\cdot10^{-3}]$). 
+With $\tau=10$, the estimated mutation rate was only slightly lower compared to $\tau=1$ ($\mu=1.67\cdot10^{-6}\ [2.836\cdot10^{-8}-2.245\cdot10^{-6}]$). 
+WAIC (lower is better, see Methods) is lowest for $\tau=33/32$ and $\tau=1$ (\Cref{table:WAIC}).
+Therefore, evidence does not support an increase in mutation rate in aneuploid cells, and moreover, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference.
+We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
 
 
-%\pagebreak
-
-%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Discussion
 \section*{Discussion}
-
-% quote: This scenario may thus imply that the duplication of a cer- tain chromosome may provide the evolutionary time window needed for the population to search for solutions not only on the duplicated chromosome but throughout the genome.
-
-% avihu: At the first stage there are more 2n cells than 2n+1 cells because of the advantage of aneuploidy under heat. Accordingly, at the seconds stage, there are more 2n+1* cells than 2n*. However, in most cases 2n*M dominate the population (and not 2n*A), because the fitness advantage of a refined mutation that emerge in 2n+1 background in hindered by the cost of aneuploidy and by the extra step needed to eliminate the extra copy of the chromosome. 
-
 
 \citet{Yona2012} have suggested that the aneuploid cells that come to dominate the experimental populations were later replaced by ``refined strains, which eliminated the cost associated with the trisomy, exhibit improved growth both at the permissive and the high temperatures compared with their trisomic ancestors'' and that ``it is expected that the original contribution of trisomy to heat tolerance was replaced by alternative solutions.''. 
 However, our results suggest that most of the cells in the evolved euploid population do not carry mutations that were common in the aneuploid populations, but rather a different set of mutations.
 Therefore, the majority of the evolved euploid cells are not descended from aneuploid cells, but rather are direct descendants of the ancestral population. 
 
+% quote: This scenario may thus imply that the duplication of a certain chromosome may provide the evolutionary time window needed for the population to search for solutions not only on the duplicated chromosome but throughout the genome.
 
-\paragraph*{Results of current study.}
-We inferred the rates and fitness effects of aneuploidy and mutation in a previously published evolutionary experiment in which yeast populations adapted to heat stress~\citep{Yona2012}. 
-First, we estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 10^{-6}$~\citep{Zhu2016}. % TODO explain?
-Second, the experiments results cannot be explained without aneuploidy ($\delta=0$) or if aneuploidy is neutral ($w_{\anwt}=w_{\euwt}$, $w_{\anmt}=w_{\eumt}$), and therefore we conclude that aneuploidy plays a significant role in the dynamics.
-Third, we find no evidence for increased mutation rates in aneuploid cells, but more data would have allowed a more conclusive statement. Therefore, the effect of aneuploidy on genetic instability remains to be explored in future work.
-Fourth, we simulated genotype frequency dynamics using inferred rates and fitness effects of aneuploidy and mutation. We found that the aneuploid mutant, \anmt, never reaches high frequency, in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004}. % TODO ref komarova & nowak
-Furthermore, we find that XXXX. % TODO transient solution?
+% avihu: At the first stage there are more 2n cells than 2n+1 cells because of the advantage of aneuploidy under heat. Accordingly, at the seconds stage, there are more 2n+1* cells than 2n*. However, in most cases 2n*M dominate the population (and not 2n*A), because the fitness advantage of a refined mutation that emerge in 2n+1 background in hindered by the cost of aneuploidy and by the extra step needed to eliminate the extra copy of the chromosome. 
 
 \cite{Yona2012} have analyzed the expression levels of 14 heat-shock proteins (HSP). They found that their expression level changed ``very modestly'' in the aneuploid populations, but that most of them ``showed significant up-regulation'' in the evolved euploid population. 
 
+%\paragraph{Rate and fitness effect of aneuploidy and mutation.}
+We inferred the rates and fitness effects of aneuploidy and mutation in a previously published evolutionary experiment in which yeast populations adapted to heat stress~\citep{Yona2012}. 
+We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 10^{-6}$~\citep{Zhu2016}. % TODO explain?
+We find no evidence for increased mutation rates in aneuploid cells. 
+% TODO Avihu - in the literature it is suggested elevated mut rate is due to stress; here wt is also stressed so maybe that's why we dont see an effect
 
-\paragraph*{Aneuploidy is not just another type of mutation.}
-The published data indicate that, like mutation, aneuploidy can be both deleterious and beneficial~\citep{Pavelka2010, Sheltzer2011}.
-Nevertheless, there are important and fundamental differences between adaptation by aneuploidy
-and adaptation by beneficial mutations~\citep{Yona2015}, which make aneuploidy a unique mechanism for generating genetic
-variation.
-First, the aneuploidy rate (i.e. the frequency of mis-segregation events) is significantly higher than the
-mutation rate~\citep{Santaguida2015review}.
-Thus, everything else being equal, adaptation by aneuploidy will be faster and more frequent.
-Second, fitness effects of aneuploidy are larger than those of the majority of mutations, on average, and are rarely
-neutral~\citep{Pavelka2010, Yona2012, Sunshine2015}, allowing selection to quickly sort deleterious and beneficial genotypes.
-Third, the number of different karyotypes is considerably smaller than the number of different genotypes, and different karyotypes are likely to have different phenotypes~\citep{Pavelka2010}.
-Therefore, exploration of the phenotype space by aneuploidy requires smaller populations and a shorter time span.
-Fourth, aneuploidy is a reversible state, as the rate of chromosome loss is high and the cost of aneuploidy is significant~\citep{Niwa2006}.
-Indeed, aneuploidy often provides a transient solution: under short-term stress conditions, aneuploidy reverts (chromosome number returns to normal) when the stress subsides; under long-term stress conditions, aneuploidy reverts when refined solutions, generated by beneficial mutations, take over~\citep{Yona2012}.
-Finally, aneuploidy results in increased genome instability, potentially increasing genetic variation by a positive feedback loop~\citep{Rancati2013, Bouchonville2009, Zhu2012}, while also increasing its own transience.
-
-% TODO do we want the following two paragraphs?
-\paragraph*{Evolutionary theory of aneuploidy.}
-The role of aneuploidy in adaptation has only recently been observed~\citep{Sionov2010, Yona2012, Gerstein2015}, and is largely missing from the literature on evolution and adaptation:
-the introductory textbook \emph{Evolution} by~\citet{Bergstrom2012} does not mention the word aneuploidy, and the graduate-level book \emph{Mutation-Driven Evolution} by~\citet{Nei2013} only briefly mentions aneuploidy in the context of speciation, but not adaptation.
-In recent reviews of the literature, aneuploidy is suggested to play an important role in fungal adaptation~\citep{Robbins2017, Todd2017} and cancer evolution~\citep{Santaguida2015review, Naylor2016, Sansregret2017}, yet these reviews cite no theoretical studies nor any quantitative models.
-Indeed, evolutionary, ecological, and epidemiological studies mostly assume adaptation occurs via beneficial mutations, recombination, and sex.
-Therefore, there is a critical need to develop an evolutionary theory of aneuploidy like the evolutionary theories of other mechanisms for generation of genetic variation, e.g. mutation~\citep{Lynch2010}, recombination~\citep{Hartfield2012}, and sex~\citep{Otto2009}.
-An evolutionary theory of aneuploidy will be central to the interpretation of experimental and clinical observations and design of new hypotheses, experiments, and treatments~\citep{Carja2014}.
-For example, despite the lack of theoretical models, aneuploidy has been invoked in a new strategy to combat pathogens and tumour cells by setting ``evolutionary traps''~\citep{Gerstein2015,Chen2015}, in which a condition that predictably leads to emergence of aneuploidy is applied, followed by a condition that specifically selects against aneuploid cells.
+\paragraph{Conclusions.}
+% TODO YR
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -416,7 +396,10 @@ For example, despite the lack of theoretical models, aneuploidy has been invoked
 \section*{Models and Methods}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph*{Evolutionary Model.}
+\paragraph{DNA sequencing.}
+% TODO AY
+
+\paragraph{Evolutionary genetic model.}
 We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
 The model allows for a single aneuploid karyotype (e.g., chromosome III duplication) and a single mutation to accumulate in the genotype.
@@ -453,7 +436,7 @@ where $\vec{f^m}=(f^m_{2n}\ ,\ f^m_{2n+1}\ ,\ f^m_{2n+1^*}\ ,\ f^m_{2n^*})$ are 
 Overall, the change in genotype frequencies from one generation to the next is given by the transformation $f_i \to f'_i$.
 
 
-\paragraph{Empirical evidence.}
+\paragraph{Empirical data for model inference.}
 
 We use the results of evolutionary experiments reported by \citet{Yona2012}.
 In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations (hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier). 
@@ -562,13 +545,13 @@ Minerva Stiftung short-term research grant (MP).
 \subsection*{Supplementary Analysis}
 \label{sec:supp_analysis}
 
-\paragraph*{Sensitivity analysis.} 
+\paragraph{Sensitivity analysis.} 
 Changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
 Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$.
 We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter, in which the inferred mutation rate is $\mu \approx 3\cdot10^{-6}$.
 Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates, including higher aneuploidy rate and lower fitness values for \anwt\ and \eumt~(\Cref{fig:mu}).
 
-\paragraph*{Extended informative prior distribution.}
+\paragraph{Extended informative prior distribution.}
 In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
 Thus, our main informative prior uses a single prior distribution for fitness values of \anwt, \anmt, and \eumt, whereas the extended informative prior uses one distribution for \anwt, and another distribution for both \anmt\ and \eumt. 
 
