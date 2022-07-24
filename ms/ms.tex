@@ -329,19 +329,8 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
 
 % Fig dynamics
 \begin{figure}[h!]
-  \begin{subfigure}{\textwidth}
       \centering
-      %% generated with dynamics-plot.ipynb
-      \includegraphics[width=\textwidth]{../figures/MAP_freq_dynamics.pdf}      
-  \end{subfigure}
-  \begin{subfigure}{0.5\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../figures/F_A_posterior.pdf}
-  \end{subfigure}
-  \begin{subfigure}{0.5\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{../figures/F_A_mu_delta.pdf}
-  \end{subfigure}
+      \includegraphics[width=\textwidth]{../figures/FA.pdf}      
   \caption{
     \textbf{Simulated genotype frequency dynamics.}     
     \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, whereas $2n^*_M$ arose directly from $2n$. Shown are 50 simulations using the MAP estimate parameters.
@@ -349,6 +338,7 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
     Solid and dashed lines show the mean and 95\% CI.
 	\textbf{(C)} $F_A$ values (color coded) from panel B, with their corresponding mutation rate $\mu$ on x-axis and aneuploidy rate $\delta$ on the y-axis.
 	White star shows the MAP estimate. See also \Cref{fig:posterior_FA_supp}.
+	\textbf{(D)} $F_A$ as a function of the population size, $N$, in posterior predictions with MAP parameters. Markers show $F_A$ in 250 simulations per population size. Error bars show mean $F_A$ with 95\% CI (bootstrap, $n=10,000$). Vertical dashed line for population size in the experiment, $6.425\cdot10^6$. Horizontal line for $F_A^{MAP}=0.106$. 
      }
   \label{fig:ppc-plot}
 \end{figure}
@@ -374,32 +364,37 @@ We also checked the differences in genotype frequency dynamics for different $\t
 \section*{Discussion}
 
 In a landmark study on the role of chromosome duplication in adaptive evolution, 
-\citet{Yona2012} found that a chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells. Moreover, when they initiated evolutionary experiments with a population in which all cells carry a trisomy, such a replacement occurred within 1,000 generations.
+\citet{Yona2012} found that a chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells that carry "refined" solutions to the stress. 
+Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a chromosome III trisomy.
+They hypothesized that these evolved euploid cells were a consequence of mutations in genes that confer heat resistance, followed by reversion of trisomy by a chromosome loss event. 
 
-They hypothesized that these evolved euploid were a consequence of (i) mutations in genes that confer heat resistance, followed by (ii) reversion of trisomy by a chromosome loss event. 
 If indeed the evolved euploid population is descended from the aneuploid population, then mutant alleles that were common in the aneuploid populations should also be common in the evolved euploid population.
+However, we found that this is not the case (\Cref{fig:mutation_frequencies}): mutant allele frequencies in the aneuploid and euploid populations are negatively correlated, such that common alleles in the former are rare in the later. 
+Furthermore, we developed an evolutionary genetic model of adaptive evolution by aneuploidy and mutation (\Cref{fig:models}), fitted it to the experimental results of \citet{Yona2012}, and used it to predict the genotype frequency dynamics.
+The model predicted that only about 10\% of the evolved euploid population descended from aneuploid cells--that is, the majority of the euploid population are not descended from aneuploid cells, but rather are direct descendants of the ancestral population (\Cref{fig:ppc-plot}).
 
-However, we found that this is not the case (\Cref{fig:mutation_frequencies}): mutant allele frequencies in the aneuploid and euploid populations are negatively correlated, and common alleles in the former are rare in the later. 
-Furthermore, we developed an evolutionary genetic model of adaptive evolution by aneuploidy and mutation, fitted it to the experimental results of \citet{Yona2012}, and used it to predict the genotype frequency dynamics.
-The model predicted that only about 10\% of the evolved euploid cells descended from aneuploid cells--that is, the majority of the evolved euploid cells are not descended from aneuploid cells, but rather are direct descendants of the ancestral population. This is despite aneuploidy reaching a very high frequency in the population of >95\% (\Cref{fig:ppc-plot}).
-
-This is not an intuitive result, as conventional evolutionary reason would be that once the aneuploid genotype reaches high frequency, it will have a better chance at producing "refined" solutions via mutations.
-We therefore suggest a different explanation. 
+This happens despite aneuploidy reaching a high frequency in the population (>95\%). 
+Conventional wisdom might suggest that once the aneuploid genotype \anwt\ reaches high frequency, it will have a better chance at producing "refined" solutions via mutations, and its descendants will come to dominate the population: the frequency \eumtA\ (which arises from \anmt) will be higher than the frequency of \eumtM\ (which arises directly from \euwt).
+So how does \eumtM\ prevail?
 At the first stage, \anwt\ cells appear and reach a high frequency due to their advantage under heat.
-Accordingly, \anmt\ cells appear more frequently than \eumtM\ (which arises directly from \euwt). However, in most cases \eumtM\ dominates the population (and not \eumtA, which arises from \anmt), because the fitness advantage of a "refined" mutation that emerges in the \anmt\ genotype in hindered by the cost of aneuploidy as well as the extra waiting time needed to eliminate the extra copy of the chromosome by a chromosome loss event. Although such chromosome loss occurs fast relative to mutation, it still leaves a time window for \eumtM\ to arise and reach high frequencies.
+Accordingly, \anmt\ cells appear more frequently than \eumtM. However, the fitness advantage of a "refined" mutation that emerges in the \anmt\ genotype in hindered by the cost of aneuploidy as well as the extra waiting time needed to eliminate the extra copy of the chromosome by a chromosome loss event.
+Although such chromosome loss occurs fast relative to mutation, it still leaves a time window for \eumtM\ to arise and reach high frequencies.
+Indeed, we estimate that the advantage of \anmt\ over \anwt\ is similar to the advantage of \eumt\ over \anmt (about 0.3\%), and that the rate of chromosome loss is roughly $1-3\cdot10^{-3}$.
 
-% quote: This scenario may thus imply that the duplication of a certain chromosome may provide the evolutionary time window needed for the population to search for solutions not only on the duplicated chromosome but throughout the genome.
-
-%\citet{Yona2012} have analyzed the expression levels of 14 heat-shock proteins (HSP). They found that their expression level changed ``very modestly'' in the aneuploid populations, but that most of them ``showed significant up-regulation'' in the evolved euploid population. 
+% TODO effect of population size?
 
 \paragraph{Rate and fitness effect of aneuploidy and mutation.}
 We inferred the rates and fitness effects of aneuploidy and mutation in a previously published evolutionary experiment in which yeast populations adapted to heat stress~\citep{Yona2012}. 
 We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, is higher than a previous estimate of $6.7 \cdot 10^{-6}$~\citep{Zhu2016}. % TODO explain?
-We find no evidence for increased mutation rates in aneuploid cells. 
-% TODO Avihu - in the literature it is suggested elevated mut rate is due to stress; here wt is also stressed so maybe that's why we dont see an effect
+In addition, we find no evidence for increased mutation rates in aneuploid cells. 
+Previous empirical studies have suggested that genetic instability (e.g., elevated mutation rates) in aneuploid cells is due to stress associated with the aneuploid state~\citep{Bouchonville2009,Chen2012b,Zhu2012}.
+However, in the experiment of \citet{Yona2012}, both the wild-type and the aneuploid were under heat stress, which may explain why we did not find evidence for an increased mutation rate.
 
 \paragraph{Conclusions.}
-BLA BLA BLA
+Here, we tested the hypothesis that aneuploid cells are an evolutionary adaptive intermediate between wild-type euploid cells and mutant euploid cells. 
+Our results suggest this is only true at the population level, as the population does go from euploid to aneuploid and back--but not at the individual level: we estimate that only about 10-15\% of the euploid cells descended from aneuploid cells, whereas the rest are direct descendent of the wild-type euploid cells.
+
+% TODO finish conclusions
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
