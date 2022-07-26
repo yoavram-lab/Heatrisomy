@@ -325,12 +325,16 @@ The mean $F_A$ was just 0.1673 [0.0154-0.370 95\% CI] and only in 489 of 100,000
 Thus, if we sample a random cell from the evolved \eumt\ population, it is more likely to have descended directly from an euploid cell than from an aneuploid cell.
 The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate, $\mu$, and in some cases can also be affected by the fitness parameters (\Cref{fig:FA}C and \Cref{fig:posterior_FA_supp}).
 
+% TODO F_A vs N
+
+% TODO log-log scale of freq dynamics
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Fig dynamics
 \begin{figure}[h!]
       \centering
-      \includegraphics[width=\textwidth]{../figures/FA.pdf}      
+      \includegraphics[width=0.9\textwidth]{../figures/FA.pdf}      
   \caption{
     \textbf{Predicted frequency of aneuploid-descended cells.}     
     \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, whereas $2n^*_M$ arose directly from $2n$. Colored curves are 50 simulations using the MAP estimate parameters. Black dashed curves are the expected genotype frequencies without genetic drift. 
@@ -377,6 +381,7 @@ The model predicted that only about 10\% of the evolved euploid population desce
 This happens despite aneuploidy reaching a high frequency in the population (>95\%). 
 Conventional wisdom might suggest that once the aneuploid genotype \anwt\ reaches high frequency, it will have a better chance at producing "refined" solutions via mutations, and its descendants will come to dominate the population: the frequency \eumtA\ (which arises from \anmt) will be higher than the frequency of \eumtM\ (which arises directly from \euwt).
 So how does \eumtM\ prevail?
+% TODO log-log scale of freq dynamics
 At the first stage, \anwt\ cells appear and reach a high frequency due to their advantage under heat.
 Accordingly, \anmt\ cells appear more frequently than \eumtM. However, the fitness advantage of a "refined" mutation that emerges in the \anmt\ genotype in hindered by the cost of aneuploidy as well as the extra waiting time needed to eliminate the extra copy of the chromosome by a chromosome loss event.
 Although such chromosome loss occurs fast relative to mutation, it still leaves a time window for \eumtM\ to arise and reach high frequencies.
