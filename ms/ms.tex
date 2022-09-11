@@ -77,6 +77,12 @@ headheight=12pt
 \newcommand{\ci}{I}
 \newcommand{\likelihood}{\mathcal{L}}
 
+% line numbers
+ \usepackage[displaymath, mathlines]{lineno}
+ \renewcommand\linenumberfont{\normalfont\small\sffamily}
+\linenumbers
+\modulolinenumbers[2]
+
 % genotype commands
 \newcommand{\euwt}{\emph{2n}}
 \newcommand{\anwt}{\emph{2n+1}}
@@ -130,7 +136,7 @@ Keywords: aneuploidy, evolutionary model, adaptive evolution
 % Abstract 250 words
 \begin{abstract} 
 Aneuploidy is common in eukaryotes, often leading to decreased growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that aneuploidy can be beneficial under stressful conditions and facilitate  adaptation.
-In a prominent example, an evolutionary experiment with \yeast, populations evolving under heat stress had become aneuploid, only to later revert back to euploid after genetic mutations have accumulated. It has therefore been suggested that aneuploidy serves as a "stepping stone" on the path to adaptation.
+In a prominent example, an evolutionary experiment with yeast, populations evolving under heat stress had become aneuploid, only to later revert back to euploid after genetic mutations have accumulated. It has therefore been suggested that aneuploidy serves as a "stepping stone" on the path to adaptation.
 Here, we test this hypothesis. First, we apply DNA sequencing to show that mutant alleles common in aneuploid cells are uncommon in the evolved euploid population. 
 Second, we develop an evolutionary model with both aneuploidy and  mutation, and fit it to the results of the experiment using a Bayesian inference framework.
 We then predict the genotype frequency dynamics during the experiment, demonstrating that the majority of the evolved euploid population likely did not descend from aneuploid cells, but rather directly from the euploid wild-type population.
