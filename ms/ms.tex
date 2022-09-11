@@ -18,7 +18,7 @@ headheight=12pt
 \usepackage[dvipsnames]{xcolor}
 \usepackage[unicode=true,colorlinks=true,urlcolor=CadetBlue,citecolor=black,linkcolor=black]{hyperref}
 \usepackage{booktabs}
-\usepackage{pgfplotstable} 
+\usepackage{pgfplotstable} % http://mirrors.ctan.org/graphics/pgf/contrib/pgfplots/doc/pgfplotstable.pdf
 \PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
 \usepackage{authblk}
 \usepackage{subcaption}
@@ -185,9 +185,15 @@ Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplication
 These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350.
 
 \paragraph{Empirical frequencies of mutant alleles.} 
-For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations}). % TODO add table!!
+For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations_H2,table:mutations_H4}). 
 Overall, between 100 and 173 mutant alleles were detected with at least a single read in the six populations that were sampled. 
 Disregarding 45 and 40 alleles that were present in the ancestral populations at a frequency >10\%, the aneuploid and euploid populations carried a large number of mutant alleles: 82 and 95, respectively, in repetition $H2$, and 60 and 66 in repetition $H4$.
+
+Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
+Furthermore, a high mutant allele frequency in the aneuploid population implies a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), such that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
+Moreover, for the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
+Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
+These results suggest evolved euploid cells are unlikely to descend from aneuploid~cells.
 
 %%%%%%%% Fig mutation frequencies
 \begin{figure}[h]
@@ -202,14 +208,6 @@ Dashed vertical and horizontal lines show allele frequencies 20\%. Error bars sh
 }
   \label{fig:mutation_frequencies}
 \end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
-Furthermore, a high mutant allele frequency in the aneuploid population implies a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), such that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
-Moreover, for the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
-Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
-These results suggest evolved euploid cells are unlikely to descend from aneuploid~cells.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -890,6 +888,33 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
     \label{fig:posterior_FA_supp}
 \end{figure}
 
+\pagebreak
+
+% Table - mutations
+%% generated with mutation_analysis.ipynb
+\begin{table}[h]
+\centering
+\caption{
+\textbf{Mutant alleles in population $H2$.}}
+\caption*{
+	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 1,700) of population $H2$. See supplementary file.
+} 
+\label{table:mutations_H2}
+\end{table}
+
+% Table - mutations
+%% generated with mutation_analysis.ipynb
+\begin{table}[h]
+\centering
+\caption{
+\textbf{Mutant alleles in population $H4$.}}
+\caption*{
+	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 2,350) of population $H4$. See supplementary file.
+} 
+\label{table:mutations_H4}
+\end{table}
+
+
 %% generated with WAIC.ipynb 
 \begin{table}[h]
 \centering
@@ -907,6 +932,6 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 \label{table:WAIC}
 \end{table}
 
-%TODO table:mutations
+
 
 \end{document}  
