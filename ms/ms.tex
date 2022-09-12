@@ -579,7 +579,7 @@ Minerva Stiftung short-term research grant~(MP).
 Changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
 Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$.
 We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter, in which the inferred mutation rate is $\mu \approx 3\cdot10^{-6}$.
-Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates, including higher aneuploidy rate and lower fitness values for \anwt\ and \eumt~(\Cref{fig:mu}).
+Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates, including higher aneuploidy rate and the model with $\mu$=$10^{-5}$ has lower fitness value for \anwt\ (\Cref{fig:mu}).
 
 \paragraph{Extended informative prior distribution.}
 In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
@@ -592,11 +592,11 @@ The posterior predictive plot shows that inference with this extended prior prod
 However, the inferred posterior distribution is considerably narrower (compare \Cref{fig:posterior,fig:posterior-alt}) and therefore parameter estimates are less variable.
 The estimated mutation rate was much lower compared to the main informative prior, 
 % generated with MAP-and-hdi.ipynb
-with $\mu=2.475\cdot10^{-9}\ [2.419\cdot10^{-9}-2.609\cdot10^{-9}]$. Other parameter estimates are: $\delta=2.707\cdot10^{-3}\ [2.093\cdot10^{-3}-3.092\cdot10^{-3}]$,
+with $\mu=2.474\cdot10^{-9}\ [2.423\cdot10^{-9}-2.612\cdot10^{-9}]$. Other parameter estimates are: $$\delta=2.705\cdot10^{-3}\ [2.094\cdot10^{-3}-3.094\cdot10^{-3}]$,
 $w_{\anwt}=1.022\ [1.021-1.024]$,
-$w_{\anmt}=1.029\ [1.027-1.03]$,
-$w_{\eumt}=1.03\ [1.029-1.031]$. 
-Notably, the maximum posterior ratio $w_{\eumt}/w_{\anwt}=1.007$ is much lower than the maximum prior ratio of $1.033$ (\Cref{fig:growth-curves}H) and closer to the ratio of $1$ that we assume in our standard prior.
+$w_{2n+1^*}=1.052\ [1.05-1.054]$,
+$w_{2n^*}=1.053\ [1.051-1.055]$. 
+Notably, the maximum posterior ratio $w_{\eumt}/w_{\anwt}=1.0009$ is much lower than the maximum prior ratio of $1.033$ (\Cref{fig:growth-curves}H) and closer to the ratio of $1$ that we assume in our standard prior.
 Together with the posterior predictive results, we conclude that the main informative prior is preferable over the extended informative prior.
 
 
@@ -613,7 +613,7 @@ We also estimated the parameters of a version of the model that includes transit
     \end{equation}
 
 The inferred values are slightly different.
-% with back transitions
+% with back transitions MAP-and-hdi.ipynb
 The estimated mutation rate, $\mu=1.036\cdot10^{-7}\ [8.01\cdot10^{-8}-1.339\cdot10^{-7}]$, corresponds to a mutation target size of $\sim 300-500$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$ (ref.~\citep{Zhu2014}) or $3.3\cdot10^{-10}$ (ref.~\citep{Lynch2008}).
 The estimated aneuploidy rate, $\delta=2.358\cdot10^{-4}\ [1.766\cdot10^{-4}-2.837\cdot10^{-4}]$ is 5-35-fold higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval).
 The estimated fitness values are 
@@ -819,32 +819,32 @@ The mean $F_A$ in this case is just 0.0189 [0.0004 - 0.1214 95\% CI], lower than
       \includegraphics[width=\textwidth]{../figures/mu-D.pdf}      
     \end{subfigure}
   \caption{
-    \textbf{Model with fixed mutation rate.}  \textbf{(A-D)} The inferred posterior distributions for models with free and fixed mutation rate, $\mu$. The MAP (maximum a posteriori) and 50\% HDI (highest density interval) for each model are: 
+    \textbf{Model with fixed mutation rate.}  \textbf{(A-D)} The inferred posterior distributions for models with free and fixed mutation rate, $\mu$. The MAP (maximum a posteriori) and 50\% HDI (highest density interval) for each model are: %MAP-and-hdi.ipynb
 \textbf{free $\boldsymbol{\mu}$, run 1:}
-$\delta=2.749\cdot10^{-3}\ [1.476\cdot10^{-3}-2.822\cdot10^{-3}]$,
+$\delta=1.720\cdot10^{-3}\ [1.470\cdot10^{-3}-2.786\cdot10^{-3}]$, 
 $w_{\anwt}=1.022\ [1.021-1.023]$,
-$w_{\anmt}=1.025\ [1.023-1.026]$,
-$w_{\eumt}=1.027\ [1.026-1.029]$;
-\textbf{free $\boldsymbol{\mu}$, run 2:}
-$\delta=1.938\cdot10^{-3}\ [1.338\cdot10^{-3}-2.748\cdot10^{-3}]$,
-$w_{\anwt}=1.022\ [1.02-1.023]$,
-$w_{\anmt}=1.025\ [1.023-1.026]$,
-$w_{\eumt}=1.027\ [1.026-1.029]$;
-\textbf{$\boldsymbol{\mu=10^{-5}}$:}
-$\delta=3.089\cdot10^{-3}\ [2.412\cdot10^{-3}-3.169\cdot10^{-3}]$,
-$w_{\anwt}=1.022\ [1.021-1.023]$,
-$w_{\anmt}=1.024\ [1.023-1.026]$,
-$w_{\eumt}=1.027\ [1.026-1.028]$;
-\textbf{$\boldsymbol{\mu=10^{-6}}$:}
-$\delta=1.413\cdot10^{-3}\ [1.04\cdot10^{-3}-2.529\cdot10^{-3}]$,
-$w_{\anwt}=1.021\ [1.02-1.023]$,
-$w_{\anmt}=1.024\ [1.023-1.026]$,
+$w_{\anmt}=1.025\ [1.024-1.026]$,
 $w_{\eumt}=1.028\ [1.026-1.029]$;
+\textbf{free $\boldsymbol{\mu}$, run 2:}
+$\delta=2.129\cdot10^{-3}\ [1.334\cdot10^{-3}-2.695\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.02-1.023]$,
+$w_{2n+1^*}=1.025\ [1.023-1.026]$,
+$w_{2n^*}=1.028\ [1.026-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-5}}$:}
+$\delta=2.903\cdot10^{-3}\ [2.399\cdot10^{-3}-3.156\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.021-1.023]$,
+$w_{2n+1^*}=1.024\ [1.023-1.025]$,
+$w_{2n^*}=1.027\ [1.026-1.028]$;
+\textbf{$\boldsymbol{\mu=10^{-6}}$:}
+$\delta=1.917\cdot10^{-3}\ [9.624\cdot10^{-4}-2.447\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.02-1.023]$,
+$w_{2n+1^*}=1.025\ [1.023-1.026]$,
+$w_{2n^*}=1.028\ [1.027-1.029]$;
 \textbf{$\boldsymbol{\mu=10^{-7}}$:}
-$\delta=3.4\cdot10^{-3}\ [2.043\cdot10^{-3}-3.578\cdot10^{-3}]$,
-$w_{\anwt}=1.019\ [1.017-1.02]$,
-$w_{\anmt}=1.026\ [1.024-1.027]$,
-$w_{\eumt}=1.027\ [1.026-1.029]$.
+$\delta=2.901\cdot10^{-3}\ [2.139\cdot10^{-3}-3.671\cdot10^{-3}]$,
+$w_{2n+1}=1.019\ [1.017-1.02]$,
+$w_{2n+1^*}=1.025\ [1.024-1.026]$,
+$w_{2n^*}=1.027\ [1.026-1.029]$.
 \label{fig:mu}
   }
 \end{figure}
