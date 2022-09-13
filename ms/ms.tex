@@ -308,7 +308,7 @@ Our model fits the data well: in simulations using the MAP parameter estimates, 
 However, a model without aneuploidy (where the aneuploidy rate is fixed at zero, $\delta=0$), fails to explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). %% generated with MAP-and-hdi.ipynb
 The estimated mutation rate without aneuploidy is $\mu=7.98\cdot10^{-9}\ [7.906\cdot10^{-9}-8.138\cdot10^{-9}]$, much lower compared to a model with aneuploidy and suggesting a target size of just 40. 
 The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$.
-This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. Even with these lower estimates, the model fit is worse than that of a model with aneuploidy~(\Cref{fig:2n*-fixation}). 
+This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. 
 
 We also checked a model in which aneuploidy occurs but is adaptively neutral compared to the wild-type, that is, $w_{\anwt} = w_{\euwt}$ and $w_{\anmt} = w_{\eumt}$ but $\delta>0$. This model fits the data better than the model with no aneuploidy (in which $\delta=0$), but worse than a model with positive selection for aneuploidy, in which $w_{\euwt}<w_{\anwt}<w_{\anmt}<w_{\eumt}$~(\Cref{fig:2n*-fixation}). 
 
@@ -577,9 +577,9 @@ Minerva Stiftung short-term research grant~(MP).
 
 \paragraph{Sensitivity analysis.} 
 Changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
-Furthermore, we fitted models with a mutation rate fixed at $\mu$=$10^{-5}$, $10^{-6}$ and $10^{-7}$.
+Furthermore, we fitted models with a mutation rate fixed at $\mu=10^{-5}$, $10^{-6}$ and $10^{-7}$.
 We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter, in which the inferred mutation rate is $\mu \approx 3\cdot10^{-6}$.
-Models with $\mu$=$10^{-5}$ and $\mu$=$10^{-7}$ inferred different parameters estimates, including higher aneuploidy rate and the model with $\mu$=$10^{-5}$ has lower fitness value for \anwt\ (\Cref{fig:mu}).
+Inference assuming $\mu=10^{-5}$ or $\mu=10^{-7}$ produced a higher estimate of the aneuploidy rate, $\delta$; assuming $\mu=10^{-7}$, the estimated fitness of \anwt\ was lower; otherwise, estimates were similar to our main model (\Cref{fig:mu}).
 
 \paragraph{Extended informative prior distribution.}
 In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
@@ -592,15 +592,15 @@ The posterior predictive plot shows that inference with this extended prior prod
 However, the inferred posterior distribution is considerably narrower (compare \Cref{fig:posterior,fig:posterior-alt}) and therefore parameter estimates are less variable.
 The estimated mutation rate was much lower compared to the main informative prior, 
 % generated with MAP-and-hdi.ipynb
-with $\mu=2.474\cdot10^{-9}\ [2.423\cdot10^{-9}-2.612\cdot10^{-9}]$. Other parameter estimates are: $$\delta=2.705\cdot10^{-3}\ [2.094\cdot10^{-3}-3.094\cdot10^{-3}]$,
+with $\mu=2.474\cdot10^{-9}\ [2.423\cdot10^{-9}-2.612\cdot10^{-9}]$. Other parameter estimates are: $\delta=2.705\cdot10^{-3}\ [2.094\cdot10^{-3}-3.094\cdot10^{-3}]$,
 $w_{\anwt}=1.022\ [1.021-1.024]$,
 $w_{2n+1^*}=1.052\ [1.05-1.054]$,
-$w_{2n^*}=1.053\ [1.051-1.055]$. 
-Notably, the maximum posterior ratio $w_{\eumt}/w_{\anwt}=1.0009$ is much lower than the maximum prior ratio of $1.033$ (\Cref{fig:growth-curves}H) and closer to the ratio of $1$ that we assume in our standard prior.
+$w_{2n^*}=1.053\ [1.051-1.055]$, the latter two being much higher compare to the main informative prior. 
+Notably, the mode of the posterior ratio $w_{\eumt}/w_{\anwt}=1.0009$ is much lower than the mode of the prior ratio of $1.033$ (\Cref{fig:growth-curves}H) and closer to the ratio of $1$ that we assume in the main informative prior.
 Together with the posterior predictive results, we conclude that the main informative prior is preferable over the extended informative prior.
 
 
-\subsection*{Supplementary Results}
+\paragraph{Model with transitions to less-fit genotypes}
 
 We also estimated the parameters of a version of the model that includes transitions (mutation, chromosome loss and gain) to less-fit genotypes (e.g., \eumt\ to \anmt),
 \begin{equation} \label{eq:mutation-aneuploidy-single}
