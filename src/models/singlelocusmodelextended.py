@@ -111,23 +111,27 @@ class SingleLocusModelExt:
         curr_rand_state = np.random.get_state()
         np.random.seed(seed)
 
-        #0 wt
-        #1 tri
-        #2 tri+
-        #3 +
+        #0 2n
+        #1 2n+1
+        #2 2n*+1
+        #3 2n*-A
+        #4 2n*-M
         M = np.diag(np.repeat(0.,5))
         M[0][1] = aneuploidy_rate
         M[1][2] = mutation_rate
         M[2][3] = aneuploidy_loss_rate 
-        M[0][4] = self.k*mutation_rate  
+        M[0][4] = mutation_rate  
         w = [1., w1, w2, w3, w3]
-        times, non_aneu_fix, P= self._simulation_time(N, w, M, repetitions=repetitions, fixation=fixation, max_gen=max_gen,clonal_intf=clonal_intf, fix_frequ=fix_frequ)
+        times, non_aneu_fix, P, max_aneu = self._simulation_time(
+            N, w, M, repetitions=repetitions, fixation=fixation,
+            max_gen=max_gen,clonal_intf=clonal_intf, fix_frequ=fix_frequ
+        )
         
         np.random.set_state(curr_rand_state)
         if fix_frequ is True:
-            return (times, non_aneu_fix, P)
+            return times, non_aneu_fix, P, max_aneu
         else:
-            return (times, non_aneu_fix)
+            return times, non_aneu_fix
 
     
     #have side effect on M, but not harmfull, can run twice simulation
@@ -154,6 +158,7 @@ class SingleLocusModelExt:
         E = M @ S
 
         # rows are genotypes, cols are repretitions
+        max_aneu = np.zeros(repetitions)
         n = np.zeros((L, repetitions))
         n[0,:] = N    
         # which columns to update
@@ -172,11 +177,13 @@ class SingleLocusModelExt:
 
         while update.any():
             if t>=max_gen-1:
-                break
-            
+                break            
             t += 1
             T[update] = t   
+                
             p = n/N  # counts to frequencies
+            assert max_aneu.shape == p[1, :].shape
+            max_aneu = np.maximum(max_aneu, p[1, :])
             #W.append(w.reshape(1, L) @ p)  # mean fitness
             #P.append(p)
             if clonal_intf==False:
@@ -206,7 +213,7 @@ class SingleLocusModelExt:
         nona=(~directmut).nonzero()[0]
         combfix=(~combfix).nonzero()[0]
 
-        return T, (nona,combfix), P
+        return T, (nona, combfix), P, max_aneu
         #return T, nona
     
         
