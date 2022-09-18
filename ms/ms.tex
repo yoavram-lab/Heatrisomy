@@ -135,12 +135,15 @@ Keywords: aneuploidy, evolutionary model, adaptive evolution
 
 % Abstract 250 words
 \begin{abstract} 
-Aneuploidy is common in eukaryotes, often leading to decreased growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that aneuploidy can be beneficial under stressful conditions and facilitate  adaptation.
-In a prominent example, an evolutionary experiment with yeast, populations evolving under heat stress had become aneuploid, only to later revert back to euploid after genetic mutations have accumulated. It has therefore been suggested that aneuploidy serves as a "stepping stone" on the path to adaptation.
+Aneuploidy is common in eukaryotes, often leading to decreased growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that specific aneuploidies can be beneficial under stressful conditions and facilitate  adaptation.
+In a prominent example, an evolutionary experiment with yeast, populations evolving under heat stress had become aneuploid (chromosome III), only to later revert back to euploid after genetic mutations have accumulated. It has therefore been suggested that aneuploidy serves as a "stepping stone" on the path to adaptation.
+
 Here, we test this hypothesis. First, we apply DNA sequencing to show that mutant alleles common in aneuploid cells are uncommon in the evolved euploid population. 
 Second, we develop an evolutionary model with both aneuploidy and  mutation, and fit it to the results of the experiment using a Bayesian inference framework.
 We then predict the genotype frequency dynamics during the experiment, demonstrating that the majority of the evolved euploid population likely did not descend from aneuploid cells, but rather directly from the euploid wild-type population.
-Together, our results suggest that aneuploidy is an evolutionary "detour" rather than a "stepping stone": it delays rather than facilitates the adaptation of the population, and cells that become aneuploid leave less descendants compared to cells that remain diploid.
+Our model further predicts that if the experiment was repeated with smaller populations, then a larger fraction of the evolved population would descend from aneuploid cells. 
+
+Together, our results suggest that aneuploidy can be an evolutionary "detour" rather than a "stepping stone": it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
 \end{abstract}
 
 % TODO Significance statement 120 words
@@ -157,7 +160,7 @@ Aneuploidy has been implicated in cancer formation, progression, and resistance~
 It is also common in protozoan pathogens of the Leishmania genus, a major global health concern~\citep{Mannaert2012}, and contributes to the emergence of drug resistance~\citep{Selmecki2009} and virulence~\citep{Moller2018} in fungal pathogens, which are under-studied~\citep{Rodrigues2018}, despite infecting a billion people per year, causing significant morbidity in >150 million and death in >1.5 million people per year~\citep{Selmecki2009, Rodrigues2018}.
 
 %\paragraph{Aneuploidy is generally deleterious.}
-Experiments with human and mouse embryos found that aneuploidy is usually lethal.
+Experiments with human and mouse embryos found that most aneuploidies are lethal.
 It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
 Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Kasuga2016, Yang2021}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018} and hypo-osmotic-like stress~\citep{Tsai2019}.
 
@@ -176,7 +179,7 @@ Furthermore, it has been suggested that aneuploidy is an evolutionary "stepping 
 
 %\paragraph{The present study.}
 Here, we test the hypothesis that aneuploidy is a an \emph{evolutionary stepping stone} that facilitates adaptive evolution by genetic mutations.
-First, we analyze previously unpublished sequencing data from the original experimental populations of \citet{Yona2012} to assess if the evolved euploid population is descended from the aneuploid population.
+First, we analyze previously unpublished sequencing data from the original experimental populations \citep{Yona2012} to assess if the evolved euploid population is descended from the aneuploid population.
 Second, we develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} in order to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
 Our results show that aneuploidy reached high frequencies in the experimental populations, but nevertheless, the majority of cells in the evolved euploid populations likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
 These results suggest that aneuploidy can be an evolutionary detour, rather than a stepping stone, on the path to adaptation.
@@ -188,7 +191,7 @@ These results suggest that aneuploidy can be an evolutionary detour, rather than
 In the heat-stress experiment of \citet{Yona2012}, four populations of \yeast evolved under \SI{39}{\celsius}.
 Aneuploidy fixed in all four experimental repetitions in the first 450 generations.
 Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a chromosome III trisomy.
-These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350.
+These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350 in $H4$ and $H2$, respectively.
 
 \paragraph{Empirical frequencies of mutant alleles.} 
 For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations_H2,table:mutations_H4}). 
@@ -257,7 +260,7 @@ The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786
 The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
 $w_{\anmt}=1.025\ [1.024-1.026]$,
 $w_{\eumt}=1.028\ [1.026-1.029]$, all relative to the fitness of \euwt, which is set to $w_{\euwt}=1$. 
-Thus, we can infer that the cost of trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$ (or 0.3\%) and the benefit of trisomy is $w_{\anwt}-1-c=0.019$ (1.9\%), whereas the benefit of the beneficial mutation is $w_{\eumt}-1=0.028$ (2.8\%).
+Thus, we can infer that the cost of chromosome III trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$ (or 0.3\%) and the benefit of trisomy is $w_{\anwt}-1-c=0.019$ (1.9\%), whereas the benefit of the beneficial mutation is $w_{\eumt}-1=0.028$ (2.8\%).
 
 If we allow for transitions (mutation, chromosome loss and gain) to less-fit genotypes (e.g., \eumt\ to \anmt), then we infer similar but slightly different values, see Supplementary Material.
 
@@ -265,7 +268,7 @@ If we allow for transitions (mutation, chromosome loss and gain) to less-fit gen
 %% generated with posterior-plot.ipynb
 \begin{figure}[h]
   \centering
-\includegraphics[width=0.9\textwidth]{../figures/posterior.pdf}
+\includegraphics[width=0.8\textwidth]{../figures/posterior.pdf}
   \caption{
   \textbf{Posterior distribution of model parameters.}
 On the diagonal, the marginal posterior distribution of each model parameter. 
@@ -360,7 +363,7 @@ We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and
 With $\tau=100$, the estimated mutation rate was about 7-8-fold lower compared to $\tau=1$ ($\mu=4.094\cdot10^{-7}\ [6.252\cdot10^{-8}-6.046\cdot10^{-7}]$) and the aneuploidy rate was about 2-3-fold lower ($\delta=0.744\cdot10^{-3}\ [0.506\cdot10^{-3}-1.827\cdot10^{-3}]$). 
 With $\tau=10$, the estimated mutation rate was only slightly lower compared to $\tau=1$ ($\mu=1.67\cdot10^{-6}\ [2.836\cdot10^{-8}-2.245\cdot10^{-6}]$). 
 WAIC (lower is better, see Methods) is lowest for $\tau=33/32$ and $\tau=1$ (\Cref{table:WAIC}).
-Therefore, evidence does not support an increase in mutation rate in aneuploid cells, and moreover, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference.
+Therefore, our results do not support an increase in mutation rate in aneuploid cells. This may be because, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference; or because chromosome III is one of the smallest chromosomes \citep{Gilchrist2019}.
 We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
 
 
@@ -429,8 +432,10 @@ This surprising result reinforces the importance of models when making interpret
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{DNA sequencing.}
-BLA BLA BLA
-% TODO AY
+Whole-genome sequencing of the ancestral diploid strain (\euwt) was performed on a sample generated from a single colony of the ancestor.
+Whole-genome sequencing of the four evolving populations ($H2$ after 450 and 2,350 generations, and $H4$ after 450 and 1,700 generations) was performed at the population level.
+A liquid sample from each evolving population was taken for sequencing from each culture as it grows under the same conditions as the lab evolution experiments (YPD at \SI{39}{\celsius}).
+DNA was purified from the collected cells for each population and downstream deep sequencing was performed according to the Illumina protocol for amplicon sequencing. 
 
 \paragraph{Evolutionary genetic model.}
 We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
@@ -905,7 +910,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 \caption{
 \textbf{Mutant alleles in population $H2$.}}
 \caption*{
-	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 1,700) of population $H2$. See supplementary file.
+	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 2,350) of population $H2$. See supplementary file.
 } 
 \label{table:mutations_H2}
 \end{table}
@@ -917,7 +922,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 \caption{
 \textbf{Mutant alleles in population $H4$.}}
 \caption*{
-	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 2,350) of population $H4$. See supplementary file.
+	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 1,700) of population $H4$. See supplementary file.
 } 
 \label{table:mutations_H4}
 \end{table}
