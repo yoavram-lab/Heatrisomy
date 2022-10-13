@@ -333,20 +333,20 @@ We simulated 50 replicate genotype frequency dynamics using the MAP estimate par
 We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt\ in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004,Komarova2003}.
 
 To test the hypothesis that aneuploidy facilitates adaptation, we estimated $F_A$, the expected frequency of \eumt\ that arose from \anwt, computed as the average frequency of such \eumtA\ cells at the end of simulations using the MAP estimate parameters.
-Surprisingly, we observe that the majority of \eumt\ cells are \eumtM, a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, \Cref{fig:FA}A). 
+Surprisingly, we observe that the majority of \eumt\ cells are \eumtM, a product of a direct mutation in \euwt\ cells, rather than descending from \anwt\ cells ($F_A^{MAP} = 0.106$, average end point of 50 purple lines in \Cref{fig:FA}A). 
 This is despite the fact that the \anwt\ genotype reaches high frequencies in the population (at least 0.98, \Cref{fig:FA}A).
 
 This result is not unique to the MAP parameter estimate. 
-We simulated genotype frequency dynamics using parameter samples from the posterior distribution (\Cref{fig:posterior}), and computed the posterior distribution of $F_A$ (\Cref{fig:FA}B). 
-The mean $F_A$ was just 0.1673 [0.0154-0.370 95\% CI] and only in 489 of 100,000 posterior samples (0.489\%) $F_A$ was  larger than 0.5 (see Supporting Material for results when transitions to less-fit genotypes are allowed, such as \eumt\ to \anmt).  
+We simulated genotype frequency dynamics using parameter samples from the posterior distribution, and computed the posterior distribution of $F_A$ (\Cref{fig:FA}B). 
+The posterior mode $F_A$ was just 0.147 [0.0154-0.370 95\% CI] and only in 489 of 100,000 posterior samples (0.489\%) $F_A$ was  larger than 0.5 (see Supporting Material for results when transitions to less-fit genotypes are allowed, such as \eumt\ to \anmt).  
 Thus, if we sample a random cell from the evolved \eumt\ population, it is more likely to have descended directly from an euploid cell than from an aneuploid cell.
-The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with the mutation rate, $\mu$, and population size $N$ (\Cref{fig:FA}C,D). In some cases it can also be affected by the fitness parameters (\Cref{fig:posterior_FA_supp}).
+The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneuploidy rate, $\delta$, and decreases with both the population size $N$ and the mutation rate, $\mu$ (\Cref{fig:FA}C,D). In some cases it can also be affected by the fitness parameters (\Cref{fig:posterior_FA_supp}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Fig dynamics
-\begin{figure}[h!]
+\begin{figure}[p]
       \centering
       \includegraphics[width=0.8\textwidth]{../figures/FA.pdf}      
   \caption{
@@ -354,10 +354,13 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
     \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, whereas $2n^*_M$ arose directly from $2n$. Colored curves are 50 simulations using the MAP estimate parameters. Black dashed curves are the expected genotype frequencies without genetic drift (from a deterministic model). 
      See \Cref{fig:MAP_freq_dynamics_log} for log-log scale, in which the sequence of events is easier to observe.
     \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells descended from \anwt\ cells, computed as the average frequency at the end of 100 simulations for 100,000 samples from the parameter posterior distribution.
-    Solid and dashed lines show the mean and 95\% CI.
+    Solid and dashed lines show the mode and 95\% CI.
 	\textbf{(C)} $F_A$ values (color coded) from panel B, with their corresponding mutation rate $\mu$ on x-axis and aneuploidy rate $\delta$ on the y-axis.
 	White star shows the MAP estimate. See also \Cref{fig:posterior_FA_supp}.
-	\textbf{(D)} $F_A$ as a function of the population size, $N$, in posterior predictions with MAP parameters. Markers show $F_A$ in 250 simulations per population size. Error bars show mean $F_A$ with 95\% CI (bootstrap, $n=10,000$). Vertical dashed line for population size in the experiment, $6.425\cdot10^6$. Horizontal line for $F_A^{MAP}=0.106$. 
+	\textbf{(D)} $F_A$ as a function of the population size ($N$, bottom x-axis) and the beneficial mutation rate ($\mu$, top x-axis) in posterior predictions with MAP parameters. 
+	Markers show $F_A$ in 250 simulations per population size or mutation rate value.
+	Error bars show mean $F_A$ with 95\% CI (bootstrap, $n=10,000$). Blue and red bars for varying population size and mutation rate, respectively.
+	Vertical dashed line for population size in the experiment, $6.425\cdot10^6$, and the MAP mutation rate, $2.965\cdot10^{-6}$. Horizontal line for $F_A^{MAP}=0.106$. 
 	\textbf{(E)} Population mean fitness in a model without drift using MAP estimate parameters. Solid lines for mean fitness with aneuploidy ($\delta>0$), where the population reaches adaptation (mean fitness at 99.99\% of maximum value) at generation 1,802. Dashed lines for mean fitness without aneuploidy ($\delta=0$), where the population adapts much earlier, at generation 535.
      }
   \label{fig:FA}
@@ -406,11 +409,11 @@ For the aneuploid lineage to compete with the mutant lineage, it must produce \e
 Although this is a stochastic process (due to drift), our results show that the time until \eumtA\ reaches a frequency of ~0.1\% is roughly 450 generations, without much variation (intersection of purple lines and vertical dashed line in \Cref{fig:MAP_freq_dynamics_log}).
 However, by that time \eumtM\ is already at a roughly 10-fold higher frequency (1.86\%), and since both mutants have the same fitness, their relative frequency remains roughly the same until the end of the experiment. 
 
-% population size
-\paragraph{Predictions for small populations.}
-We examined the effect of the population size, $N$, on the frequency of \anwt\ descendants in the evolved population, $F_A$.
-We found that $F_A$ is expected to decrease as the population size increases (\Cref{fig:FA}D), ranging from about 90\% when the population size is 10,000, to about 10\% when the population size is above 1,000,000 (less than the experimental population size, which was 6,425,000). 
-Thus, our model provides a testable prediction: if the experiment was repeated under a lower population size (via stronger daily dilutions or in a smaller volume), than the fraction of the population descending from aneuploid cells would be much higher.
+% mutation supply
+\paragraph{Predictions for small populations and low mutation rates.}
+We examined the effect of the population size, $N$, and the beneficial mutation rate, $\mu$, on the frequency of \anwt\ descendants in the evolved population, $F_A$.
+We found that $F_A$ is expected to decrease as the population size or mutation rate increase (\Cref{fig:FA}D), ranging from >90\% when the population size is 10,000 or the mutation rate is $6\cdot10^{-9}$, to about 10\% when the population size is above 1,000,000 (less than the experimental population size, which was 6,425,000) or the mutation rate is above $2\cdot10^{-6}$ (less than the inferred mutation rate, which is $2.965\cdot10^{-6}$). 
+Thus, our model provides a testable prediction: if the experiment was repeated under a lower population size (via stronger daily dilutions or in a smaller volume) or a lower mutation rate (via a non-mutagenic stress or stress with a smaller target size), then the fraction of the population descending from aneuploid cells would be much higher.
 
 % mean fitness
 \paragraph{Aneuploidy delays rather than facilitates adaptation.}
@@ -421,7 +424,7 @@ This is because once \anwt\ is common, selection for the mutant strain (\anmt\ o
 % parameter estimates
 \paragraph{Rate and fitness effect of aneuploidy and mutation.}
 We inferred the rates of aneuploidy and mutation and their effects on fitness. 
-We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, higher than a previous estimate of $6.7 \cdot 10^{-6}$~\citep{Zhu2016}. This may be due to genetic instability caused by heat stress~\citep{Chen2012a}.
+We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, higher than a previous estimate of $6.7 \cdot 10^{-6}$ (ref~~\citep{Zhu2016}). This may be due to genetic instability caused by heat stress~\citep{Chen2012a}.
 In addition, we find no evidence for increased mutation rates in aneuploid cells. 
 Previous empirical studies have suggested that genetic instability (e.g., elevated mutation rates) in aneuploid cells is due to stress associated with the aneuploid state~\citep{Bouchonville2009, Chen2012b, Zhu2012, Ippolito2021b}.
 However, in the experiment of \citet{Yona2012}, both the wild-type and the aneuploid were under heat stress, which may explain why we did not find evidence for an increased mutation rate specifically in aneuploid cells.
