@@ -442,10 +442,9 @@ This surprising result reinforces the importance of models when making interpret
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{DNA sequencing.}
-Whole-genome sequencing of the ancestral diploid strain (\euwt) was performed on a sample from a single colony of the ancestor.
-Whole-genome sequencing of the four evolving populations ($H2$ after 450 and 2,350 generations, and $H4$ after 450 and 1,700 generations) was performed on a sample from these populations (rather than from single colonies).
-The liquid sample from each evolving population was taken from each culture as it grows under the same conditions as the lab evolution experiments (YPD at \SI{39}{\celsius}).
-DNA was purified from the collected cells for each population and downstream deep sequencing was performed according to the Illumina protocol for amplicon sequencing. 
+Whole-genome sequencing of the ancestral diploid strain (\euwt) was performed
+on a single colony of the ancestor. Whole-genome sequencing of the four evolving populations ($H2$ after 450 and 2,350 generations, and $H4$ after 450 and 1,700 generations) was performed on a sample from these populations (rather than from single colonies) in order to maintain the population diversity. Cells were grown in 5ml of YPD medium, either at \SI{30}{\celsius} (ancestral diploid) or \SI{39}{\celsius} (evolved populations) in shaking conditions (200rpm) until reaching stationary phase. Following growth, 3ml of each culture were centrifuge (14,000rpm) and cell pellets were used for DNA extraction. 
+Genomic DNA was extracted using “MasterPure Yeast DNA Purification Kit” (Lucigen) according to the manufacture instructions. Following extraction, DNA concentrations were determined by Qubit assay (Thermo Fisher) and ~1µg DNA was used for library preparation using Illumina sample preparation kit (Illumina). Samples were sequenced using a 100 bp pair end read output run using Illumina HiSeq2500.  
 
 \paragraph{Evolutionary genetic model.}
 We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
