@@ -160,16 +160,18 @@ Together, our results suggest that aneuploidy can be an inevitable evolutionary 
 %\paragraph{Aneuploidy is common in eukaryotes.}
 Aneuploidy is an imbalance in the number of chromosomes in the cell: an incorrect karyotype.
 Evidence suggests aneuploidy is very common in eukaryotes, e.g. animals~\citep{Santaguida2015review, Naylor2016, Bakhoum2017}, and fungi~\citep{Pavelka2010, Zhu2016, Robbins2017, Todd2017}.
-Aneuploidy has been implicated in cancer formation, progression, and resistance~\citep{Boveri2008, Schvartzman2010, Santaguida2015review, Ippolito2021b}.
+Aneuploidy has been implicated in cancer formation, progression, and drug resistance~\citep{Boveri2008, Schvartzman2010, Santaguida2015review, Ippolito2021b}.
 It is also common in protozoan pathogens of the Leishmania genus, a major global health concern~\citep{Mannaert2012}, and contributes to the emergence of drug resistance~\citep{Selmecki2009} and virulence~\citep{Moller2018} in fungal pathogens, which are under-studied~\citep{Rodrigues2018}, despite infecting a billion people per year, causing significant morbidity in >150 million and death in >1.5 million people per year~\citep{Selmecki2009, Rodrigues2018}.
 
 %\paragraph{Aneuploidy is generally deleterious.}
 Experiments with human and mouse embryos found that most aneuploidies are lethal.
-It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
+It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. % trisomy 21 and Klinefelter and Turner's syndromes
+For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
 Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Kasuga2016, Yang2021}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018} and hypo-osmotic-like stress~\citep{Tsai2019}.
 
 %\paragraph{Aneuploidy can lead to adaptation.}
 However, aneuploidy can be beneficial under stressful conditions due to the wide range of phenotypes it can produce, some of which are advantageous~\citep{Pavelka2010, Yang2021}.
+Indeed, in a survey of 1,011 yeast strain, aneuploidy has been detected in about 19\%\citep{Peter2018}.
 Thus, aneuploidy can lead to rapid adaptation in unicellular eukaryotes~\citep{Gerstein2015,Torres2010, Hong2014, Rancati2008}, as well as to rapid growth of somatic tumour cells~\citep{Schvartzman2010, Sheltzer2017}.
 For example, aneuploidy in \yeast facilitates adaptation to a variety of stressful conditions like heat and pH~\citep{Yona2012}, copper~\citep{Covo2014, Gerstein2015}, salt~\citep{Dhar2011}, and nutrient limitation~\citep{Dunham2002, Gresham2008, Avecilla2022}, with similar results in \calbicans~\citep{Yang2021}.
 Importantly, aneuploidy can also lead to drug resistance in pathogenic fungi such as \calbicans~\citep{Selmecki2008, Selmecki2010, Gerstein2018} and \cneoformans~\citep{Sionov2010}, which cause candidiasis and meningoencephalitis, respectively.
@@ -183,10 +185,10 @@ Furthermore, it has been suggested that aneuploidy is an evolutionary "stepping 
 
 %\paragraph{The present study.}
 Here, we test the hypothesis that aneuploidy is a an \emph{evolutionary stepping stone} that facilitates adaptive evolution by genetic mutations.
-First, we analyze previously unpublished sequencing data from the original experimental populations \citep{Yona2012} to assess if the evolved euploid population is descended from the aneuploid population.
+First, we sequenced the genomes of evolved populations reported in \citep{Yona2012} and analyzed their mutant allele frequencies to assess if the evolved euploid cells are descended from aneuploid cells.
 Second, we develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} in order to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
-Our results show that aneuploidy reached high frequencies in the experimental populations, but nevertheless, the majority of cells in the evolved euploid populations likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
-These results suggest that aneuploidy can be an evolutionary detour, rather than a stepping stone, on the path to adaptation.
+Our results show that aneuploidy reached high frequencies in the experimental populations, but nevertheless, the majority of cells in the evolved euploid population likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
+These results suggest that at the lineage level, aneuploidy may be an evolutionary detour, rather than a stepping stone, on the path to adaptation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -198,14 +200,12 @@ Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplication
 These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350 in $H4$ and $H2$, respectively.
 
 \paragraph{Empirical frequencies of mutant alleles.} 
-For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations_H2,table:mutations_H4}). 
+For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral diploid population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations_H2,table:mutations_H4}). 
 Overall, between 100 and 173 mutant alleles were detected with at least a single read in the six populations that were sampled. 
 Disregarding 45 and 40 alleles that were present in the ancestral populations at a frequency >10\%, the aneuploid and euploid populations carried a large number of mutant alleles: 82 and 95, respectively, in repetition $H2$, and 60 and 66 in repetition $H4$.
 
 Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
-Furthermore, a high mutant allele frequency in the aneuploid population implies a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), such that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
-Moreover, for the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
-Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
+More importantly, a high mutant allele frequency in the aneuploid population was associated with a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), suggesting that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
 These results suggest evolved euploid cells are unlikely to descend from aneuploid~cells.
 
 %%%%%%%% Fig mutation frequencies
@@ -217,9 +217,12 @@ These results suggest evolved euploid cells are unlikely to descend from aneuplo
     Frequencies of mutant alleles when trisomy was widespread in the population (y-axis) and after it was eliminated (x-axis) in two experimental repetitions (circles for $H2$ and triangles for $H4$) from \citet{Yona2012}. Mutant alleles with >20\% in the aneuploid population were <20\% in the euploid population, and vice versa (the upper-right quadrant is empty), suggesting that the majority of evolved euploid cells did not descend from the most common aneuploid genotypes. 
 Alleles with frequency below and above 10\% in the ancestral populations are in black and gray, respectively. 
 Solid black line is a linear orthogonal distance regression line (slope=$-0.559$, intercept=$0.164$; a regression through alleles that reach at least 20\% in one of the populations has slope=$-0.645$ and intercept=$0.297$).
-Dashed vertical and horizontal lines show allele frequencies 20\%. Error bars show standard error of the mean accounting for the number of reads.
+Dashed vertical and horizontal lines show allele frequencies 20\%. Error bars show standard error of the mean accounting for the number of reads, which may be large when the total number of reads is small.
+For the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
+Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
 }
   \label{fig:mutation_frequencies}
+  %TODO OD: suggest to put more stringent cut off here as a single read can be also a result of sequencing mistake. I think cut off of 10 reads is better and i think will not change the overall message 
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -260,8 +263,9 @@ We report parameter estimates using the MAP (maximum a posteriori) and providing
 
 % without back transitions:
 The estimated beneficial mutation rate is $\mu=2.965\cdot10^{-6}\ [2.718\cdot10^{-7}-3.589\cdot10^{-6}]$. From the literature, the mutation rate per base pair is roughly $2-3\cdot10^{-10}$ (refs.~\citep{Zhu2014,Lynch2008}), but it may be higher under heat stress, as several stresses may cause hypermutation in yeast~\citep{Heidenreich2007}.
-If we assume a 10-fold increase in mutation rate, then the estimated beneficial mutation rate can be explained by a target size of 1,000 base pairs.
-\citet{Yona2012} found at least 10 genes on chromosome III with mutations that led to increased heat tolerance. Assuming that other chromosomes also have a similar number of heat-tolerance genes (i.e., chromosome III is one of the smaller chromosomes~\citep{Gilchrist2019}), and that each gene has a target size of ten base pairs, we easily get to a target size above 1,600.
+If we assume a 10-fold increase over the mutation rate reported in the literature, then the estimated beneficial mutation rate can be explained by a target size of 1,000 base pairs.
+\citet{Yona2012} found at least 10 genes on chromosome III that increased heat tolerance when over-expressed. Assuming that other chromosomes also have a similar number of heat-tolerance genes (i.e., chromosome III is one of the smaller chromosomes~\citep{Gilchrist2019}), and that each gene has a target size of ten base pairs, % TODO OD: on what this assumption based ? maybe look for fitness landscape analysis of other proteins and try to based estimation on that ? 
+we easily get to a target size above 1,600.
 
 The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
 However, this difference may be explained by an increased aneuploidy rate during heat stress~\citep{Chen2012a}.
@@ -315,7 +319,7 @@ The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84, 0.78, 0.67, and 0.
 \end{figure}
 
 
-Our model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}B).
+Our model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}).
  
 However, a model without aneuploidy (where the aneuploidy rate is fixed at zero, $\delta=0$), fails to explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). %% generated with MAP-and-hdi.ipynb
 The estimated mutation rate without aneuploidy is $\mu=7.98\cdot10^{-9}\ [7.906\cdot10^{-9}-8.138\cdot10^{-9}]$, much lower compared to a model with aneuploidy and suggesting a target size of just 40. 
@@ -363,12 +367,14 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
 	Vertical dashed line for population size in the experiment, $6.425\cdot10^6$, and the MAP mutation rate, $2.965\cdot10^{-6}$. Horizontal line for $F_A^{MAP}=0.106$. 
 	\textbf{(E)} Population mean fitness in a model without drift using MAP estimate parameters. Solid lines for mean fitness with aneuploidy ($\delta>0$), where the population reaches adaptation (mean fitness at 99.99\% of maximum value) at generation 1,802. Dashed lines for mean fitness without aneuploidy ($\delta=0$), where the population adapts much earlier, at generation 535.
      }
+     % TODO OD: I missed it in the figure - make white star more visible 
   \label{fig:FA}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \paragraph{Genetic instability in aneuploid cells.}
+% TODO OD: I have some issues understanding this section (only got it right after we talked ....) I suggest to try explain better and also add the logic (why focusing on the effect on aneuploidy on mutation rate rather then mis-segregation rate ?). maybe also add sentence saying you also model the assumption that aneuplody affect mis-segregation rate (not shown ) 
 It has been suggested that aneuploidy increases genetic instability~\citep{Sheltzer2011b, Ippolito2021b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
 %% generated with MAP-and-hdi.ipynb
@@ -386,7 +392,8 @@ We also checked the differences in genotype frequency dynamics for different $\t
 In a landmark study on the role of chromosome duplication in adaptive evolution, 
 \citet{Yona2012} found that a chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells that carry "refined" solutions to the stress. 
 Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a chromosome III trisomy.
-They hypothesized that the euploid mutant cells evolved by heat-resistance mutations in aneuploid cells followed by reversion of trisomy due to a chromosome loss event. 
+They hypothesized % TODO OD: To be accurate, we never state implicitly that we think it occur in the same lineage.  maybe you can soften here a bit "One possible/ likely scenario ...." 
+ that the euploid mutant cells evolved by heat-resistance mutations in aneuploid cells followed by reversion of trisomy due to a chromosome loss event. 
 
 If indeed the evolved euploid population is descended from the aneuploid population, then mutant alleles that were common in the aneuploid populations should also be common in the evolved euploid population.
 However, we found that this is not the case (\Cref{fig:mutation_frequencies}): mutant allele frequencies in the aneuploid and euploid populations are negatively correlated, such that common alleles in the former are rare in the later. 
@@ -431,7 +438,7 @@ However, in the experiment of \citet{Yona2012}, both the wild-type and the aneup
 
 % Conclusions
 \paragraph{Conclusions.}
-Here, we tested the hypothesis that aneuploid cells are an evolutionary "stepping stone", or adaptive intermediate, between wild-type euploid cells and mutant euploid cells. 
+Here, we tested the hypothesis that aneuploidy cells are an evolutionary "stepping stone", or adaptive intermediate, between wild-type euploid cells and mutant euploid cells. 
 Our results suggest that, although it seems the population goes from euploid to aneuploid and back, this is not the case at the individual level. We estimate that only about 10-15\% of the euploid cells descended from aneuploid cells, whereas the rest are direct descendants of the wild-type euploid cells. Thus, aneuploidy can delay, rather than accelerate, adaptation, and and cells that become aneuploid may leave less descendants than cells that remain euploid. 
 This surprising result reinforces the importance of models when making interpretations on evolutionary processes, and emphasizes the unintuitive outcomes of clonal interference during adaptive evolution.
 
