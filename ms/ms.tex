@@ -139,15 +139,16 @@ Keywords: whole-chromosome duplication, evolutionary model, adaptive evolution
 
 % Abstract 250 words
 \begin{abstract} 
-Aneuploidy is common in eukaryotes, often leading to decreased growth and fitness. However, evidence from yeast and fungi, as well as human tumour cells, suggests that specific aneuploidies can be beneficial under stressful conditions and facilitate  adaptation.
+Aneuploidy is common in eukaryotes, often leading to decreased growth and fitness. However, evidence from yeast and other fungi, as well as human tumour cells, suggests that specific aneuploidies can be beneficial under stressful conditions and facilitate  adaptation.
 In a prominent example, an evolutionary experiment with yeast, populations evolving under heat stress had become aneuploid (chromosome III), only to later revert back to euploid after genetic mutations have accumulated. It has therefore been suggested that aneuploidy serves as a "stepping stone" on the path to adaptation.
 
 Here, we test this hypothesis. First, we apply DNA sequencing to show that mutant alleles common in aneuploid cells are uncommon in the evolved euploid population. 
 Second, we develop an evolutionary model with both aneuploidy and  mutation, and fit it to the results of the experiment using a Bayesian inference framework.
 We then predict the genotype frequency dynamics during the experiment, demonstrating that the majority of the evolved euploid population likely did not descend from aneuploid cells, but rather directly from the euploid wild-type population.
-Our model further predicts that if the experiment was repeated with smaller populations, then a larger fraction of the evolved population would descend from aneuploid cells.
+%Our model further predicts that if the experiment was repeated with smaller populations, then a larger fraction of the evolved population would descend from aneuploid cells.
+Our model shows how the beneficial mutation supply--the product of population size and beneficial mutation rate--determine the evolutionary dynamics, such that with a lower mutation supply a larger fraction of the evolved population may descend from aneuploid cells. However, with high mutation supply, beneficial mutations are generated before fixation of aneuploidy, and can outcompete aneuploidy due to its inherent fitness cost.
 
-Together, our results suggest that aneuploidy can be an inevitable evolutionary "detour" rather than a "stepping stone": it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
+Together, our results suggest that aneuploidy can be an evolutionary "detour" rather than a "stepping stone": it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
 \end{abstract}
 
 % TODO Significance statement 120 words
@@ -374,7 +375,8 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
 
 
 \paragraph{Genetic instability in aneuploid cells.}
-% TODO OD: I have some issues understanding this section (only got it right after we talked ....) I suggest to try explain better and also add the logic (why focusing on the effect on aneuploidy on mutation rate rather then mis-segregation rate ?). maybe also add sentence saying you also model the assumption that aneuplody affect mis-segregation rate (not shown ) 
+% TODO OD: I have some issues understanding this section (only got it right after we talked ....) I suggest to try explain better and also add the logic (why focusing on the effect on aneuploidy on mutation rate rather then mis-segregation rate ?). 
+maybe also add sentence saying you also model the assumption that aneuplody affect mis-segregation rate (not shown ) 
 It has been suggested that aneuploidy increases genetic instability~\citep{Sheltzer2011b, Ippolito2021b}. Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}).
 %% generated with MAP-and-hdi.ipynb
@@ -392,7 +394,8 @@ We also checked the differences in genotype frequency dynamics for different $\t
 In a landmark study on the role of chromosome duplication in adaptive evolution, 
 \citet{Yona2012} found that a chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells that carry "refined" solutions to the stress. 
 Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a chromosome III trisomy.
-They hypothesized % TODO OD: To be accurate, we never state implicitly that we think it occur in the same lineage.  maybe you can soften here a bit "One possible/ likely scenario ...." 
+They hypothesized % TODO OD: To be accurate, we never state implicitly that we think it occur in the same lineage.  
+maybe you can soften here a bit "One possible/ likely scenario ...." 
  that the euploid mutant cells evolved by heat-resistance mutations in aneuploid cells followed by reversion of trisomy due to a chromosome loss event. 
 
 If indeed the evolved euploid population is descended from the aneuploid population, then mutant alleles that were common in the aneuploid populations should also be common in the evolved euploid population.
