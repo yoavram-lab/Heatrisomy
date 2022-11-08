@@ -101,6 +101,7 @@ headheight=12pt
 
 % NatBib
 \usepackage[super,comma]{natbib}
+%\usepackage[numbers,super,compress]{natbib}
 %\usepackage[round,colon,authoryear]{natbib}
 
 % Title page
@@ -146,7 +147,7 @@ Here, we test this hypothesis. First, we apply DNA sequencing to show that mutan
 Second, we develop an evolutionary model with both aneuploidy and  mutation, and fit it to the results of the experiment using a Bayesian inference framework.
 We then predict the genotype frequency dynamics during the experiment, demonstrating that the majority of the evolved euploid population likely did not descend from aneuploid cells, but rather directly from the euploid wild-type population.
 %Our model further predicts that if the experiment was repeated with smaller populations, then a larger fraction of the evolved population would descend from aneuploid cells.
-Our model shows how the beneficial mutation supply--the product of population size and beneficial mutation rate--determine the evolutionary dynamics, such that with a lower mutation supply a larger fraction of the evolved population may descend from aneuploid cells. However, with high mutation supply, beneficial mutations are generated before fixation of aneuploidy, and can outcompete aneuploidy due to its inherent fitness cost.
+Our model shows how the beneficial mutation supply--the product of population size and beneficial mutation rate--determine the evolutionary dynamics: with a low mutation supply, a large fraction of the evolved population may descend from aneuploid cells; but with a high mutation supply, beneficial mutations are generated before fixation of aneuploidy, and can outcompete aneuploidy due to the latter's inherent fitness cost.
 
 Together, our results suggest that aneuploidy can be an evolutionary "detour" rather than a "stepping stone": it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
 \end{abstract}
@@ -165,10 +166,10 @@ Aneuploidy has been implicated in cancer formation, progression, and drug resist
 It is also common in protozoan pathogens of the Leishmania genus, a major global health concern~\citep{Mannaert2012}, and contributes to the emergence of drug resistance~\citep{Selmecki2009} and virulence~\citep{Moller2018} in fungal pathogens, which are under-studied~\citep{Rodrigues2018}, despite infecting a billion people per year, causing significant morbidity in >150 million and death in >1.5 million people per year~\citep{Selmecki2009, Rodrigues2018}.
 
 %\paragraph{Aneuploidy is generally deleterious.}
-Experiments with human and mouse embryos found that most aneuploidies are lethal.
-It is also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. % trisomy 21 and Klinefelter and Turner's syndromes
+Experiments with human and mouse embryos found that most grem-line aneuploidies are lethal.
+Aneuploidies are also associated with developmental defects and lethality in other multicellular organisms~\citep{Sheltzer2011}. % trisomy 21 and Klinefelter and Turner's syndromes
 For example, aneuploid mouse embryonic cells grow slower than euploid cells~\citep{Williams2008}.
-Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Kasuga2016, Yang2021}, in part due to proteotoxic stress caused by increased expression in aneuploid cells~\citep{Pavelka2010, Santaguida2015, Zhu2018} and hypo-osmotic-like stress~\citep{Tsai2019}.
+Similarly, in unicellular eukaryotes growing in benign conditions, aneuploidy usually leads to slower growth and decreased overall fitness, in part due to proteotoxic stress due to increased expression, gene dosage imbalance, and hypo-osmotic-like stress~\citep{Niwa2006, Torres2007, Pavelka2010, Sheltzer2011, Santaguida2015, Kasuga2016, Zhu2018, Tsai2019, Yang2021}.
 
 %\paragraph{Aneuploidy can lead to adaptation.}
 However, aneuploidy can be beneficial under stressful conditions due to the wide range of phenotypes it can produce, some of which are advantageous~\citep{Pavelka2010, Yang2021}.
@@ -207,7 +208,7 @@ Disregarding 45 and 40 alleles that were present in the ancestral populations at
 
 Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
 More importantly, a high mutant allele frequency in the aneuploid population was associated with a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), suggesting that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
-These results suggest evolved euploid cells are unlikely to descend from aneuploid~cells.
+These results suggest evolved euploid cells are unlikely to have descended from aneuploid cells.
 
 %%%%%%%% Fig mutation frequencies
 \begin{figure}[h]
@@ -235,8 +236,9 @@ The model includes the effects of natural selection, genetic drift, aneuploidy, 
 euploid wild-type, \euwt, is the ancestral diploid genotype; 
 euploid mutant, \eumt, has a diploid karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, has an extra chromosome due to a chromosome duplication event; and
-aneuploid mutant, \anmt, has and extra chromosome and a beneficial mutation.
-Fitness values of the different genotypes are denoted by $w_{\euwt}$, $w_{\eumt}$, $w_{\anwt}$, and $w_{\anmt}$, and the rate of mutation and aneuploidy are denoted by $\mu$ and $\delta$. See \Cref{fig:models} for an illustration of the model.
+aneuploid mutant, \anmt, has and extra chromosome (like \anwt) and a beneficial mutation (like \eumt).
+Fitness values of the different genotypes are denoted by $w_{\euwt}$, $w_{\eumt}$, $w_{\anwt}$, and $w_{\anmt}$, and the rate of mutation and aneuploidy are denoted by $\mu$ and $\delta$, respectively.
+See \Cref{fig:models} for an illustration of the model.
 
 We fitted this model to the experimental results\citep{Yona2012} -- time for fixation (>95\%) and for loss (<5\%) of aneuploidy -- using approximate Bayesian computation with sequential Monte Carol (ABC-SMC)~\citep{Sisson2009}, thereby inferring the model parameters: rates aneuploidy and mutation and the fitness of all genotypes.
 We then sampled posterior predictions for the genotype frequency dynamics using the estimated parameter values and compared different versions of the model to test additional hypotheses about the evolutionary process.
@@ -264,14 +266,14 @@ We report parameter estimates using the MAP (maximum a posteriori) and providing
 
 % without back transitions:
 The estimated beneficial mutation rate is $\mu=2.965\cdot10^{-6}\ [2.718\cdot10^{-7}-3.589\cdot10^{-6}]$. From the literature, the mutation rate per base pair is roughly $2-3\cdot10^{-10}$ (refs.~\citep{Zhu2014,Lynch2008}), but it may be higher under heat stress, as several stresses~\citep{Heidenreich2007}, including heat~\citep{Huang2018}, may cause hypermutation in yeast.
-If we assume a 10-fold increase over the mutation rate reported in the literature, then the estimated beneficial mutation rate can be explained by a genomic target size of 1,000 base pairs.
+If we assume a 10-fold increase over the mutation rate reported in the literature, then the estimated beneficial mutation rate can be explained by a genomic target size of 1,000 base pairs (i.e., 1,000 base pairs across the genome in which a mutation would provide a fitness benefit).
 Supporting this, \citet{Flynn2020} used a deep mutational scan of a single protein, Hsp90, to find 465 amino-acid variants that increased growth rate in \SI{37}{\celsius}.
-Furthermore, \citet{Yona2012} found at least 10 genes on chromosome III that increased heat tolerance when over-expressed. Assuming that other chromosomes also have a similar number of heat-tolerance genes (i.e., chromosome III is one of the smaller chromosomes~\citep{Gilchrist2019}), we get a total of 160 heat-tolerance genes in the genome.
+Furthermore, \citet{Yona2012} found at least 10 genes on chromosome III that increased heat tolerance when over-expressed. Assuming that other chromosomes also have a similar number of heat-tolerance genes (and even more, as chromosome III is one of the smallest chromosomes~\citep{Gilchrist2019}), we get a total of 160 heat-tolerance genes in the genome.
 Indeed, mutations were found in 97 genes in an evolutionary experiment with yeast under heat stress~\citep{Huang2018}.
 Thus, to get a genomic target size of 1,000, it is enough that the average gene target size is 6.25 base pairs. For example, \citet{Kohn2014} found a target size of 11 in a proton exporter gene (\emph{PMA1}) that contributes to high-salt adaptation.
 
 The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
-However, this difference may be explained by an increased aneuploidy rate during heat stress~\citep{Chen2012a}.
+However, this difference may be partly explained by an increased aneuploidy rate during heat stress: heat shock can increase the rate of chromosome fragment loss by 2-3 orders of magnitude~\citep{Chen2012a}.
 
 The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
 $w_{\anmt}=1.025\ [1.024-1.026]$,
@@ -321,11 +323,11 @@ The MAP likelihood (\cref{eq:heatstress-likelihood}) is 0.84, 0.78, 0.67, and 0.
   \label{fig:2n*-fixation}
 \end{figure}
 
-
-Our model fits the data well: in simulations using the MAP parameter estimates, \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}).
+To assess the fit of our model to the data, we use posterior predictive checks, in which we simulate the frequency dynamics using MAP parameter estimates and compare them to the data.
+Our model fits the data well: \eumt\ fixed in 61\% of simulations by generation 1,700 and in 100\% of simulations by generation 2,350~(\Cref{fig:2n*-fixation}).
  
 However, a model without aneuploidy (where the aneuploidy rate is fixed at zero, $\delta=0$), fails to explain the experimental observations~(Figure~\ref{fig:2n*-fixation}). %% generated with MAP-and-hdi.ipynb
-The estimated mutation rate without aneuploidy is $\mu=7.98\cdot10^{-9}\ [7.906\cdot10^{-9}-8.138\cdot10^{-9}]$, much lower compared to a model with aneuploidy and suggesting a target size of just 40. 
+The estimated mutation rate without aneuploidy is $\mu=7.98\cdot10^{-9}\ [7.906\cdot10^{-9}-8.138\cdot10^{-9}]$, much lower compared to a model with aneuploidy.
 The fitness of the mutant is also much lower at $w_{\eumt}=1.013\ [1.012-1.013]$.
 This is because, without aneuploidy, a high mutation rate or fitness effect will lead to faster appearance and fixation of \eumt\ than in the experimental observations. 
 
