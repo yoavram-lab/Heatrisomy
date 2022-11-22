@@ -121,7 +121,7 @@ headheight=12pt
 
 \affil[a]{School of Zoology, Faculty of Life Sciences, Tel Aviv University, Tel Aviv, Israel}
 \affil[b]{School of Computer Science, Reichman University, Herzliya, Israel}
-\affil[c]{Department of Molecular Genetics, Weizmann Institute of Science, Rehovot 76100, Israel}
+\affil[c]{Department of Molecular Genetics, Weizmann Institute of Science, Rehovot, Israel}
 \affil[d]{Institute of Biochemistry, Food Science and Nutrition,
 Robert H. Smith Faculty of Agriculture, Food and Environment,
 The Hebrew University of Jerusalem, Israel}
@@ -186,7 +186,7 @@ Aneuploidy was therefore suggested to be a \emph{transient adaptive solution}, b
 Furthermore, it has been suggested that aneuploidy is an evolutionary "stepping stone" that facilitates future adaptation by genetic mutations, which require more time to evolve~\citep{Yona2012,Yona2015}.
 
 %\paragraph{The present study.}
-Here, we test the hypothesis that aneuploidy is a an \emph{evolutionary stepping stone} that facilitates adaptive evolution by genetic mutations.
+Here, we test the hypothesis that aneuploidy is a an \emph{evolutionary stepping stone} that facilitates adaptive evolution by genetic mutations~\citet{Yona2015}.
 First, we sequenced the genomes of evolved populations reported in \citep{Yona2012} and analyzed their mutant allele frequencies to assess if the evolved euploid cells are descended from aneuploid cells.
 Second, we develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} in order to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
 Our results show that aneuploidy reached high frequencies in the experimental populations, but nevertheless, the majority of cells in the evolved euploid population likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
@@ -245,14 +245,15 @@ We then sampled posterior predictions for the genotype frequency dynamics using 
 
 
 %%%%%%%% Fig illustration
-\begin{figure}[t]
+\begin{figure}[h]
   \centering
-    \includegraphics[width=\textwidth]{../figures/Fig1-A.png}      
+    \includegraphics[width=0.7\textwidth]{../figures/model_illustration.pdf}      
   \caption{
     \textbf{Model Illustration.}
     There are four genotypes in our model: euploid wild-type, \euwt; euploid mutant, \eumt; aneuploid wild-type, \anwt; and aneuploid mutant, \anmt.
     Overall there are two possible trajectories from \euwt\; to \eumt.
     Arrows denote transitions between genotypes, with transitions rates $\mu$ for the beneficial mutation rate and $\delta$ for the aneuploidy rate.
+    Elevation differences illustrate the expected, rather than the assumed, fitness differences between the genotypes.
    }
   \label{fig:models}
 \end{figure}
@@ -397,7 +398,7 @@ We also did not find evidence for an increase in the aneuploidy rate in aneuploi
 % Discussion
 \section*{Discussion}
 
-In a landmark study on the role of chromosome duplication in adaptive evolution, 
+In a study on the role of chromosome duplication in adaptive evolution, 
 \citet{Yona2012} found that a chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells that carry "refined" solutions to the stress. 
 Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a chromosome III trisomy.
 They hypothesized that aneuploidy is a ``useful yet short-lived intermediate that facilitates further adaptation'', suggesting that the euploid mutant cells evolved by heat-resistance mutations in aneuploid cells followed by reversion of trisomy due to a chromosome loss event. 
@@ -445,9 +446,11 @@ However, in the experiment of \citet{Yona2012}, both the wild-type and the aneup
 
 % Conclusions
 \paragraph{Conclusions.}
-Here, we tested the hypothesis that aneuploidy cells are an evolutionary "stepping stone", or adaptive intermediate, between wild-type euploid cells and mutant euploid cells. 
-Our results suggest that, although it seems the population goes from euploid to aneuploid and back, this is not the case at the individual level. We estimate that only about 10-15\% of the euploid cells descended from aneuploid cells, whereas the rest are direct descendants of the wild-type euploid cells. Thus, aneuploidy can delay, rather than accelerate, adaptation, and and cells that become aneuploid may leave less descendants than cells that remain euploid. 
-This surprising result reinforces the importance of models when making interpretations on evolutionary processes, and emphasizes the unintuitive outcomes of clonal interference during adaptive evolution.
+Here, we tested the hypothesis that aneuploidy cells are an evolutionary "stepping stone", or adaptive intermediate, between wild-type euploid cells and mutant euploid cells~\citep{Yona2015}. 
+Our results suggest that, although it seems the population goes from euploid to aneuploid and back, this is not the case at the individual level. We estimate that only about 10-15\% of the euploid cells descended from aneuploid cells, whereas the rest are direct descendants of the wild-type euploid cells.
+Thus, aneuploidy can delay, rather than accelerate, adaptation, and cells that become aneuploid may leave less descendants than cells that remain euploid. 
+This surprising result reinforces the importance of mathematical models when interpreting evolutionary dynamics.
+Moreover, our study emphasizes the unintuitive outcomes of clonal interference  between mechanisms for generation of variation that differ in their rate of formation and distribution of fitness effects, including mutation, copy number variation, horizontal gene transfer, and epigenetic modifications. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
