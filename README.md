@@ -1,9 +1,7 @@
-# Heatrisomy
-## Ilia Kohanovski, Martin Pontz, Avihu Yona, and Yoav Ram
 
 This is the repository for the manuscript:
 
-> Kohanovski, Pontz, Yona & Ram. TBD
+> Kohanovski*, Pontz*, Dahan, Pilpel, Yona, Ram. TBD
 
 ## Repository structure
 
