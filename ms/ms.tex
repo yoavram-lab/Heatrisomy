@@ -159,7 +159,7 @@ Together, our results suggest that despite its potential fitness benefits under 
 %\paragraph{Aneuploidy is common in eukaryotes.}
 Aneuploidy is an imbalance in the number of chromosomes in the cell: an incorrect karyotype.
 Evidence suggests aneuploidy is very common in eukaryotes, e.g. animals~\citep{Santaguida2015review, Naylor2016, Bakhoum2017}, and fungi~\citep{Pavelka2010, Zhu2016, Robbins2017, Todd2017}.
-Aneuploidy has been implicated in cancer formation, progression, and drug resistance~\citep{Boveri2008, Schvartzman2010, Santaguida2015review, Ippolito2021b}.
+Aneuploidy has been implicated in cancer formation, progression, and drug resistance~\citep{Boveri2008, Schvartzman2010, Santaguida2015review, Rutledge2016, Ippolito2021b, Lukow2021}.
 It is also common in protozoan pathogens of the Leishmania genus, a major global health concern~\citep{Mannaert2012}, and contributes to the emergence of drug resistance~\citep{Selmecki2009} and virulence~\citep{Moller2018} in fungal pathogens, which are under-studied~\citep{Rodrigues2018}, despite infecting a billion people per year, causing significant morbidity in >150 million and death in >1.5 million people per year~\citep{Selmecki2009, Rodrigues2018}.
 
 %\paragraph{Aneuploidy is generally deleterious.}
@@ -177,7 +177,7 @@ Importantly, aneuploidy can also lead to drug resistance in pathogenic fungi suc
 
 %\paragraph{Transient adaptive solution.} 
 \citet{Yona2012} demonstrated experimentally the importance of aneuploidy in adaptive evolution. They evolved populations of \yeast under strong heat stress.
-The populations adapted to the heat stress within 450 generations, and this adaptation was determined to be due a duplication of chromosome III.
+The populations adapted to the heat stress within 450 generations, and this adaptation was determined to be due a duplication of Chromosome III.
 Later on, after more than 1,500 generations, the populations reverted back to an euploid state, while remaining adapted to the heat stress. 
 Aneuploidy was therefore suggested to be a \emph{transient adaptive solution}, because it can rapidly appear and fixate in the population under stressful conditions, and can then be rapidly lost when the cost of aneuploidy outweighs its benefit---after the stress is removed, or after "refined" beneficial mutations appear and fixate~\citep{Yona2012}.
 Furthermore, it has been suggested that aneuploidy is an evolutionary "stepping stone" that facilitates future adaptation by genetic mutations, which require more time to evolve~\citep{Yona2012,Yona2015}.
@@ -195,13 +195,13 @@ These results suggest that at the lineage level, aneuploidy may be an evolutiona
 \section*{Results}
 In the heat-stress experiment of \citet{Yona2012}, four populations of \yeast evolved under \SI{39}{\celsius}.
 Aneuploidy fixed in all four experimental repetitions in the first 450 generations.
-Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a chromosome III trisomy.
+Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a Chromosome III trisomy.
 These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350 in $H4$ and $H2$, respectively.
 
 \paragraph{Empirical frequencies of mutant alleles.} 
 For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral diploid population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations_H2,table:mutations_H4}). 
 Overall, between 100 and 173 mutant alleles were detected with at least a single read in the six populations that were sampled. 
-Disregarding 45 and 40 alleles that were present in the ancestral populations at a frequency >10\%, the aneuploid and euploid populations carried a large number of mutant alleles: 82 and 95, respectively, in repetition $H2$, and 60 and 66 in repetition $H4$.
+Disregarding 45 and 40 alleles that were present in the ancestral populations at a frequency >10\%, the aneuploid and euploid populations carried a large number of mutant alleles: 82 and 95, respectively, in repetition $H2$, and 60 and 66 in repetition $H4$. 37 mutant alleles were shared between the two evolved euploid populations, and their frequencies were correlated (Spearman's correlation: $r=0.4$, $p=0.15$). Of these 37, only two were identified in the Saccharomyces Genome Database~\citep{Cherry2012}: YDR034C-A on Chromosome IV and YGR265W on Chromosome VII. Neither has a known function, and the former was previously identified as slightly \emph{decreasing} heat tolerance~\citep{Jarolim2013}.
 
 Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
 More importantly, a high mutant allele frequency in the aneuploid population was associated with a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), suggesting that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
@@ -266,18 +266,19 @@ We report parameter estimates using the MAP (maximum a posteriori) and providing
 The estimated beneficial mutation rate is $\mu=2.965\cdot10^{-6}\ [2.718\cdot10^{-7}-3.589\cdot10^{-6}]$ per genome per generation.
 From the literature, the mutation rate per base pair is roughly $2-3\cdot10^{-10}$ (refs.~\citep{Zhu2014,Lynch2008}), but it may be higher under heat stress, as several stresses~\citep{Heidenreich2007}, including heat~\citep{Huang2018}, may cause hypermutation in yeast.
 If we assume a 10-fold increase over the mutation rate reported in the literature, then the estimated beneficial mutation rate can be explained by a genomic target size of 1,000 base pairs (that is, 1,000 base pairs across the genome in which a mutation would provide a fitness benefit).
-Supporting this, \citet{Flynn2020} used a deep mutational scan of a single protein, Hsp90, to find 465 amino-acid variants that increased growth rate in \SI{37}{\celsius}.
-Furthermore, \citet{Yona2012} found at least 10 genes on chromosome III that increased heat tolerance when over-expressed. Assuming that other chromosomes also have a similar number of heat-tolerance genes (and even more, as chromosome III is one of the smallest chromosomes~\citep{Gilchrist2019}), we get a total of 160 heat-tolerance genes in the genome.
+Supporting this, \citet{Jarolim2013} found 279 genes that contributed to survival after a sudden shift from \SI{30}{\celsius} to \SI{50}{\celsius}, and \citet{Flynn2020} used a deep mutational scan of a single protein, Hsp90, to find 465 amino-acid variants that increased growth rate in \SI{37}{\celsius}.
+Furthermore, \citet{Yona2012} found at least 10 genes on Chromosome III that increased heat tolerance when over-expressed.
+Assuming that other chromosomes also have a similar number of heat-tolerance genes (and even more, as Chromosome III is one of the smallest chromosomes~\citep{Gilchrist2019}), we get a total of 160 heat-tolerance genes in the genome.
 Indeed, mutations were found in 97 genes in an evolutionary experiment with yeast under heat stress~\citep{Huang2018}.
 Thus, to get a genomic target size of 1,000, it is enough that the average gene target size (number of base pairs in a gene in which a mutation is beneficial) is 6.25 base pairs. For example, \citet{Kohn2014} found a target size of 11 in a proton exporter gene (\emph{PMA1}) that contributes to high-salt adaptation.
 
-The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0\cdot10^{-5}-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
+The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for Chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0\cdot10^{-5}-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
 However, this difference may be partly explained by an increased aneuploidy rate during heat stress: heat shock can increase the rate of chromosome fragment loss by 2-3 orders of magnitude~\citep{Chen2012a}.
 
 The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
 $w_{\anmt}=1.025\ [1.024-1.026]$,
 $w_{\eumt}=1.028\ [1.026-1.029]$, all relative to the fitness of \euwt, which is set to $w_{\euwt}=1$. 
-Thus, we can infer that the cost of chromosome III trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$ (or 0.3\%) and the benefit of trisomy is $w_{\anwt}-1-c=0.019$ (1.9\%), whereas the benefit of the beneficial mutation is $w_{\eumt}-1=0.028$ (2.8\%).
+Thus, we can infer that the cost of Chromosome III trisomy is $c = w_{\eumt}-w_{\anmt} = 0.003$ (or 0.3\%) and the benefit of trisomy is $w_{\anwt}-1-c=0.019$ (1.9\%), whereas the benefit of the beneficial mutation is $w_{\eumt}-1=0.028$ (2.8\%).
 
 If we allow for transitions (mutation, chromosome loss and gain) to less-fit genotypes (e.g., \eumt\ to \anmt), then we infer similar but slightly different values, see Supplementary Material.
 
@@ -386,7 +387,7 @@ Assuming a strong increase of the mutation rate in aneuploid cells, i.e. $\tau=1
 Compared to inference made assuming no effect of aneuploidy on the mutation rate, these rates were about 7-8-fold and 2-3-fold lower for $\mu$ and $\delta$, respectively.
 Assuming $\tau=10$, the inferred a mutation rate was only slightly lower compared to $\tau=1$ ($\mu=1.67\cdot10^{-6}\ [2.836\cdot10^{-8}-2.245\cdot10^{-6}]$). 
 
-Therefore, we do not find any evidence of an increase in mutation rate in aneuploid cells. This may be because, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference; or because chromosome III is one of the smallest chromosomes \citep{Gilchrist2019}.
+Therefore, we do not find any evidence of an increase in mutation rate in aneuploid cells. This may be because, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference; or because Chromosome III is one of the smallest chromosomes \citep{Gilchrist2019}.
 We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
 Similarly, we did not find evidence for an increase in the aneuploidy rate in aneuploid cells~\citep{Sheltzer2011b}, probably due to lack of statistical power.
 
@@ -396,14 +397,14 @@ Similarly, we did not find evidence for an increase in the aneuploidy rate in an
 \section*{Discussion}
 
 In a study on the role of chromosome duplication in adaptive evolution, 
-\citet{Yona2012} found that a chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells that carry "refined" solutions to the stress. 
-Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a chromosome III trisomy.
+\citet{Yona2012} found that a Chromosome III trisomy was acquired by \yeast populations evolving under heat stress, only to be later replaced by euploid mutant cells that carry "refined" solutions to the stress. 
+Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a Chromosome III trisomy.
 They hypothesized that aneuploidy is a ``useful yet short-lived intermediate that facilitates further adaptation'', suggesting that the euploid mutant cells evolved by heat-resistance mutations in aneuploid cells followed by reversion of trisomy due to a chromosome loss event. 
 
 If indeed the evolved euploid population is descended from the aneuploid population, then mutant alleles that were common in the aneuploid populations should also be common in the evolved euploid population.
-However, we found that this is not the case (\Cref{fig:mutation_frequencies}): mutant allele frequencies in the aneuploid and euploid populations are negatively correlated, such that common alleles in the former are rare in the later. 
+However, this is likely not the case (\Cref{fig:mutation_frequencies}): mutant allele frequencies in the aneuploid and euploid populations are negatively correlated, such that common alleles in the former are rare in the later. 
 Furthermore, we developed an evolutionary genetic model of adaptive evolution by aneuploidy and mutation (\Cref{fig:models}), fitted it to the experimental results of \citet{Yona2012}, and used it to predict the genotype frequency dynamics.
-The model predicted that only about 10-15\% of the evolved euploid population descended from aneuploid cells--that is, the majority of the euploid population are not descended from aneuploid cells, but rather are direct descendants of the ancestral wild-type population (\Cref{fig:FA}).
+The model predicted that only about 10-15\% of the evolved euploid population descended from aneuploid cells by acquiring a mutation and losing the extra chromosome--that is, the majority of the euploid population are not descended from aneuploid cells, but rather are direct descendants of the ancestral wild-type population (\Cref{fig:FA}).
 
 This happens despite aneuploidy reaching a high frequency in the population (>95\%). 
 Conventional wisdom might suggest that once the aneuploid genotype \anwt\ reaches high frequency, it will have a better chance at producing "refined" solutions via mutations, and its descendants will come to dominate the population: the frequency of \eumtA\ (which arises from \anmt) will be higher than the frequency of \eumtM\ (which arises directly from \euwt).
@@ -463,7 +464,7 @@ Genomic DNA was extracted using "MasterPure Yeast DNA Purification Kit" (Lucigen
 \paragraph{Evolutionary genetic model.}
 We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
-The model allows for a single aneuploid karyotype (e.g., chromosome III duplication) and a single mutation to accumulate in the genotype.
+The model allows for a single aneuploid karyotype (e.g., Chromosome III duplication) and a single mutation to accumulate in the genotype.
 Thus, the model follows four genotypes~(\Cref{fig:models}): euploid wild-type, \euwt, the initial genotype; 
 euploid mutant, \eumt, with the standard karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, with an extra chromosome, i.e., following chromosome duplication; and
@@ -519,7 +520,7 @@ We overcome this problem by approximating the likelihood using simulations. We s
 where $!\{\ldots\}$ is the "logical not" operator, $P^4(\ldots)$ is the 4th power of $P(\ldots)$, and all probabilities $P_{\tilde{\vec X}}(\ldots)$ are approximated from the results of the simulations $\tilde{\vec X}$. For example, $P_{\tilde{\vec X}}\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)$ is approximated by taking simulations in which \anwt\; fixed before generation 450 but not before generation 200, and computing the fraction of such simulations in which \eumt\; did not fix by generation 1,700, and hence aneuploidy did not extinct before generation 1,700.
 \Cref{fig:seeds} compares results with less and more simulated experiments, demonstrating that 1,000 simulations are likely sufficient.
  
-For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), we disregard the increased expression in chromosome III and the growth advantage measured in generation 450, and focus on the growth advantage measured in later generations, presumably due to a beneficial mutation. 
+For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), we disregard the increased expression in Chromosome III and the growth advantage measured in generation 450, and focus on the growth advantage measured in later generations, presumably due to a beneficial mutation. 
 Therefore, the likelihood is approximated by
 \begin{equation}\begin{aligned}
 \label{eq:heatstress-noaneuploidy-likelihood}
@@ -645,7 +646,7 @@ We also estimated the parameters of a version of the model that includes transit
 The inferred values are slightly different.
 % with back transitions MAP-and-hdi.ipynb
 The estimated mutation rate, $\mu=1.036\cdot10^{-7}\ [8.01\cdot10^{-8}-1.339\cdot10^{-7}]$, corresponds to a mutation target size of $\sim 300-500$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$ (ref.~\citep{Zhu2014}) or $3.3\cdot10^{-10}$ (ref.~\citep{Lynch2008}).
-The estimated aneuploidy rate, $\delta=2.358\cdot10^{-4}\ [1.766\cdot10^{-4}-2.837\cdot10^{-4}]$ is 5-35-fold higher than in previous studies: for chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval).
+The estimated aneuploidy rate, $\delta=2.358\cdot10^{-4}\ [1.766\cdot10^{-4}-2.837\cdot10^{-4}]$ is 5-35-fold higher than in previous studies: for Chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval).
 The estimated fitness values are 
 $w_{\anwt}=1.024\ [1.023-1.025]$,
 $w_{\anmt}=1.025\ [1.024-1.026]$,
