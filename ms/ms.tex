@@ -114,12 +114,12 @@ headheight=12pt
 % Authors
 \renewcommand\Affilfont{\small}
 
-\author[a,b,*]{Ilia Kohanovski}
-\author[a,*]{Martin Pontz}
+\author[a,b,1]{Ilia Kohanovski}
+\author[a,1]{Martin Pontz}
 \author[c]{Orna Dahan}
 \author[c]{Yitzhak Pilpel}
 \author[d]{Avihu H. Yona}
-\author[a,1]{Yoav Ram}
+\author[a,*]{Yoav Ram}
 
 \affil[a]{School of Zoology, Faculty of Life Sciences, Tel Aviv University, Tel Aviv, Israel}
 \affil[b]{School of Computer Science, Reichman University, Herzliya, Israel}
@@ -127,8 +127,8 @@ headheight=12pt
 \affil[d]{Institute of Biochemistry, Food Science and Nutrition,
 Robert H. Smith Faculty of Agriculture, Food and Environment,
 The Hebrew University of Jerusalem, Israel}
-\affil[*]{These authors contributed equally to this work}
-\affil[1]{Corresponding author: yoav@yoavram.com}
+\affil[1]{These authors contributed equally to this work}
+\affil[*]{Corresponding author: yoav@yoavram.com}
 
 % Document
 \begin{document}
@@ -144,10 +144,9 @@ Keywords: whole-chromosome duplication, evolutionary model, adaptive evolution
 \begin{abstract} 
 Aneuploidy is common in eukaryotes, often leading to decreased fitness. However, evidence from fungi and human tumour cells suggests that specific aneuploidies can be beneficial under stressful conditions and facilitate adaptation.
 In a previous evolutionary experiment with yeast, populations evolving under heat stress became aneuploid, only to later revert to euploidy after beneficial mutations accumulated. It was therefore suggested that aneuploidy is a "stepping stone" on the path to adaptation.
-Here, we test this hypothesis. First, we apply DNA sequencing to show that mutant alleles common in aneuploid cells are uncommon in the evolved euploid population. 
-Second, we use Bayesian inference to fit an evolutionary model with both aneuploidy and mutation the experimental results. We then predict the genotype frequency dynamics during the experiment, demonstrating that most of the evolved euploid population likely did not descend from aneuploid cells, but rather from the euploid wildtype population.
+Here, we test this hypothesis. We use Bayesian inference to fit an evolutionary model with both aneuploidy and mutation the experimental results. We then predict the genotype frequency dynamics during the experiment, demonstrating that most of the evolved euploid population likely did not descend from aneuploid cells, but rather from the euploid wildtype population.
 Our model shows how the beneficial mutation supply--the product of population size and beneficial mutation rate--determines the evolutionary dynamics: with low supply, much of the evolved population descends from aneuploid cells; but with high supply, beneficial mutations are generated fast enough to outcompete aneuploidy due to its inherent fitness cost.
-Together, our results suggest that despite its potential fitness benefits under stress, aneuploidy can be an evolutionary "detour" rather than a "stepping stone": it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
+Our results suggest that despite its potential fitness benefits under stress, aneuploidy can be an evolutionary "detour" rather than a "stepping stone": it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
 \end{abstract}
 
 
@@ -185,10 +184,9 @@ Furthermore, it has been suggested that aneuploidy is an evolutionary "stepping 
 
 %\paragraph{The present study.}
 Here, we test the hypothesis that aneuploidy is a an \emph{evolutionary stepping stone} that facilitates adaptive evolution by genetic mutations~\citet{Yona2015}.
-First, we sequenced the genomes of evolved populations reported in \citep{Yona2012} and analyzed their mutant allele frequencies to assess if the evolved euploid cells are descended from aneuploid cells.
-Second, we develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} in order to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
-Our results show that aneuploidy reached high frequencies in the experimental populations, but nevertheless, the majority of cells in the evolved euploid population likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
-These results suggest that at the lineage level, aneuploidy may be an evolutionary detour, rather than a stepping stone, on the path to adaptation.
+We develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
+Our results show that although aneuploidy reached high frequencies in the experimental populations, the majority of cells in the evolved euploid population likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
+These suggests that at the lineage level, aneuploidy may be an evolutionary detour, rather than a stepping stone, on the path to adaptation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -198,32 +196,6 @@ In the heat-stress experiment of \citet{Yona2012}, four populations of \yeast ev
 Aneuploidy fixed in all four experimental repetitions in the first 450 generations.
 Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a Chromosome III trisomy.
 These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350 in $H4$ and $H2$, respectively.
-
-\paragraph{Empirical frequencies of mutant alleles.} 
-For each of two evolved populations ($H2$ and $H4$) we sequenced the ancestral diploid population (generation 0), the aneuploid population (generation 450), and the evolved euploid population (generation 1,700 or 2,350) to estimate the mutant allele frequencies (\Cref{table:mutations_H2,table:mutations_H4}). 
-Overall, between 100 and 173 mutant alleles were detected with at least a single read in the six populations that were sampled. 
-Disregarding 45 and 40 alleles that were present in the ancestral populations at a frequency >10\%, the aneuploid and euploid populations carried a large number of mutant alleles: 82 and 95, respectively, in repetition $H2$, and 60 and 66 in repetition $H4$. 37 mutant alleles were shared between the two evolved euploid populations, and their frequencies were correlated (Spearman's correlation: $r=0.4$, $p=0.15$). Of these 37, only two were identified in the Saccharomyces Genome Database~\citep{Cherry2012}: YDR034C-A on Chromosome IV and YGR265W on Chromosome VII. Neither has a known function, and the former was previously identified as slightly \emph{decreasing} heat tolerance~\citep{Jarolim2013}.
-
-Surprisingly, out of all these mutant alleles, none was present at a frequency >20\% in both the aneuploid and the evolved euploid populations. 
-More importantly, a high mutant allele frequency in the aneuploid population was associated with a low frequency in the evolved euploid population, and vice-versa (Spearman's correlation coefficient $\rho=-0.64$ and $-0.66$ in the two experimental repetitions; \Cref{fig:mutation_frequencies}), suggesting that mutant alleles frequent in the aneuploid populations decreased in frequency when aneuploidy was lost.
-These results suggest evolved euploid cells are unlikely to have descended from aneuploid cells.
-
-%%%%%%%% Fig mutation frequencies
-\begin{figure}[h]
-  \centering
-    \includegraphics[width=0.9\textwidth]{../figures/mutation_frequencies.pdf}      
-  \caption{
-    \textbf{Frequencies of mutant alleles in the experimental populations are negatively correlated.} 
-    Frequencies of mutant alleles when trisomy was widespread in the population (y-axis) and after it was eliminated (x-axis) in two experimental repetitions (circles for $H2$ and triangles for $H4$) from \citet{Yona2012}. Mutant alleles with >20\% in the aneuploid population were <20\% in the euploid population, and vice versa (the upper-right quadrant is empty), suggesting that the majority of evolved euploid cells did not descend from the most common aneuploid genotypes. 
-Alleles with frequency below and above 10\% in the ancestral populations are in black and gray, respectively. 
-Solid black line is a linear orthogonal distance regression line (slope=$-0.559$, intercept=$0.164$; a regression through alleles that reach at least 20\% in one of the populations has slope=$-0.645$ and intercept=$0.297$).
-Dashed vertical and horizontal lines show allele frequencies of 20\%.
-Error bars show SEM (standard error of the mean) assuming the number of reads is Binomially distributed; the SEM may be large when the total number of reads is small.
-For the 18 mutant alleles with high frequency in the aneuploid populations (>20\%), the highest frequencies in the euploid populations were 15.4\%, 16\%, 16.3\% and 19.6\% (the rest were below 15\%).
-Similarly, for the 48 mutant alleles with high frequency in the evolved euploid populations, the highest frequencies in the aneuploid populations were 2.7\%, 7.7\%, and 11.1\% (the rest were below 1\%). 
-}
-  \label{fig:mutation_frequencies}
-\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -402,9 +374,7 @@ In a study on the role of chromosome duplication in adaptive evolution,
 Additionally, such a replacement also occurred when they initiated evolutionary experiments with a population in which all cells carry a Chromosome III trisomy.
 They hypothesized that aneuploidy is a ``useful yet short-lived intermediate that facilitates further adaptation'', suggesting that the euploid mutant cells evolved by heat-resistance mutations in aneuploid cells followed by reversion of trisomy due to a chromosome loss event. 
 
-If indeed the evolved euploid population is descended from the aneuploid population, then mutant alleles that were common in the aneuploid populations should also be common in the evolved euploid population.
-However, this is likely not the case (\Cref{fig:mutation_frequencies}): mutant allele frequencies in the aneuploid and euploid populations are negatively correlated, such that common alleles in the former are rare in the later. 
-Furthermore, we developed an evolutionary genetic model of adaptive evolution by aneuploidy and mutation (\Cref{fig:models}), fitted it to the experimental results of \citet{Yona2012}, and used it to predict the genotype frequency dynamics.
+We developed an evolutionary genetic model of adaptive evolution by aneuploidy and mutation (\Cref{fig:models}), fitted it to the experimental results of \citet{Yona2012}, and used it to predict the genotype frequency dynamics.
 The model predicted that only about 10-15\% of the evolved euploid population descended from aneuploid cells by acquiring a mutation and losing the extra chromosome--that is, the majority of the euploid population are not descended from aneuploid cells, but rather are direct descendants of the ancestral wild-type population (\Cref{fig:FA}).
 
 This happens despite aneuploidy reaching a high frequency in the population (>95\%). 
@@ -457,11 +427,6 @@ Moreover, our study emphasizes the unintuitive outcomes of clonal interference  
 \section*{Models and Methods}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{DNA sequencing.}
-Whole-genome sequencing of the ancestral diploid strain (\euwt) was performed
-on a single colony of the ancestor. Whole-genome sequencing of the four evolving populations ($H2$ after 450 and 2,350 generations, and $H4$ after 450 and 1,700 generations) was performed on a sample from these populations (rather than from single colonies) in order to maintain the population diversity. Cells were grown in 5ml of YPD medium, either at \SI{30}{\celsius} (ancestral diploid) or \SI{39}{\celsius} (evolved populations) in shaking conditions (200rpm) until reaching stationary phase. Following growth, 3ml of each culture were centrifuge (14,000rpm) and cell pellets were used for DNA extraction. 
-Genomic DNA was extracted using "MasterPure Yeast DNA Purification Kit" (Lucigen) according to the manufacture instructions. Following extraction, DNA concentrations were determined by Qubit assay (Thermo Fisher) and $\sim1\mu g$ DNA was used for library preparation using Illumina sample preparation kit (Illumina). Samples were sequenced using a 100 bp pair end read output run using Illumina HiSeq2500.  
-
 \paragraph{Evolutionary genetic model.}
 We model the evolution of a population of cells using a Wright-Fisher model~\citep{Otto2007}, assuming a constant effective population size $N$, non-overlapping generations, and including the effects of natural selection, genetic drift, aneuploidy, and mutation. 
 We focus on beneficial genetic modifications, neglecting the effects of deleterious and neutral mutations or karyotypic changes.
@@ -588,11 +553,11 @@ For the mutation rate, $\mu$, and aneuploidy rate, $\delta$, we used uninformati
 % Acknowledgements
 {\small
 \section*{Acknowledgements}
-We thank Lilach Hadany, Judith Berman, David Gresham, Shay Covo, Martin Kupiec, Uri Obolski, Daniel Weissman, and Tal Simon for discussions and comments.
+We thank Lilach Hadany, Judith Berman, David Gresham, Shay Covo, Martin Kupiec, Anna Selmecki, Petra Vande Zande, Uri Obolski, Daniel Weissman, and Tal Simon for discussions and comments.
 This work was supported in part by 
 the Israel Science Foundation~(ISF, YR 552/19),
 the US--Israel Binational Science Foundation~(BSF, YR 2021276),
-Minerva Center for Live Emulation of Evolution in the Lab~(YP, YR),
+Minerva Center for Live Emulation of Evolution in the Lab~(YR, YP),
 Minerva Stiftung short-term research grant~(MP).
 }
 
@@ -929,30 +894,6 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
 
 \pagebreak
 
-% Table - mutations
-%% generated with mutation_analysis.ipynb
-\begin{table}[h]
-\centering
-\caption{
-\textbf{Mutant alleles in population $H2$.}}
-\caption*{
-	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 2,350) of population $H2$. See supplementary file.
-} 
-\label{table:mutations_H2}
-\end{table}
-
-% Table - mutations
-%% generated with mutation_analysis.ipynb
-\begin{table}[h]
-\centering
-\caption{
-\textbf{Mutant alleles in population $H4$.}}
-\caption*{
-	Mutant alleles identified in the ancestor (generation 0), aneuploid (generation 450), and evolved (generation 1,700) of population $H4$. See supplementary file.
-} 
-\label{table:mutations_H4}
-\end{table}
-
 
 %% generated with WAIC.ipynb 
 \begin{table}[h]
@@ -972,7 +913,6 @@ Differences of less than 6 are considered of weak significance~\citep{Kass1995}.
 } 
 \label{table:WAIC}
 \end{table}
-
 
 
 \end{document}  
