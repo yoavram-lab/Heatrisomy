@@ -539,7 +539,7 @@ We used informative prior distributions for $w_{\anwt}=1-c+b$, $w_{\anmt}=(1+s)(
 We used \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. Briefly, \texttt{Curveball} takes growth curves of two strains growing separately in mono-culture and predicts how they would grow in a mixed culture, that is, it predicts the results of a competition assay.
 From these predictions, relative fitness values can be computed. Because \texttt{Curveball} uses a maximum-likelihood approach to estimate model parameters, we were able to estimate a distribution of relative fitness values to be used as a prior distribution by sampling 10,000 samples from a truncated multivariate normal distribution defined by the maximum-likelihood covariance matrix~(\Cref{fig:growth-curves}).
 
-We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate an informative prior distribution for $w_{\anwt}$~(\Cref{fig:growth-curves}-D, assuming $w_{\euwt}=1$).
+We used growth curves of \euwt\ and \anwt\ in \SI{39}{\celsius} to estimate an informative prior distribution for $w_{\anwt}$~(\Cref{fig:growth-curves}D, assuming $w_{\euwt}=1$).
 In this prior distribution, we used the same prior for $w_{\anmt}$ and $w_{\eumt}$. 
 To increase computational efficiency, we also assumed $w_\eumt>w_\anmt>w_\anwt>w_\euwt$; running the inference without this assumption produced similar results.
 See \emph{supporting material} for an extended informative prior distribution that uses growth curves of \eumt\ and \anwt\ growing in \SI{39}{\celsius}; this prior distribution proved to be less useful.
@@ -580,7 +580,7 @@ We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compar
 Inference assuming $\mu=10^{-5}$ or $\mu=10^{-7}$ produced similar estimates except that the estimated aneuploidy rate, $\delta$, was higher, and assuming $\mu=10^{-7}$, the estimated fitness of \anwt\ was lower (\Cref{fig:mu}).
 
 \paragraph{Extended informative prior distribution.}
-In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}L). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
+In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}H). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
 Thus, our main informative prior uses a single prior distribution for fitness values of \anwt, \anmt, and \eumt, whereas the extended informative prior uses one distribution for \anwt, and another distribution for both \anmt\ and \eumt. 
 
 % generated with alt-prior.ipynb
