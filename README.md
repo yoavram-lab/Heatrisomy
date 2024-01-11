@@ -1,7 +1,6 @@
-
 This is the repository for the manuscript:
 
-> Kohanovski*, Pontz*, Dahan, Pilpel, Yona, Ram. _Aneuploidy can be an evolutionary detour on the path to adaptation_.
+> Kohanovski*, Pontz*, Vande Zande, Selmecki, Dahan, Pilpel, Yona, Ram. _Aneuploidy can be an evolutionary diversion on the path to adaptation_.
 
 ## Repository structure
 
