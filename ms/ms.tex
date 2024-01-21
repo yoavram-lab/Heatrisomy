@@ -1,5 +1,3 @@
-% TODO
-% cite https://www.nature.com/articles/ng.3967
 \documentclass[12pt]{extarticle}
 \usepackage{geometry}
 \geometry{
@@ -180,23 +178,23 @@ Although we focus here on aneuploidy, a similar phenomena of adaptation via gene
 
 %\paragraph{Transient adaptive solution.} 
 \citet{Yona2012} demonstrated experimentally the importance of aneuploidy in adaptive evolution. They evolved populations of \yeast under strong heat stress.
-The populations adapted to the heat stress within 450 generations, and this adaptation was determined to be due a duplication of Chromosome III.
+The populations adapted to the heat stress within 450 generations, and this adaptation was determined to be due a duplication of Chromosome~III.
 Later on, after more than 1,500 generations, the populations reverted back to an euploid state, while remaining adapted to the heat stress. 
-Aneuploidy was therefore suggested to be a \emph{transient adaptive solution}, because it can rapidly appear and fixate in the population under stressful conditions, and can then be rapidly lost when the cost of aneuploidy outweighs its benefit---after the stress is removed, or after "refined" beneficial mutations appear and fixate~\citep{Yona2012}.
-Furthermore, it has been suggested that aneuploidy is an evolutionary "stepping stone" that facilitates future adaptation by genetic mutations, which require more time to evolve~\citep{Yona2012,Yona2015}.
+Aneuploidy was therefore suggested to be a transient adaptive solution, because it can rapidly appear and take over the population under stressful conditions, and can then be rapidly lost when the cost of aneuploidy outweighs its benefit---after the stress is removed, or after refined beneficial mutations appear and fixate~\citep{Yona2012}.
+Furthermore, it has been suggested that aneuploidy is an evolutionary ``stepping stone'' that facilitates future adaptation by genetic mutations, which require more time to evolve~\citep{Yona2012,Yona2015}.
 
 %\paragraph{The present study.}
-Here, we test the hypothesis that aneuploidy is a an \emph{evolutionary stepping stone} that facilitates adaptive evolution by genetic mutations~\citet{Yona2015}.
+Here, we test the hypothesis that aneuploidy is a an evolutionary stepping stone that facilitates adaptive evolution by genetic mutations~\citet{Yona2015}.
 We develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
 Our results show that although aneuploidy reached high frequencies in the experimental populations, the majority of cells in the evolved euploid population likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
-These suggests that at the lineage level, aneuploidy may be an evolutionary diversion, rather than a stepping stone, on the path to adaptation.
+These suggests that at the lineage level, aneuploidy may be an ``evolutionary diversion'', rather than a stepping stone, on the path to adaptation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results
 \section*{Results}
 In the heat-stress experiment of \citet{Yona2012}, four populations of \yeast evolved under \SI{39}{\celsius}.
-Aneuploidy fixed in all four experimental repetitions in the first 450 generations.
+Aneuploidy reached high frequency (>95\%) in all four experimental repetitions in the first 450 generations.
 Two of the repetitions, marked $H2$ and $H4$, carried no large-scale duplications other than a Chromosome III trisomy.
 These two repetitions continued to evolve under the same conditions, wherein aneuploidy was eliminated by generation 1,700 and 2,350 in $H4$ and $H2$, respectively.
 
@@ -205,15 +203,16 @@ These two repetitions continued to evolve under the same conditions, wherein ane
 \paragraph{Evolutionary genetic model.} 
 To explore the dynamics during the evolutionary experiments, we developed an evolutionary genetic model, fitted the model to empirical data, and used it to predict the genotype frequency dynamics, or specifically, the fraction of the evolved euploid population descended from aneuploid cells. 
 
-The model includes the effects of natural selection, genetic drift, aneuploidy, and mutation, and follows a population of cells characterized by their genotype: 
+The model includes the effects of natural selection, genetic drift, aneuploidy, and mutation (i.e., other genetic variants), and follows a population of cells characterized by their genotype: 
 euploid wild-type, \euwt, is the ancestral diploid genotype; 
 euploid mutant, \eumt, has a diploid karyotype and a single beneficial mutation; 
 aneuploid wild-type, \anwt, has an extra chromosome due to a chromosome duplication event; and
 aneuploid mutant, \anmt, has and extra chromosome (like \anwt) and a beneficial mutation (like \eumt).
+Note that `mutation' here refers to point mutations and other genetic variants unrelated to aneuploidy.
 Fitness values of the different genotypes are denoted by $w_{\euwt}$, $w_{\eumt}$, $w_{\anwt}$, and $w_{\anmt}$, and the rate of mutation and aneuploidy are denoted by $\mu$ and $\delta$, respectively.
 See \Cref{fig:models} for an illustration of the model.
 
-We fitted this model to the experimental results\citep{Yona2012} -- time for fixation (>95\%) and for loss (<5\%) of aneuploidy -- using approximate Bayesian computation with sequential Monte Carlo (ABC-SMC)~\citep{Sisson2009}, thereby inferring the model parameters: rates aneuploidy and mutation and the fitness of all genotypes.
+We fitted this model to the experimental results\citep{Yona2012}--time for fixation (frequency >95\%) and for loss (frequency <5\%) of aneuploidy--using approximate Bayesian computation with sequential Monte Carlo (ABC-SMC)~\citep{Sisson2009}, thereby inferring the model parameters: rates of aneuploidy (i.e., mis-segregation, non-disjunction) and mutation and the fitness of all genotypes.
 We then sampled posterior predictions for the genotype frequency dynamics using the estimated parameter values and compared different versions of the model to test additional hypotheses about the evolutionary process.
 
 
@@ -248,7 +247,7 @@ Assuming that other chromosomes also have a similar number of heat-tolerance gen
 Indeed, mutations were found in 97 genes in an evolutionary experiment with yeast under heat stress~\citep{Huang2018}.
 Thus, to get a genomic target size of 1,000, it is enough that the average gene target size (number of base pairs in a gene in which a mutation is beneficial) is 6.25 base pairs. For example, \citet{Kohn2014} found a target size of 11 in a proton exporter gene (\emph{PMA1}) that contributes to high-salt adaptation.
 
-The estimated aneuploidy rate, $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for Chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0\cdot10^{-5}-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
+The estimated rate of aneuploidy (i.e., mis-segregation, non-disjunction), $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for Chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0\cdot10^{-5}-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
 However, this difference may be partly explained by an increased aneuploidy rate during heat stress: heat shock can increase the rate of chromosome fragment loss by 2-3 orders of magnitude~\citep{Chen2012a}.
 
 The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
@@ -411,7 +410,7 @@ This is because once \anwt\ is common, selection for the mutant strain (\anmt\ o
 % parameter estimates
 \paragraph{Rate and fitness effect of aneuploidy and mutation.}
 We inferred the rates of aneuploidy and mutation and their effects on fitness. 
-We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, higher than a previous estimate of $6.7 \cdot 10^{-6}$ (ref~~\citep{Zhu2016}). This may be due to genetic instability caused by heat stress~\citep{Chen2012a}.
+We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, higher than a previous estimate of $6.7 \cdot 10^{-6}$ (ref~~\citep{Zhu2016}). This may be due to genetic instability caused by heat stress~\citep{Chen2012a}, but we note that there is a general scarcity of empirical data on aneuploidy rates.
 In addition, we find no evidence for increased mutation rates in aneuploid cells. 
 Previous empirical studies have suggested that genetic instability (e.g., elevated mutation rates) in aneuploid cells is due to stress associated with the aneuploid state~\citep{Bouchonville2009, Chen2012b, Zhu2012, Ippolito2021b}.
 However, in the experiment of \citet{Yona2012}, both the wild-type and the aneuploid were under heat stress, which may explain why we did not find evidence for an increased mutation rate specifically in aneuploid cells.
@@ -469,8 +468,10 @@ Overall, the change in genotype frequencies from one generation to the next is g
 \paragraph{Empirical data for model inference.}
 
 We use the results of evolutionary experiments reported by \citet{Yona2012}.
-In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. Aneuploidy fixed in all four population in the first 450 generations. Hereafter, fixation or elimination of a genotype \emph{by generation $t$} means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier. 
-In the original analysis of \citet{Yona2012}, samples were routinely extracted from the evolving populations and tested for heat-shock tolerance. The first generation in which such indication was found was generation 200. Therefore, we determine that aneuploidy did not fix before generation 200.
+In their heat-stress experiment, four populations of \yeast evolved under \SI{39}{\celsius}. 
+Aneuploidy fixed (frequency >95\%) in all four population in the first 450 generations. 
+Hereafter, fixation or elimination of a genotype by generation $t$ means that more than 95\% or less than 5\% of the population carry the genotype at generation $t$, and possibly earlier. 
+In the original analysis of \citet{Yona2012}, samples were routinely extracted from the evolving populations and tested for heat-shock tolerance. The first generation in which such indication was found was generation 200. Therefore, we determine that aneuploidy did not reach high frequency before generation 200.
 The experiment continued with two populations, in which aneuploidy was eliminated by generation 1,700 and 2,350 while still under the same conditions of elevated heat (\SI{39}{\celsius}).
 
 \paragraph{Likelihood function.} 
@@ -485,7 +486,7 @@ We overcome this problem by approximating the likelihood using simulations. We s
 	&	P_{\tilde{\vec X}}^4\big(!\{T(2n^*)<1700\} \land !\{1700 < T(2n^*) < 2350\} \mid 200 \le T(2n+1) \le 450\big) 
 	\Big]\;,
 \end{aligned}\end{equation}
-where $!\{\ldots\}$ is the "logical not" operator, $P^4(\ldots)$ is the 4th power of $P(\ldots)$, and all probabilities $P_{\tilde{\vec X}}(\ldots)$ are approximated from the results of the simulations $\tilde{\vec X}$. For example, $P_{\tilde{\vec X}}\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)$ is approximated by taking simulations in which \anwt\; fixed before generation 450 but not before generation 200, and computing the fraction of such simulations in which \eumt\; did not fix by generation 1,700, and hence aneuploidy did not extinct before generation 1,700.
+where $!\{\ldots\}$ is the "logical not" operator, $P^4(\ldots)$ is the 4th power of $P(\ldots)$, and all probabilities $P_{\tilde{\vec X}}(\ldots)$ are approximated from the results of the simulations $\tilde{\vec X}$. For example, $P_{\tilde{\vec X}}\big(!\{T(2n^*)<1700\} \mid 200 \le T(2n+1) \le 450\big)$ is approximated by taking simulations in which \anwt\; fixed (reached >95\%) before generation 450 but not before generation 200, and computing the fraction of such simulations in which \eumt\; did not fix by generation 1,700, and hence aneuploidy did not extinct (reach <5\%) before generation 1,700.
 \Cref{fig:seeds} compares results with less and more simulated experiments, demonstrating that 1,000 simulations are likely sufficient.
  
 For a model without aneuploidy (that is, when the aneuploidy rate is fixed at zero, $\delta=0$), we disregard the increased expression in Chromosome III and the growth advantage measured in generation 450, and focus on the growth advantage measured in later generations, presumably due to a beneficial mutation. 
