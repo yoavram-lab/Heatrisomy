@@ -350,7 +350,7 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
 
 
 \paragraph{Genetic instability in aneuploid cells.}
-It has been suggested that aneuploidy increases genetic instability: \citet{Sheltzer2011b} have demonstrated a fold increase of between 2.2 and 7.1 in mutation rate.
+It has been suggested that aneuploidy increases genetic instability: \citet{Sheltzer2011b} have demonstrated a fold increase of between 2.2 and 7.1 in the mutation rate of disomic yeast (rather than trisomic yeast, the focus of our analysis).
 Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}). Furthermore, we computed the WAIC, a criterion for model selection (Methods). The WAIC values were similar for all $\tau$ values (\Cref{table:WAIC}).
 
@@ -361,8 +361,8 @@ Assuming $\tau=10$, the inferred a mutation rate was only slightly lower compare
 
 Therefore, we do not find any evidence of an increase in mutation rate in aneuploid cells. This may be because, unless the increase is strong ($\tau \ge 10$), it does not seem to affect our inference; or because Chromosome III is one of the smallest chromosomes \citep{Gilchrist2019}.
 We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
-Similarly, we did not find evidence for an increase in the rate of chromosome loss in aneuploid cells~\citep{Sheltzer2011b}, probably due to lack of statistical power.
 
+Similarly, we did not find evidence for an increase in the rate of chromosome loss in aneuploid cells~\citep{Sheltzer2011b}, probably due to lack of statistical power.
 Nevertheless, increasing the rate of chromosome loss (transitions from $2n+1^*$ to $2n^*$) without increasing the rate of chromosome gain (transitions from $2n$ to $2n+1$) increases $F_A$ (\Cref{fig:FA_rates}B), but not to the same extent as increasing the rate of chromosome gain.
 In contrast, increasing the mutation rate in aneuploid cells can have a marked effect on the dynamics: when using the MAP parameter estimates, $F_A$ increases to  0.52 when the mutation rate in aneuploid cells increases 10-fold (\Cref{fig:FA_rates}C).
 
@@ -411,9 +411,16 @@ This is because once \anwt\ is common, selection for the mutant strain (\anmt\ o
 \paragraph{Rate and fitness effect of aneuploidy and mutation.}
 We inferred the rates of aneuploidy and mutation and their effects on fitness. 
 We estimate that the aneuploidy rate (i.e., number of chromosome gains per generation) is $1.7 \cdot 10^{-3}$, higher than a previous estimate of $6.7 \cdot 10^{-6}$ (ref~~\citep{Zhu2016}). This may be due to genetic instability caused by heat stress~\citep{Chen2012a}, but we note that there is a general scarcity of empirical data on aneuploidy rates.
-In addition, we find no evidence for increased mutation rates in aneuploid cells. 
+In addition, we did not find evidence for increased mutation rates in aneuploid cells. 
 Previous empirical studies have suggested that genetic instability (e.g., elevated mutation rates) in aneuploid cells is due to stress associated with the aneuploid state~\citep{Bouchonville2009, Chen2012b, Zhu2012, Ippolito2021b}.
-However, in the experiment of \citet{Yona2012}, both the wild-type and the aneuploid were under heat stress, which may explain why we did not find evidence for an increased mutation rate specifically in aneuploid cells.
+However, in the experiment of \citet{Yona2012}, both the wild-type and the aneuploid were under heat stress, which may explain why we didn't find evidence for an increased mutation rate specifically in aneuploid cells.
+
+% haploids
+\paragraph{Effect of ploidy.}
+The evolutionary dynamics may change in haploid yeast, in which aneuploidy results in a second, rather than third, chromosome copy. 
+For example, it has been demonstrated that in haploid yeast drug resistance mainly evolves via recessive mutations and aneuploidy~\citep{Soncini2020}, whereas in diploid yeast it evolves via dominant mutations, aneuploidy, and gene/segmental duplications~\citep{Barney2021}.
+Thus, the second chromosome of disomic yeast may facilitate further adaptation via duplications, rearrangements, and increased mutational tolerance~\citep{Avecilla2023}, while decreasing the chance for adaptation via recessive mutations. 
+Future models and experiments can consider this more complex genomic contexts.
 
 % Conclusions
 \paragraph{Conclusions.}
