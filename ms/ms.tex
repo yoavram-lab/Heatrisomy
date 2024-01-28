@@ -180,11 +180,11 @@ Although we focus here on aneuploidy, a similar phenomena of adaptation via gene
 \citet{Yona2012} demonstrated experimentally the importance of aneuploidy in adaptive evolution. They evolved populations of \yeast under strong heat stress.
 The populations adapted to the heat stress within 450 generations, and this adaptation was determined to be due a duplication of Chromosome~III.
 Later on, after more than 1,500 generations, the populations reverted back to an euploid state, while remaining adapted to the heat stress. 
-Aneuploidy was therefore suggested to be a transient adaptive solution, because it can rapidly appear and take over the population under stressful conditions, and can then be rapidly lost when the cost of aneuploidy outweighs its benefit---after the stress is removed, or after refined beneficial mutations appear and fixate~\citep{Yona2012}.
+Aneuploidy was therefore suggested to be a transient adaptive solution, because it can rapidly appear and take over the population under stressful conditions, and can then be rapidly lost when the cost of aneuploidy outweighs its benefit---after the stress is removed, or after refined beneficial mutations appear and fix~\citep{Yona2012}.
 Furthermore, it has been suggested that aneuploidy is an evolutionary ``stepping stone'' that facilitates future adaptation by genetic mutations, which require more time to evolve~\citep{Yona2012,Yona2015}.
 
 %\paragraph{The present study.}
-Here, we test the hypothesis that aneuploidy is a an evolutionary ``stepping stone'' that facilitates adaptive evolution by genetic mutations~\citet{Yona2015}.
+Here, we test the hypothesis that aneuploidy is an evolutionary ``stepping stone'' that facilitates adaptive evolution by genetic mutations~\citep{Yona2015}.
 We develop an evolutionary genetic model and fit it to the experimental results of \citet{Yona2012} to predict the genotype frequency dynamics in the experimental populations, thereby estimating the frequency of evolved euploid cells that descended from aneuploid cells. 
 Our results show that although aneuploidy reached high frequencies in the experimental populations, the majority of cells in the evolved euploid population likely did not descend from aneuploid cells, but rather directly from wild-type euploid cells.
 These suggests that at the lineage level, aneuploidy may be an ``evolutionary diversion'', rather than a ``stepping stone'', on the path to adaptation.
@@ -243,12 +243,12 @@ From the literature, the mutation rate per base pair is roughly $2-3\cdot10^{-10
 If we assume a 10-fold increase over the mutation rate reported in the literature, then the estimated beneficial mutation rate can be explained by a genomic target size of 1,000 base pairs (that is, 1,000 base pairs across the genome in which a mutation would provide a fitness advantage): $3\cdot10^{-10} \times 10 \times 1,000=3\cdot10^{-6}$.
 Supporting this, \citet{Jarolim2013} found 279 genes that contributed to survival after a sudden shift from \SI{30}{\celsius} to \SI{50}{\celsius}, and \citet{Flynn2020} used a deep mutational scan of a single protein, Hsp90, to find 465 amino-acid variants (out of 14,160) that significantly increased growth rate in \SI{37}{\celsius}.
 Furthermore, \citet{Yona2012} found at least 10 genes on Chromosome III that increased heat tolerance when over-expressed.
-Assuming that other chromosomes also have a similar number of heat-tolerance genes (and even more, as Chromosome III is one of the smallest chromosomes~\citep{Gilchrist2019}), we get a total of 160 heat-tolerance genes in the genome.
+Assuming that other chromosomes also have a similar number of heat-tolerance genes (and even more, as Chromosome III is one of the smallest chromosomes~\citep{Gilchrist2019}), we estimate a total of 160 heat-tolerance genes in the genome.
 Indeed, mutations were found in 97 genes in an evolutionary experiment with yeast under heat stress~\citep{Huang2018}.
 Thus, to get a genomic target size of 1,000, it is enough that the average gene target size (number of base pairs in a gene in which a mutation is beneficial) is 6.25 base pairs. For example, \citet{Kohn2014} found a target size of 11 in a proton exporter gene (\emph{PMA1}) that contributes to high-salt adaptation.
 
 The estimated rate of aneuploidy (i.e., mis-segregation, non-disjunction), $\delta=1.72\cdot10^{-3}\ [1.47\cdot10^{-3}-2.786\cdot10^{-3}]$ is higher than in previous studies: for Chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0\cdot10^{-5}-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval). 
-However, this difference may be partly explained by an increased aneuploidy rate during heat stress: heat shock can increase the rate of chromosome fragment loss by 2-3 orders of magnitude~\citep{Chen2012a}.
+However, this difference may be partly explained by an increased rate of aneuploidy during heat stress: heat shock can increase the rate of chromosome fragment loss by 2-3 orders of magnitude~\citep{Chen2012a}.
 
 The estimated fitness values are $w_{\anwt}=1.022\ [1.021-1.023]$,
 $w_{\anmt}=1.025\ [1.024-1.026]$,
@@ -350,7 +350,7 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
 
 
 \paragraph{Genetic instability in aneuploid cells.}
-It has been suggested that aneuploidy increases genetic instability: \citet{Sheltzer2011b} have demonstrated a fold increase of between 2.2 and 7.1 in the mutation rate of disomic yeast (rather than trisomic yeast, the focus of our analysis).
+It has been suggested that aneuploidy increases genomic instability: \citet{Sheltzer2011b} have demonstrated a fold increase of between 2.2 and 7.1 in the mutation rate of disomic yeast (rather than trisomic yeast, the focus of our analysis).
 Therefore, we inferred model parameters under the assumption that the mutation rate increases in aneuploid cells by a factor $\tau$ = 1, 33/32 (due to an additional chromosome), 2, 5, 10, or 100 (due to genetic instability).
 We found that the posterior distribution was similar for $\tau=$1, 33/32, 2, and 5 (\Cref{fig:tau}). Furthermore, we computed the WAIC, a criterion for model selection (Methods). The WAIC values were similar for all $\tau$ values (\Cref{table:WAIC}).
 
@@ -405,7 +405,8 @@ Thus, our model provides a testable prediction: if the experiment was repeated u
 \paragraph{Aneuploidy delays rather than facilitates adaptation.}
 An additional interesting result of our study is that aneuploidy increases, rather than decreases, the adaptation time (\Cref{fig:FA}E). 
 This happens despite the fact that the mean fitness initially increases faster in the presence of aneuploidy (\Cref{fig:FA}E). 
-This is because once \anwt\ is common, selection for the mutant strain (\anmt\ or \eumt) is weaker compared to when \eumt\ competes directly with \euwt.
+Aneuploidy increases adaptation time because once \anwt\ is common, selection for the mutant strain (\anmt\ or \eumt) is weaker compared to when \eumt\ competes directly with \euwt.
+This is an interesting example of clonal interference~\citep{Good2012} but between fast and slow mutational processes~\citep{Kronholm2016}.
 
 % parameter estimates
 \paragraph{Rate and fitness effect of aneuploidy and mutation.}
@@ -424,7 +425,7 @@ Future models and experiments can consider how ploidy and other genomic contexts
 
 % Conclusions
 \paragraph{Conclusions.}
-Here, we tested the hypothesis that aneuploidy cells are an evolutionary ``stepping stone'', or adaptive intermediate, between wild-type euploid cells and mutant euploid cells~\citep{Yona2015}. 
+Here, we tested the hypothesis that aneuploid cells are an evolutionary ``stepping stone'', or adaptive intermediate, between wild-type euploid cells and mutant euploid cells in the evolutionary experiment of~\citet{Yona2015}. 
 Our results suggest that, although it seems the population goes from euploid to aneuploid and back, this is not the case at the individual level. We estimate that only about 10-15\% of the euploid cells descended from aneuploid cells, whereas the rest are direct descendants of the wild-type euploid cells.
 Thus, aneuploidy can delay, rather than accelerate, adaptation, and cells that become aneuploid may leave less descendants than cells that remain euploid. 
 This surprising result reinforces the importance of mathematical models when interpreting evolutionary dynamics.
@@ -568,7 +569,9 @@ This work was supported in part by
 the Israel Science Foundation~(ISF, YR 552/19),
 the US--Israel Binational Science Foundation~(BSF, YR 2021276),
 Minerva Center for Live Emulation of Evolution in the Lab~(YR, YP),
-Minerva Stiftung short-term research grant~(MP).
+Minerva Stiftung short-term research grant~(MP),
+the Burroughs Wellcome Fund (AS),
+and the Jane Coffin Childs Memorial Fund (PVZ).
 }
 
 \bibliographystyle{agsm}
