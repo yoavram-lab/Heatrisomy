@@ -143,9 +143,9 @@ Keywords: whole-chromosome duplication, evolutionary model, adaptive evolution
 
 % Abstract 250 words
 \begin{abstract} 
-Aneuploidy is common in eukaryotes, often leading to decreased fitness. However, evidence from fungi and human tumour cells suggests that specific aneuploidies can be beneficial under stressful conditions and facilitate adaptation.
+Aneuploidy is common in eukaryotes, often leading to decreased fitness. However, evidence from fungi and human tumur cells suggests that specific aneuploidies can be beneficial under stressful conditions and facilitate adaptation.
 In a previous evolutionary experiment with yeast, populations evolving under heat stress became aneuploid, only to later revert to euploidy after beneficial mutations accumulated. It was therefore suggested that aneuploidy is a ``stepping stone'' on the path to adaptation.
-Here, we test this hypothesis. We use Bayesian inference to fit an evolutionary model with both aneuploidy and mutation the experimental results. We then predict the genotype frequency dynamics during the experiment, demonstrating that most of the evolved euploid population likely did not descend from aneuploid cells, but rather from the euploid wild-type population.
+Here, we test this hypothesis. We use Bayesian inference to fit an evolutionary model with both aneuploidy and mutation to the experimental results. We then predict the genotype frequency dynamics during the experiment, demonstrating that most of the evolved euploid population likely did not descend from aneuploid cells, but rather from the euploid wild-type population.
 Our model shows how the beneficial mutation supply--the product of population size and beneficial mutation rate--determines the evolutionary dynamics: with low supply, much of the evolved population descends from aneuploid cells; but with high supply, beneficial mutations are generated fast enough to outcompete aneuploidy due to its inherent fitness cost.
 Our results suggest that despite its potential fitness benefits under stress, aneuploidy can be an evolutionary ``diversion'' rather than a ``stepping stone'': it can delay, rather than facilitate, the adaptation of the population, and cells that become aneuploid may leave less descendants compared to cells that remain diploid.
 \end{abstract}
@@ -363,8 +363,8 @@ Therefore, we do not find evidence of an increase in mutation rate in aneuploid 
 We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
 
 Similarly, we did not find evidence for an increase in the rate of chromosome loss in aneuploid cells~\citep{Sheltzer2011b}, probably due to lack of statistical power.
-Nevertheless, increasing the rate of chromosome loss (transitions from \anmt\ to \eumt) without increasing the rate of chromosome gain (transitions from \euwt\ to \anwt) increases $F_A$ (\Cref{fig:FA_rates}B), but not to the same extent as increasing the rate of chromosome gain.
-In contrast, increasing the mutation rate in aneuploid cells can have a marked effect on the dynamics: when using the MAP parameter estimates, $F_A$ increases to  0.52 when the mutation rate in aneuploid cells increases 10-fold (\Cref{fig:FA_rates}C).
+Nevertheless, increasing the rate of chromosome loss (transitions from \anmt\ to \eumt) without increasing the rate of chromosome gain (transitions from \euwt\ to \anwt) increases $F_A$ (\Cref{fig:FA_rates}B), but not to the same extent as increasing the rate of chromosome gain (\Cref{fig:posterior_FA_supp}).
+In contrast, increasing the mutation rate in aneuploid cells can have a marked effect on the dynamics: when using the MAP parameter estimates, $F_A$ increases from  0.1 to 0.52 when the mutation rate in aneuploid cells increases 10-fold (\Cref{fig:FA_rates}C).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -906,7 +906,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
       \centering
       \includegraphics[width=\textwidth]{../figures/FA_rates.pdf}      
 	\caption{\textbf{Effect of genomic instability on genotype frequencies.}
-	Genotype frequencies in the deterministic model without drift and with MAP parameter estimates \textbf{(A)}, with 100-fold increase in rate of chromosome loss (transition from \anmt\ to \eumt) \textbf{(B)}, and with 10-fold increase in mutation rate in aneuploid cells \textbf{(C)}. Corresponding $F_A$ values (purple line at generation 2,500) are 0.098, 0.223, and 0.519.
+	Genotype frequencies in the deterministic model without drift and \textbf{(A)} with MAP parameter estimates; \textbf{(B)} with 100-fold increase in rate of chromosome loss (transition from \anmt\ to \eumt); or \textbf{(C)} with 10-fold increase in mutation rate in aneuploid cells (transition from \anwt\ to \anmt). Corresponding $F_A$ values (purple line at generation 2,500) are 0.098, 0.223, and 0.519, respectively.
 	}
     \label{fig:FA_rates}
 \end{figure}
