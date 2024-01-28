@@ -84,12 +84,12 @@ headheight=12pt
 \modulolinenumbers[2]
 
 % genotype commands
-\newcommand{\euwt}{\emph{2n}}
-\newcommand{\anwt}{\emph{2n+1}}
-\newcommand{\eumt}{\emph{2n*}}
+\newcommand{\euwt}{\emph{$2n$}}
+\newcommand{\anwt}{\emph{$2n+1$}}
+\newcommand{\eumt}{\emph{$2n^*$}}
 \newcommand{\eumtM}{\emph{$2n^*_M$}}
 \newcommand{\eumtA}{\emph{$2n^*_A$}}
-\newcommand{\anmt}{\emph{2n+1*}}
+\newcommand{\anmt}{\emph{$2n+1^*$}}
 
 % Supplementary
 \newcommand{\beginsupplement}{%
@@ -311,7 +311,7 @@ We also checked a model in which aneuploidy occurs but is adaptively neutral com
 \paragraph{Model predictions of genotype frequency dynamics.}
 
 We simulated 50 replicate genotype frequency dynamics using the MAP estimate parameters. 
-\Cref{fig:FA}A shows the simulated frequencies of the four genotypes (\euwt, \anwt, \anmt\ and \eumt), as well as the frequencies of \eumt\ cells that arose from either \anwt\ cells via a sequences of mutation and chromosome loss events ($2n^*_A$), or directly from \euwt\ cells via a mutation event (\eumtM).
+\Cref{fig:FA}A shows the simulated frequencies of the four genotypes (\euwt, \anwt, \anmt\ and \eumt), as well as the frequencies of \eumt\ cells that arose from either \anwt\ cells via a sequences of mutation and chromosome loss events (\eumtA), or directly from \euwt\ cells via a mutation event (\eumtM).
 We find that \anmt\ never reaches substantial frequency as it is quickly replaced by \eumt\ in a process similar to \emph{stochastic tunneling}~\citep{Iwasa2004,Komarova2003}.
 
 To test the hypothesis that aneuploidy facilitates adaptation, we estimated $F_A$, the expected frequency of \eumt\ that arose from \anwt, computed as the average frequency of such \eumtA\ cells at the end of simulations using the MAP estimate parameters.
@@ -332,7 +332,7 @@ The probability of \eumt\ descending from \anwt\ ($F_A$) increases with the aneu
       \includegraphics[width=0.8\textwidth]{../figures/FA.pdf}      
   \caption{
     \textbf{Predicted frequency of aneuploid-descended cells.}     
-    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: $2n^*_A$ arose from $2n+1$, whereas $2n^*_M$ arose directly from $2n$. Colored curves are 50 simulations using the MAP estimate parameters. Black dashed curves are the expected genotype frequencies without genetic drift (from a deterministic model). 
+    \textbf{(A)} Posterior predicted genotype frequencies over time, including the source of \eumt: \eumtA\ arose from \anwt, whereas \eumtM\ arose directly from \euwt. Colored curves are 50 simulations using the MAP estimate parameters. Black dashed curves are the expected genotype frequencies without genetic drift (from a deterministic model). 
      See \Cref{fig:MAP_freq_dynamics_log} for log-log scale, in which the sequence of events is easier to observe.
     \textbf{(B)} Posterior distribution of $F_A$, the expected frequency of \eumt\ cells descended from \anwt\ cells, computed as the average frequency at the end of 100 simulations for 100,000 samples from the parameter posterior distribution.
     Solid and dashed lines show the mode and 95\% CI.
@@ -363,7 +363,7 @@ Therefore, we do not find evidence of an increase in mutation rate in aneuploid 
 We also checked the differences in genotype frequency dynamics for different $\tau$ values. We observe $\tau=100$ could be distinguished if accurate data was available for the waiting time until the frequency of \euwt\ to decrease below 95\%~(\Cref{fig:tau-plots}A) or for waiting time for the frequency of \anwt\ to either reach or go below 95\%~(\Cref{fig:tau-plots}B).
 
 Similarly, we did not find evidence for an increase in the rate of chromosome loss in aneuploid cells~\citep{Sheltzer2011b}, probably due to lack of statistical power.
-Nevertheless, increasing the rate of chromosome loss (transitions from $2n+1^*$ to $2n^*$) without increasing the rate of chromosome gain (transitions from $2n$ to $2n+1$) increases $F_A$ (\Cref{fig:FA_rates}B), but not to the same extent as increasing the rate of chromosome gain.
+Nevertheless, increasing the rate of chromosome loss (transitions from \anmt\ to \eumt) without increasing the rate of chromosome gain (transitions from \euwt\ to \anwt) increases $F_A$ (\Cref{fig:FA_rates}B), but not to the same extent as increasing the rate of chromosome gain.
 In contrast, increasing the mutation rate in aneuploid cells can have a marked effect on the dynamics: when using the MAP parameter estimates, $F_A$ increases to  0.52 when the mutation rate in aneuploid cells increases 10-fold (\Cref{fig:FA_rates}C).
 
 
@@ -629,7 +629,7 @@ $w_{\anmt}=1.025\ [1.024-1.026]$,
 $w_{\eumt}=1.032\ [1.031-1.033]$, all relative to the fitness of \euwt, which is set to $w_{\euwt}=1$. 
 
 We simulated genotype frequency dynamics using parameter samples from the posterior distribution, and computed the posterior distribution of $F_A$. 
-The mean $F_A$ in this case is just 0.0189 [0.0004 - 0.1214 95\% CI], lower than without the transitions to less-fit genotypes. Here, $F_A$ is the sum of frequencies of both \eumtA\ and $2n+1^*_A$, which reaches a frequency of 0.0007. Out of 100,000 posterior samples, none had $F_A$ above 0.05 (i.e., 5\% of the population).
+The mean $F_A$ in this case is just 0.0189 [0.0004 - 0.1214 95\% CI], lower than without the transitions to less-fit genotypes. Here, $F_A$ is the sum of frequencies of both \eumtA\ and \anmt, which reaches a frequency of 0.0007. Out of 100,000 posterior samples, none had $F_A$ above 0.05 (i.e., 5\% of the population).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -906,7 +906,7 @@ Below the diagonal, the inferred joint posterior distribution of pairs of model 
       \centering
       \includegraphics[width=\textwidth]{../figures/FA_rates.pdf}      
 	\caption{\textbf{Effect of genomic instability on genotype frequencies.}
-	Genotype frequencies in the deterministic model without drift and with MAP parameter estimates \textbf{(A)}, with 100-fold increase in rate of chromosome loss (transition from $2n+1^*$ to $2n^*$) \textbf{(B)}, and with 10-fold increase in mutation rate in aneuploid cells \textbf{(C)}. Corresponding $F_A$ values (purple line at generation 2,500) are 0.098, 0.223, and 0.519.
+	Genotype frequencies in the deterministic model without drift and with MAP parameter estimates \textbf{(A)}, with 100-fold increase in rate of chromosome loss (transition from \anmt\ to \eumt) \textbf{(B)}, and with 10-fold increase in mutation rate in aneuploid cells \textbf{(C)}. Corresponding $F_A$ values (purple line at generation 2,500) are 0.098, 0.223, and 0.519.
 	}
     \label{fig:FA_rates}
 \end{figure}
