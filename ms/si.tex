@@ -1,0 +1,477 @@
+\documentclass[12pt]{extarticle}
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+headheight=12pt
+}
+\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx} % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+% TeX will automatically convert eps --> pdf in pdflatex
+		
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{commath}
+\usepackage{longtable}
+\usepackage[hyphens]{url}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[unicode=true,colorlinks=true,urlcolor=CadetBlue,citecolor=black,linkcolor=black]{hyperref}
+\usepackage{booktabs}
+\usepackage{pgfplotstable} % http://mirrors.ctan.org/graphics/pgf/contrib/pgfplots/doc/pgfplotstable.pdf
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage{authblk}
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=empty}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{longtable}
+\usepackage{gensymb,siunitx}
+\usepackage{cleveref}
+
+%SetFonts
+% newtxtext+newtxmath
+\usepackage{newtxtext} %loads helv for ss, txtt for tt
+\usepackage{amsmath}
+\usepackage[bigdelims]{newtxmath}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+%SetFonts
+
+\renewcommand{\baselinestretch}{1.5}
+
+% less space before sections 
+% \@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE} 
+%            optional * [ALTHEADING]{HEADING} 
+\makeatletter
+ \renewcommand\section{\@startsection {section}{1}{\z@}%
+     {-2.5ex \@plus -1ex \@minus -.2ex}%
+     {1.3ex \@plus.2ex}%
+    {\Large\bfseries}}
+    
+% Species names
+%% Meta-Command for defining new species macros
+\usepackage{xspace}
+
+\newcommand{\species}[3]{%
+  \newcommand{#1}{\gdef#1{\textit{#3}\xspace}\textit{#2}\xspace}}
+  
+\species{\yeast}{Saccharomyces cerevisiae}{S.~cerevisiae}
+\species{\calbicans}{Candida albicans}{C.~albicans}
+\species{\cneoformans}{Cryptococcus neoformans}{C.~neoformans}
+
+% Yoav & Lee commands
+\newcommand*{\tr}{^\intercal}
+\let\vec\mathbf
+\newcommand{\matrx}[1]{{\left[ \stackrel{}{#1}\right]}}
+\newcommand{\diag}[1]{\mbox{diag}\matrx{#1}}
+\newcommand{\goesto}{\rightarrow}
+\newcommand{\dspfrac}[2]{\frac{\displaystyle #1}{\displaystyle #2} }
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{result}{Result}
+\renewcommand\qedsymbol{} % no square at end of proof
+\newcommand{\cl}{\mathbf{L}}
+\newcommand{\cj}{\mathbf{J}}
+\newcommand{\ci}{I}
+\newcommand{\likelihood}{\mathcal{L}}
+
+% line numbers
+ \usepackage[displaymath, mathlines]{lineno}
+ \renewcommand\linenumberfont{\normalfont\small\sffamily}
+\linenumbers
+\modulolinenumbers[2]
+
+% genotype commands
+\newcommand{\euwt}{\emph{$2n$}}
+\newcommand{\anwt}{\emph{$2n+1$}}
+\newcommand{\eumt}{\emph{$2n^*$}}
+\newcommand{\eumtM}{\emph{$2n^*_M$}}
+\newcommand{\eumtA}{\emph{$2n^*_A$}}
+\newcommand{\anmt}{\emph{$2n+1^*$}}
+
+% Supplementary
+\newcommand{\beginsupplement}{%
+      	\setcounter{table}{0}
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0}
+        \renewcommand{\thefigure}{S\arabic{figure}}%
+}
+
+% NatBib
+\usepackage[round,colon,authoryear]{natbib}
+
+% Title page
+\title{Supplementary Material}
+
+% Authors
+\renewcommand\Affilfont{\small}
+
+\author{Ilia Kohanovski, Martin Pontz, P\'{e}tra Vande Zande, Anna Selmecki, Orna Dahan, Yitzhak Pilpel, Avihu H. Yona, Yoav Ram}
+
+% Document
+\begin{document}
+\maketitle
+
+\beginsupplement % https://support.authorea.com/en-us/article/how-to-create-an-appendix-section-or-supplementary-information-1g25i5a/
+
+\subsection*{Supplementary Analysis}
+\label{sec:supp_analysis}
+
+\paragraph{Sensitivity analysis.} 
+Changing a single parameter while keeping the rest fixed at the MAP estimate produces a worse fit to the data~(\Cref{fig:sensitivity}).
+Furthermore, we fitted models with a mutation rate fixed at $\mu=10^{-5}$, $10^{-6}$ and $10^{-7}$.
+We inferred similar parameters estimates for the model with $\mu=10^{-6}$ compared to the model with a free $\mu$ parameter, in which the inferred mutation rate is $\mu \approx 3\cdot10^{-6}$.
+Inference assuming $\mu=10^{-5}$ or $\mu=10^{-7}$ produced similar estimates except that the estimated aneuploidy rate, $\delta$, was higher, and assuming $\mu=10^{-7}$, the estimated fitness of \anwt\ was lower (\Cref{fig:mu}).
+
+\paragraph{Extended informative prior distribution.}
+In an extended informative prior distribution, we used additional growth curves of \eumt\; (\emph{refined} strain from \citet{Yona2012}) and \anwt\; in \SI{39}{\celsius} to estimate $w_{\eumt}/w_{\anwt}$~(\Cref{fig:growth-curves}H). The same distribution was used for $w_{\eumt}/w_{\anmt}$. 
+Thus, our main informative prior uses a single prior distribution for fitness values of \anwt, \anmt, and \eumt, whereas the extended informative prior uses one distribution for \anwt, and another distribution for both \anmt\ and \eumt. 
+
+% generated with alt-prior.ipynb
+We estimated the parameters under this extended informative prior.
+Inference took much longer to run but the posterior distribution seemed to converge, as it did not change much in the final iterations. 
+The posterior predictive plot shows that inference with this extended prior produces a posterior distribution that fails to explain the empirical observations~(pink in Figure 3).
+However, the inferred posterior distribution is considerably narrower (compare Figure 2 and \Cref{fig:posterior-alt}) and therefore parameter estimates are less variable.
+The estimated mutation rate was much lower compared to the main informative prior, 
+% generated with MAP-and-hdi.ipynb
+with $\mu=2.474\cdot10^{-9}\ [2.423\cdot10^{-9}-2.612\cdot10^{-9}]$. Other parameter estimates are: $\delta=2.705\cdot10^{-3}\ [2.094\cdot10^{-3}-3.094\cdot10^{-3}]$,
+$w_{\anwt}=1.022\ [1.021-1.024]$,
+$w_{2n+1^*}=1.052\ [1.05-1.054]$,
+$w_{2n^*}=1.053\ [1.051-1.055]$, the latter two being much higher compare to the main informative prior. 
+Notably, the mode of the posterior ratio $w_{\eumt}/w_{\anwt}=1.0009$ is much lower than the mode of the prior ratio of $1.033$ (\Cref{fig:growth-curves}H) and closer to the ratio of $1$ that we assume in the main informative prior.
+Together with the posterior predictive results, we conclude that the main informative prior is preferable over the extended informative prior.
+
+
+\paragraph{Model with transitions to less-fit genotypes}
+
+We also estimated the parameters of a version of the model that includes transitions (mutation, chromosome loss and gain) to less-fit genotypes (e.g., \eumt\ to \anmt),
+\begin{equation} \label{eq:mutation-aneuploidy-single}
+    \begin{aligned}
+      &f^m_{2n} &=&\; (1 - \delta - \mu) f^s_{2n} + \delta f^s_{2n+1} + \mu f^s_{2n^*} \;,\\
+      &f^m_{2n+1} &=&\; \delta f^s_{2n} + (1 - \delta - \mu) f^s_{2n+1} + \mu f^s_{2n+1^*}  \;,\\
+      &f^m_{2n+1^*} &=&\; \mu f^s_{2n+1} + (1 - \delta - \mu) f^s_{2n+1^*} + \delta f^s_{2n^*}  \;,\\
+      &f^m_{2n^*} &=&\; \mu f^s_{2n} + \delta f^s_{2n+1^*} + (1 - \delta - \mu) f^s_{2n^*}  \;.
+    \end{aligned}
+    \end{equation}
+
+The inferred values are slightly different.
+% with back transitions MAP-and-hdi.ipynb
+The estimated mutation rate, $\mu=1.036\cdot10^{-7}\ [8.01\cdot10^{-8}-1.339\cdot10^{-7}]$, corresponds to a mutation target size of $\sim 300-500$, assuming the mutation rate per base pair is roughly $2\cdot10^{-10}$ \citep{Zhu2014} or $3.3\cdot10^{-10}$ \citep{Lynch2008}.
+The estimated aneuploidy rate, $\delta=2.358\cdot10^{-4}\ [1.766\cdot10^{-4}-2.837\cdot10^{-4}]$ is 5-35-fold higher than in previous studies: for Chromosome III in diploid \yeast, \citet{Zhu2014} estimated $6.7\cdot10^{-6}$ chromosome gain events per generation, and \citet{Kumaran2013} estimate $3.0-4.3\cdot10^{-5}$ chromosome loss events per generation (95\% confidence interval).
+The estimated fitness values are 
+$w_{\anwt}=1.024\ [1.023-1.025]$,
+$w_{\anmt}=1.025\ [1.024-1.026]$,
+$w_{\eumt}=1.032\ [1.031-1.033]$, all relative to the fitness of \euwt, which is set to $w_{\euwt}=1$. 
+
+We simulated genotype frequency dynamics using parameter samples from the posterior distribution, and computed the posterior distribution of $F_A$. 
+The mean $F_A$ in this case is just 0.0189 [0.0004 - 0.1214 95\% CI], lower than without the transitions to less-fit genotypes. Here, $F_A$ is the sum of frequencies of both \eumtA\ and \anmt, which reaches a frequency of 0.0007. Out of 100,000 posterior samples, none had $F_A$ above 0.05 (i.e., 5\% of the population).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%\subsection*{Supplementary Figures \& Tables}
+
+% Fig Validation of posteriors
+%% generated with diff-runs.ipynb
+\begin{figure}[p]
+    \centering
+      \includegraphics[width=0.45\textwidth]{runs-A.pdf}      
+      \includegraphics[width=0.45\textwidth]{runs-B.pdf}    
+      \includegraphics[width=0.325\textwidth]{runs-C.pdf}      
+      \includegraphics[width=0.325\textwidth]{runs-D.pdf}      
+      \includegraphics[width=0.325\textwidth]{runs-E.pdf} 
+       \caption{
+    \textbf{Posterior distribution validation.}
+    The posterior distribution of model parameters is roughly the same regardless of the number of simulations (4-10,000 replicates) used to approximate the likelihood (eq. 4).
+    } 
+     
+     \label{fig:seeds}
+ \end{figure}
+
+
+
+% Fig ABC iterations, convergence
+%% generated with convergence.ipynb
+\begin{figure}[p]
+  \begin{subfigure}{1\textwidth}
+    \centering
+      \includegraphics[width=0.45\textwidth]{convergence-p1_mr.pdf}      
+      \includegraphics[width=0.45\textwidth]{convergence-p2_tr.pdf} \\     
+      \includegraphics[width=0.325\textwidth]{convergence-p3_w1.pdf}      
+      \includegraphics[width=0.325\textwidth]{convergence-p4_w2.pdf}      
+      \includegraphics[width=0.325\textwidth]{convergence-p5_w3.pdf}      
+     \label{fig:convergence-A}
+    \end{subfigure}
+    \\    
+  \begin{subfigure}{1\textwidth}
+  	\includegraphics[width=\textwidth]{ess.pdf}
+     \label{fig:convergence-B}
+  \end{subfigure}
+    \caption{
+    \textbf{Inference convergence.} 
+    The ABC-SMC algorithm was used to infer the model parameters. \textbf{(A-E)} The approximate posterior distributions of model parameters at each iteration of the ABC-SMC algorithm demonstrates convergence, as the posterior did not significantly change after the first iteration, $t=1$.
+    \textbf{(F-I)} ABC-SMC measures of convergence. After iteration number 6, the acceptance threshold was $\epsilon=0.13$ (i.e., $\likelihood=0.87$, eq.~4), the acceptance rate was $0.018$, the number of particles was 982, and the effective sample size ESS=651.
+}
+    \label{fig:convergence}
+\end{figure}
+
+
+
+% Fig Curveball 
+\begin{figure}[p]
+	\centering
+	% generated with growth_curves.ipynb and deg = '39' 
+	\includegraphics[width=.95\textwidth]{evo39_fitness_39deg.pdf} 
+	% generated with growth_curves_refined.ipynb
+	\includegraphics[width=0.95\textwidth]{refined_vs_evo39_fitness_39deg.pdf}
+\caption{
+    \textbf{Fitness estimation from growth curves.}
+    \textbf{(A-D)} Fitness estimation from growth curves of \euwt\ and \anwt\ at \SI{39}{\celsius}. $ w_{\anwt}/w_{\euwt}$=1.024 (95\% CI: 0.959 - 1.115). \texttt{Curveball} 
+    \textbf{(E-H)} Fitness estimation from growth curves of \anwt\ and \eumt\ at \SI{39}{\celsius}. $ w_{\eumt}/w_{\anwt}$=1.033 (95\% CI: 1.027 - 1.041).
+    Growth curves previously described in \citet[Figs. 3C, 4A, and S2]{Yona2012}.
+	Fitness estimated from growth curves using \texttt{Curveball}, a method for predicting results of competition experiments from growth curve data~\citep[\href{https://curveball.yoavram.com}{curveball.yoavram.com}]{Ram2019}. See \emph{Models and Methods, Prior distributions} for more details.  \textbf{(A,B;E,F)} Mono-culture growth curve data (markers) and best-fit growth models (lines).
+\textbf{(C,G)} The mixed-culture prediction for the strains from A,B and E,F respectively, 6,375 generated curves. \textbf{(D,H)} The relative fitness distribution for \anwt\ relative to \euwt\ (panel D) and \eumt\ relative to \anwt\ (panel H). Figures generated by \texttt{Curveball}.
+} 
+\label{fig:growth-curves}
+\end{figure}
+
+
+
+% Fig tau comparisons
+%% generated with diff-tau.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{tau-A.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{tau-B.pdf}      
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-C.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-D.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-E.pdf}      
+  \end{subfigure}
+  \\
+  \begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-joint-F.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-joint-G.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-joint-H.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-joint-I.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-joint-J.pdf}      
+  \end{subfigure}
+\begin{subfigure}{0.325\textwidth}
+      \includegraphics[width=\textwidth]{tau-joint-K.pdf}      
+  \end{subfigure}
+  \caption{
+    \textbf{Model with elevated mutation rate in aneuploid cells.}  \textbf{(A-E)} The inferred posterior distributions for models with different values of $\tau$, the fold-increase in mutation rate in aneuploid cells (\anwt\ and \anmt). Vertical dashed lines represent the MAP (maximum a posteriori) of each distribution. When the increase in mutation rate is high, $\tau=10$ and $\tau=100$, the inferred mutation (A) and aneuploidy (B) rates tend to be lower. 
+    \textbf{(F-K)} The inferred joint posterior distribution of mutation rate ($\mu$) and aneuploidy rate ($\delta$) with different $\tau$ values (dark purple and bright yellow for low and high density, respectively).
+  \label{fig:tau}
+  }
+  \end{figure}
+  
+  
+  
+% Fig tau plots
+%% generated by diff-tau-more-plots.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.75\textwidth}
+      \includegraphics[width=\textwidth]{tau-diff-a.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.75\textwidth}
+      \includegraphics[width=\textwidth]{tau-diff-b.pdf}      
+  \end{subfigure}
+   \begin{subfigure}{0.75\textwidth}
+      \includegraphics[width=\textwidth]{tau-diff-c.pdf}      
+  \end{subfigure}
+   \caption{
+    \textbf{Genotype fixations for models with increased genetic instability.} We estimated the parameters for different models, each assuming a different value of $\tau$, the fold-increase in mutation rate in aneuploid cells. We then generated 10,000 simulations using the MAP estimate of each model and evaluated the fraction of simulations in which the frequency of genotype \euwt\ (\textbf{A}), \anwt\ (\textbf{B}), and \eumt\ (\textbf{C}) is above 95\% (y-axis) at each generation (x-axis). Note that \anmt\ did not fix. We can see that $\tau=100$ can be distinguished if the waiting time for $f_{\euwt}<95\%$ is known (panel~A) or if the waiting time for $f_{\anwt}>95\%$ or $f_{\anwt}<95\%$ is known (panel~B). It is harder to distinguish between $1\leq \tau \leq10$.
+  }
+  \label{fig:tau-plots}
+\end{figure}
+
+
+
+% Fig likelihood profile
+%% generated by sensitivity-analysis.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{sensitivity-A.pdf}      
+      \label{fig:sensitivity-mutation}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{sensitivity-B.pdf}      
+      \label{fig:sensitivity-aneuploidy}
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{sensitivity-C.pdf}      
+      \label{fig:sensitivity-anwt}
+  \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{sensitivity-D.pdf}      
+      \label{fig:sensitivity-anmt}
+  \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{sensitivity-E.pdf}      
+      \label{fig:sensitivity-eumt}
+  \end{subfigure}
+  \caption{
+    \textbf{Likelihood profiles.} Sensitivity of the model approximate likelihood, $\likelihood(\theta)$, to changing a single parameter while the other parameters remain fixed at their MAP estimates. Dashed vertical line represents the MAP value. The prior distributions for the mutation rate and aneuploidy rate are $\mu \sim U(10^{-9}, 10^{-5})$ and $\delta \sim U(10^{-6}, 10^{-2})$, respectively. 
+  }
+  
+  \label{fig:sensitivity}
+\end{figure}
+
+
+    
+% Fig mu comparisons
+%% generated with diff-mutation-rate.ipynb
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{mu-A.pdf}      
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{mu-B.pdf}      
+  \end{subfigure}
+  \\
+   \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{mu-C.pdf}      
+  \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+      \includegraphics[width=\textwidth]{mu-D.pdf}      
+    \end{subfigure}
+  \caption{
+    \textbf{Model with fixed mutation rate.}  \textbf{(A-D)} The inferred posterior distributions for models with free and fixed mutation rate, $\mu$. The MAP (maximum a posteriori) and 50\% HDI (highest density interval) for each model are: %MAP-and-hdi.ipynb
+\textbf{free $\boldsymbol{\mu}$, run 1:}
+$\delta=1.720\cdot10^{-3}\ [1.470\cdot10^{-3}-2.786\cdot10^{-3}]$, 
+$w_{\anwt}=1.022\ [1.021-1.023]$,
+$w_{\anmt}=1.025\ [1.024-1.026]$,
+$w_{\eumt}=1.028\ [1.026-1.029]$;
+\textbf{free $\boldsymbol{\mu}$, run 2:}
+$\delta=2.129\cdot10^{-3}\ [1.334\cdot10^{-3}-2.695\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.02-1.023]$,
+$w_{2n+1^*}=1.025\ [1.023-1.026]$,
+$w_{2n^*}=1.028\ [1.026-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-5}}$:}
+$\delta=2.903\cdot10^{-3}\ [2.399\cdot10^{-3}-3.156\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.021-1.023]$,
+$w_{2n+1^*}=1.024\ [1.023-1.025]$,
+$w_{2n^*}=1.027\ [1.026-1.028]$;
+\textbf{$\boldsymbol{\mu=10^{-6}}$:}
+$\delta=1.917\cdot10^{-3}\ [9.624\cdot10^{-4}-2.447\cdot10^{-3}]$,
+$w_{2n+1}=1.022\ [1.02-1.023]$,
+$w_{2n+1^*}=1.025\ [1.023-1.026]$,
+$w_{2n^*}=1.028\ [1.027-1.029]$;
+\textbf{$\boldsymbol{\mu=10^{-7}}$:}
+$\delta=2.901\cdot10^{-3}\ [2.139\cdot10^{-3}-3.671\cdot10^{-3}]$,
+$w_{2n+1}=1.019\ [1.017-1.02]$,
+$w_{2n+1^*}=1.025\ [1.024-1.026]$,
+$w_{2n^*}=1.027\ [1.026-1.029]$.
+\label{fig:mu}
+  }
+\end{figure}
+
+
+
+% FIG posterior alt-prior
+%% generated with alt-prior.ipynb
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=0.9\textwidth]{posterior-alt.pdf}
+  \caption{
+  \textbf{Posterior distribution of parameters inferred with the extended prior distribution.}
+On the diagonal, the inferred posterior distribution of each model parameter. 
+Below the diagonal, the inferred joint posterior distribution of pairs of model parameters (dark purple and bright yellow for low and high density, respectively). Red markers and orange lines for the joint MAP estimate (which may differ from the marginal MAP, as the marginal distribution integrates over all other parameters).
+} 
+  \label{fig:posterior-alt}
+\end{figure}
+
+
+% FIG MAP frequency dynamics in log scale
+\begin{figure}[p]
+    \centering
+	\includegraphics[width=\textwidth]{MAP_freq_dynamics.pdf}
+	\caption{\textbf{Posterior predicted genotype frequencies in log-log scale.}
+	Frequency dynamics of the different genotypes with MAP parameter estimates, same as Figure 4A, but in log-log scale. Black dashed curves for a deterministic model without genetic drift. 
+	Clearly, appearance of \anwt\ and \eumtM\ is deterministic.
+	Appearance of \anmt, and therefore \eumtA, is stochastic, however, the frequency dynamics are deterministic above a frequency of roughly 0.001. 
+	Note that the \eumtM\ and the \eumtA+\eumtM\ lines are overlapping for much of their trajectories.
+	}
+    \label{fig:MAP_freq_dynamics_log}    
+\end{figure}
+
+
+% FIG posterior F_A supplementary
+\begin{figure}[p]
+	\begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{F_A_delta-mu-ratio_1.pdf}      
+	\end{subfigure}
+	  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{F_A_delta-mu-ratio_2.pdf}
+  \end{subfigure}
+	\caption{\textbf{Posterior distribution of $F_A$.}
+	\textbf{(A,B)} $F_A$ values (color coded) as in Figure 4C for different parameter choices on the x- and y-axes. Yellow star shows the MAP estimate.
+	}
+    \label{fig:posterior_FA_supp}
+\end{figure}
+
+% FIG posterior F_A with high rates
+\begin{figure}[p]
+      \centering
+      \includegraphics[width=\textwidth]{FA_rates.pdf}      
+	\caption{\textbf{Effect of genomic instability on genotype frequencies.}
+	Genotype frequencies in the deterministic model without drift and \textbf{(A)} with MAP parameter estimates; \textbf{(B)} with 100-fold increase in rate of chromosome loss (transition from \anmt\ to \eumt); or \textbf{(C)} with 10-fold increase in mutation rate in aneuploid cells (transition from \anwt\ to \anmt). Corresponding $F_A$ values (purple line at generation 2,500) are 0.098, 0.223, and 0.519, respectively.
+	}
+    \label{fig:FA_rates}
+\end{figure}
+
+\pagebreak
+
+
+%% generated with WAIC.ipynb 
+\begin{table}[p]
+\centering
+\caption{
+\textbf{WAIC values for different $\tau$ values.}
+Differences of less than 6 are considered of weak significance~\citep{Kass1995}.
+}
+\pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    every head row/.style={before row=\hline,after row=\hline},
+    every last row/.style={after row=\hline},
+    ]{Table_WAIC.csv} 
+\caption*{
+	WAIC defined in eq.~6.
+} 
+\label{table:WAIC}
+\end{table}
+
+\newpage
+\bibliographystyle{agsm}
+\bibliography{ms.bib}
+
+
+
+\end{document}  
