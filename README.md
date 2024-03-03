@@ -1,6 +1,6 @@
 This is the repository for the manuscript:
 
-> Kohanovski*, Pontz*, Vande Zande, Selmecki, Dahan, Pilpel, Yona, Ram (2024) _Aneuploidy can be an evolutionary diversion on the path to adaptation_. Molecular Biology and Evolution, Accepted.
+> Kohanovski*, Pontz*, Vande Zande, Selmecki, Dahan, Pilpel, Yona, Ram (2024) [_Aneuploidy can be an evolutionary diversion on the path to adaptation_](https://doi.org/10.1093/molbev/msae052). Molecular Biology and Evolution, DOI:10.1093/molbev/msae052.
 
 * equal contribution
 
